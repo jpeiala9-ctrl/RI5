@@ -6,97 +6,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>RI5 · EDITION</title>
   
-  <!-- MANIFEST (estilo Nothing/RGB) -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RI5%20EDITION%22%2C%22short_name%22%3A%22RI5%22%2C%22description%22%3A%22Entrenamiento%20runner%20con%20zonas%2C%20planes%20y%20soporte%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23ff00ff%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23000000%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+  <!-- MANIFEST (estilo MultiCam) -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RI5%20EDITION%22%2C%22short_name%22%3A%22RI5%22%2C%22description%22%3A%22Entrenamiento%20runner%20con%20zonas%2C%20planes%20y%20soporte%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%232b2a1e%22%2C%22theme_color%22%3A%22%235c7a4c%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%232b2a1e%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%23f0e6d2%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="RI5">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23000000%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%23ffffff%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%232b2a1e%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%23f0e6d2%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E">
 
   <style>
-    /* ===== RESET Y VARIABLES NOTHING ===== */
+    /* ===== RESET Y VARIABLES ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    /* CAMBIO 7: Nueva paleta de colores MultiCam */
     :root {
-      --bg-primary: #000000;
-      --bg-secondary: #111111;
-      --bg-card: #1a1a1a;
-      --text-primary: #ffffff;
-      --text-secondary: #cccccc;
-      --accent-red: #ff4530;
-      --accent-green: #32d74b;
-      --accent-blue: #0a84ff;
-      --accent-yellow: #ffd60a;
-      --accent-purple: #bf5af2;
-      --border-color: #333333;
-      --glow-color: rgba(255, 255, 255, 0.1);
+      /* Modo oscuro (por defecto) - MultiCam nocturna */
+      --bg-primary: #2b2a1e;        /* Verde militar oscuro */
+      --bg-secondary: #3d3c2b;       /* Verde oliva medio */
+      --bg-card: #4a4a33;            /* Marrón verdoso */
+      --text-primary: #f0e6d2;       /* Beige claro (arena) */
+      --text-secondary: #b9a98c;     /* Beige medio */
+      --accent-red: #b34b3f;         /* Terracota (como barro) */
+      --accent-green: #5c7a4c;       /* Verde camuflaje */
+      --accent-blue: #5c7a9c;        /* Azul grisáceo (cielo nublado) */
+      --accent-yellow: #bf8f4a;       /* Ocre (tierra seca) */
+      --accent-purple: #8a6e8a;       /* Púrpura terroso */
+      --border-color: #5e5e4a;        /* Borde camuflaje */
+      --glow-color: rgba(180, 150, 100, 0.15);
       --font-mono: 'Courier New', monospace;
       --font-dot: 'Courier New', 'Dot Matrix', monospace;
-      --dot-color: rgba(255, 255, 255, 0.05);
-      --gold: #ffd700;
-      --new-user-bg: rgba(10, 132, 255, 0.2);
-      --new-user-border: #0a84ff;
-      --stat-bg: #1e1e1e;
-      --stat-number: #ffffff;
+      --dot-color: rgba(150, 130, 80, 0.05);
+      --gold: #dbb42c;               /* Dorado arena */
+      --new-user-bg: rgba(92, 122, 76, 0.2);
+      --new-user-border: #5c7a4c;
+      --stat-bg: #3d3c2b;
+      --stat-number: #f0e6d2;
     }
 
+    /* Modo claro - MultiCam diurna */
     @media (prefers-color-scheme: light) {
       :root {
-        --bg-primary: #f5f5f5;
-        --bg-secondary: #e5e5e5;
-        --bg-card: #ffffff;
-        --text-primary: #111111;
-        --text-secondary: #333333;
-        --border-color: #cccccc;
-        --glow-color: rgba(0, 0, 0, 0.1);
-        --dot-color: rgba(0, 0, 0, 0.05);
-        --gold: #b8860b;
-        --new-user-bg: rgba(10, 132, 255, 0.1);
-        --new-user-border: #0a84ff;
-        --stat-bg: #e0e0e0;
-        --stat-number: #111111;
+        --bg-primary: #e5d7b8;        /* Beige claro arena */
+        --bg-secondary: #c9b384;       /* Beige medio */
+        --bg-card: #b89e72;            /* Marrón claro */
+        --text-primary: #2b2a1e;       /* Verde oscuro */
+        --text-secondary: #3d3c2b;     /* Verde oliva */
+        --border-color: #8b7e5e;       /* Marrón medio */
+        --glow-color: rgba(90, 70, 40, 0.1);
+        --dot-color: rgba(70, 60, 40, 0.05);
+        --gold: #8f6f2c;               /* Ocre oscuro */
+        --new-user-bg: rgba(92, 122, 76, 0.1);
+        --new-user-border: #5c7a4c;
+        --stat-bg: #c9b384;
+        --stat-number: #2b2a1e;
+        
+        /* Mantener acentos igual pero con buen contraste en claro */
+        --accent-red: #b34b3f;         /* Terracota */
+        --accent-green: #5c7a4c;       /* Verde camuflaje */
+        --accent-blue: #5c7a9c;        /* Azul grisáceo */
+        --accent-yellow: #bf8f4a;       /* Ocre */
+        --accent-purple: #8a6e8a;       /* Púrpura terroso */
       }
-      input, button, select, textarea { color: #111111; }
-      .curiosity span, .curiosity small { color: #111111; }
       
-      /* CAMBIO 3: Ajustar colores en modo claro - Mejor visibilidad de tarjetas de zona */
-      .zone-card {
-        background: #ffffff;
-        border-color: #dddddd;
+      input, button, select, textarea { 
+        color: #2b2a1e; 
+        background: #e5d7b8;
       }
-      .zone-card .long {
-        color: #444444;
-      }
-      .sesion-rodaje { 
-        border-color: var(--accent-blue); 
-        background: #e6f0ff; 
-        color: #111111 !important;
-      }
-      .sesion-series { 
-        border-color: var(--accent-green); 
-        background: #e6ffe6; 
-        color: #111111 !important;
-      }
-      .sesion-tempo { 
-        border-color: var(--accent-yellow); 
-        background: #fff9e6; 
-        color: #111111 !important;
-      }
-      .sesion-largo { 
-        border-color: var(--accent-red); 
-        background: #ffe6e6; 
-        color: #111111 !important;
-      }
-      .zona-pastilla {
-        background: #ffffff;
-      }
-      .mensaje-item .mensaje-header {
-        background: #f5f5f5;
+      .curiosity span, .curiosity small { 
+        color: #2b2a1e; 
       }
     }
 
@@ -134,10 +115,11 @@
       text-align: center;
     }
 
-    /* Animación RGB para las líneas */
-    @keyframes rgbMove {
-      0% { filter: hue-rotate(0deg); }
-      100% { filter: hue-rotate(360deg); }
+    /* Animación camuflaje para las líneas */
+    @keyframes camoMove {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(10deg) brightness(1.1); }
+      100% { filter: hue-rotate(0deg) brightness(1); }
     }
 
     h1::after, h2::after {
@@ -145,9 +127,9 @@
       position: absolute;
       bottom: -5px; left: 0;
       width: 100%; height: 2px;
-      background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff, #ff0000);
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow), var(--border-color), var(--accent-green));
       background-size: 300% 100%;
-      animation: rgbMove 5s linear infinite;
+      animation: camoMove 8s linear infinite;
     }
 
     /* Ajustes de títulos */
@@ -186,7 +168,7 @@
       transition: border-color 0.3s, box-shadow 0.3s;
     }
     .card:hover {
-      border-color: rgba(255,255,255,0.2);
+      border-color: var(--accent-yellow);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
     }
     .card::before {
@@ -282,7 +264,7 @@
       border-radius: 30px;
     }
     .auth-tab.active {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(92, 122, 76, 0.3);
       color: var(--text-primary);
       box-shadow: inset 0 0 15px var(--glow-color);
     }
@@ -308,7 +290,7 @@
       color: var(--bg-primary);
     }
 
-    /* ===== PESTAÑAS PRINCIPALES (sin slider) ===== */
+    /* ===== PESTAÑAS PRINCIPALES ===== */
     .tabs-container { margin: 30px 0; }
     .tabs-header {
       display: flex;
@@ -339,15 +321,15 @@
       text-align: center;
     }
     .tab-button.active {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(92, 122, 76, 0.3);
       color: var(--text-primary);
     }
-    /* Pestaña de soporte activa sin mensajes no leídos: naranja */
+    /* Pestaña de soporte activa sin mensajes no leídos: ocre */
     #soporteTabButton.active:not(.soporte-unread) {
-      color: #ffa500 !important;
+      color: var(--accent-yellow) !important;
     }
     #adminSoporteTab.active:not(.soporte-unread) {
-      color: #ffa500 !important;
+      color: var(--accent-yellow) !important;
     }
     .tab-content { display: none; animation: glyphIn 0.5s ease; }
     .tab-content.active { display: block; }
@@ -392,7 +374,7 @@
     }
     input:focus, select:focus, textarea:focus {
       border-color: var(--accent-blue);
-      box-shadow: 0 0 15px rgba(10, 132, 255, 0.4);
+      box-shadow: 0 0 15px rgba(92, 122, 156, 0.4);
     }
     input::placeholder, textarea::placeholder {
       color: var(--text-secondary);
@@ -440,11 +422,11 @@
       position: absolute;
       top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(10, 132, 255, 0.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(92, 122, 156, 0.3), transparent);
       transition: left 0.5s ease;
     }
     .button-main:hover::before { left: 100%; }
-    .button-main:hover { box-shadow: 0 0 25px rgba(10, 132, 255, 0.4); }
+    .button-main:hover { box-shadow: 0 0 25px rgba(92, 122, 156, 0.4); }
     .button-main:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
     /* ===== CURIOSIDAD ===== */
@@ -464,7 +446,7 @@
       position: absolute;
       top: -50%; left: -50%;
       width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(191, 90, 242, 0.25) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(138, 110, 138, 0.25) 0%, transparent 70%);
       animation: pulse 4s linear infinite;
     }
     @keyframes pulse {
@@ -486,7 +468,7 @@
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
-      text-align: center;
+      text-align: left;
     }
     .zone-card::after {
       content: "";
@@ -495,7 +477,7 @@
       width: 4px; height: 100%;
       transition: all 0.3s ease;
     }
-    .zone-card:hover { transform: translateX(5px); border-color: rgba(255,255,255,0.2); }
+    .zone-card:hover { transform: translateX(5px); border-color: var(--accent-yellow); }
     .z1::after { background: var(--accent-blue); }
     .z2::after { background: var(--accent-green); }
     .z3::after { background: var(--accent-yellow); }
@@ -510,23 +492,53 @@
       margin-top: 0;
       color: var(--text-secondary);
       font-size: 14px;
+      padding-left: 10px;
+      border-left: 2px solid var(--border-color);
     }
     .zone-card.active .long {
       max-height: 300px;
       margin-top: 16px;
     }
+    
+    /* CAMBIO 1: Mejorar estructura visual de las explicaciones de zonas */
+    .zone-card .long p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+    .zone-card .long strong {
+      color: var(--accent-yellow);
+      display: inline-block;
+      min-width: 80px;
+    }
+    .zone-card .long ul {
+      margin: 8px 0 8px 20px;
+      list-style-type: none;
+    }
+    .zone-card .long li {
+      margin: 4px 0;
+      position: relative;
+      padding-left: 20px;
+    }
+    .zone-card .long li::before {
+      content: "•";
+      color: var(--accent-green);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
 
     .pred-bar {
-      height: 30px;
+      height: 40px;
       border-radius: 40px;
       margin: 8px 0;
-      padding: 0 16px;
+      padding: 0 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center; /* CAMBIO 4: Centrar texto */
       background: var(--bg-primary);
       border: 1px solid var(--border-color);
       font-size: 14px;
+      text-align: center;
     }
 
     /* ===== CALENDARIO ===== */
@@ -592,20 +604,20 @@
       border-color: var(--accent-blue);
       transform: scale(1.05);
       z-index: 5;
-      box-shadow: 0 0 12px rgba(10, 132, 255, 0.6);
+      box-shadow: 0 0 12px rgba(92, 122, 156, 0.6);
     }
     .sesion-descanso { border-color: var(--border-color); background: var(--bg-secondary); }
-    .sesion-rodaje { border-color: var(--accent-blue); background: #0a1a2a; }
-    .sesion-series { border-color: var(--accent-green); background: #0a2a0a; }
-    .sesion-tempo { border-color: var(--accent-yellow); background: #2a2a0a; }
-    .sesion-largo { border-color: var(--accent-red); background: #2a0a0a; }
+    .sesion-rodaje { border-color: var(--accent-blue); background: #2d3a2d; }
+    .sesion-series { border-color: var(--accent-green); background: #2d3a1e; }
+    .sesion-tempo { border-color: var(--accent-yellow); background: #3a3a1e; }
+    .sesion-largo { border-color: var(--accent-red); background: #3a2d1e; }
 
-    /* Forzar texto blanco en celdas de sesión */
+    /* Forzar texto claro en celdas de sesión */
     .calendario-dia.sesion-rodaje,
     .calendario-dia.sesion-series,
     .calendario-dia.sesion-tempo,
     .calendario-dia.sesion-largo {
-      color: #ffffff !important;
+      color: #f0e6d2 !important;
     }
 
     /* ===== BOTONES DE ACCIÓN ===== */
@@ -625,7 +637,7 @@
     }
     .action-button:hover {
       border-color: var(--accent-blue);
-      box-shadow: 0 0 20px rgba(10, 132, 255, 0.3);
+      box-shadow: 0 0 20px rgba(92, 122, 156, 0.3);
     }
     .action-button:disabled {
       opacity: 0.3;
@@ -637,6 +649,17 @@
     .btn-delete { border-color: var(--accent-red); }
     .btn-plan { border-color: var(--accent-yellow); }
     .btn-view { border-color: var(--accent-purple); }
+
+    /* ===== BOTÓN COMPARTIR ===== */
+    .btn-share {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+      margin-top: 10px;
+    }
+    .btn-share:hover {
+      background: var(--accent-purple);
+      color: var(--bg-primary);
+    }
 
     /* ===== HISTORIAL (papelera fija) ===== */
     .historial-controls {
@@ -731,7 +754,7 @@
       color: var(--accent-blue);
       font-size: 11px;
       margin: 6px 0;
-      background: rgba(10, 132, 255, 0.1);
+      background: rgba(92, 122, 156, 0.1);
       padding: 4px 8px;
       border-radius: 20px;
       display: inline-block;
@@ -768,7 +791,7 @@
       display: inline-block;
     }
 
-    /* ===== MENSAJES (estructura mejorada) ===== */
+    /* ===== MENSAJES ===== */
     .mensaje-item {
       margin-bottom: 10px;
       border-left: 4px solid var(--accent-blue);
@@ -840,7 +863,6 @@
     .mensaje-item.nuevo .mensaje-header {
       border-left: 4px solid var(--accent-red);
     }
-    /* Borde verde para mensajes enviados no leídos por el usuario */
     .mensaje-item.no-leido-usuario {
       border-left-color: var(--accent-green) !important;
     }
@@ -870,7 +892,7 @@
       transition: all 0.3s;
     }
     .soporte-tab.active {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(92, 122, 76, 0.3);
       color: var(--text-primary);
     }
     .soporte-panel {
@@ -883,7 +905,6 @@
     /* ===== ADMIN PANEL ===== */
     .admin-panel { margin: 30px 0; padding: 20px; background: var(--bg-secondary); border-radius: 24px; }
 
-    /* Estadísticas clickeables */
     .admin-stats {
       display: flex;
       gap: 12px;
@@ -906,7 +927,7 @@
     .stat-badge:hover {
       border-color: var(--accent-blue);
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(10,132,255,0.3);
+      box-shadow: 0 5px 15px rgba(92,122,156,0.3);
     }
     .stat-badge .number {
       color: var(--accent-blue);
@@ -914,7 +935,7 @@
       font-size: 20px;
     }
 
-    /* Modal de usuarios - DISEÑO EXPANDIBLE Y CENTRADO */
+    /* Modal de usuarios */
     #modalUsuarios {
       display: none;
       position: fixed;
@@ -973,7 +994,6 @@
       padding: 12px;
     }
 
-    /* Estilo expandible para usuarios (similar al historial) */
     .usuario-item {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
@@ -1035,7 +1055,7 @@
       width: auto;
     }
 
-    /* ===== SELECCIÓN DE DÍAS (checkboxes) ===== */
+    /* ===== SELECCIÓN DE DÍAS ===== */
     .dias-semana-label {
       text-align: center;
       color: var(--accent-yellow);
@@ -1121,7 +1141,7 @@
     }
     #premiumModal button:hover { box-shadow: 0 0 20px var(--gold); }
 
-    /* Overlay y modal de detalle de sesión (ÚNICOS) */
+    /* Overlay y modal de detalle de sesión */
     #modalOverlay {
       display: none;
       position: fixed;
@@ -1150,11 +1170,13 @@
     #detalleSesion.visible { display: block; }
 
     #detalleSesion .modal-content {
-      padding: 30px 25px 80px;
+      padding: 30px 25px 30px; /* CAMBIO 3: Reducido padding inferior para eliminar scroll */
       position: relative;
       background: var(--bg-card);
       border-radius: 22px;
-      text-align: center;
+      text-align: left;
+      max-height: 90vh;
+      overflow-y: auto; /* Permitir scroll solo si es necesario, pero con contenido reducido no debería */
     }
 
     #detalleSesion .modal-content.sesion-descanso { border: 2px solid var(--border-color); }
@@ -1164,35 +1186,31 @@
     #detalleSesion .modal-content.sesion-largo { border: 2px solid var(--accent-red); }
 
     #tituloSesion {
-      margin: 0 0 20px;
+      margin: 0 0 15px;
       color: var(--accent-blue);
-      font-size: 22px;
+      font-size: 20px;
+      text-align: center;
     }
 
     #descripcionSesion {
       color: var(--text-secondary);
-      line-height: 1.7;
-      font-size: 14px;
-      margin-bottom: 30px;
-      max-height: 60vh;
-      overflow-y: auto;
-      padding-right: 5px;
+      line-height: 1.5;
+      font-size: 13px;
+      max-height: none; /* Permitir que crezca sin scroll */
+      overflow-y: visible;
+      padding-right: 0;
     }
 
     .close-btn {
       background: var(--accent-red);
       color: white;
       border: none;
-      padding: 12px 30px;
+      padding: 10px 20px;
       border-radius: 40px;
       font-weight: bold;
       cursor: pointer;
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: auto;
-      min-width: 120px;
+      margin-top: 20px;
+      width: 100%;
     }
 
     /* ===== BANNER PWA ===== */
@@ -1250,14 +1268,13 @@
     .btn-success { background: var(--accent-green) !important; color: var(--bg-primary) !important; }
     .btn-error { background: var(--accent-red) !important; color: var(--text-primary) !important; }
 
-    /* Aviso de límite de cálculos */
     .calculo-limit-msg {
       text-align: center;
       color: var(--accent-yellow);
       font-size: 12px;
       margin: 10px 0;
       padding: 8px;
-      background: rgba(255, 214, 10, 0.1);
+      background: rgba(191, 143, 74, 0.1);
       border-radius: 40px;
     }
 
@@ -1292,7 +1309,7 @@
     <button class="close-banner" onclick="window.cerrarBannerPWA()">✕</button>
   </div>
 
-  <!-- Overlay y modal de detalle de sesión (ÚNICOS) -->
+  <!-- Overlay y modal de detalle de sesión -->
   <div id="modalOverlay" class="modal-overlay" onclick="window.cerrarModalSesion()"></div>
 
   <div id="detalleSesion">
@@ -1357,7 +1374,6 @@
           <button class="tab-button" onclick="window.switchAdminTab('soporte')" id="adminSoporteTab">SOPORTE</button>
         </div>
         <div id="admin-tab-usuarios" class="tab-content active">
-          <!-- Estadísticas clickeables -->
           <div class="admin-stats" id="adminStats"></div>
           <button class="admin-btn admin-export-btn" onclick="window.exportarUsuariosCSV()" style="width:100%; margin:10px 0;">📥 EXPORTAR USUARIOS CSV</button>
           <button class="admin-btn" onclick="window.renovarExpirados()" style="width:100%;">🔄 RENOVAR EXPIRADOS</button>
@@ -1383,14 +1399,13 @@
           </div>
         </div>
       </div>
-      <!-- Botón de cerrar sesión en la parte baja -->
       <div class="logout-container">
         <button class="logout-button" onclick="window.logoutAdmin()">CERRAR SESIÓN</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL DE USUARIOS PARA ADMIN (con diseño expandible y centrado) -->
+  <!-- MODAL DE USUARIOS PARA ADMIN -->
   <div id="modalUsuarios">
     <div class="modal-overlay" onclick="if(event.target===this) document.getElementById('modalUsuarios').classList.remove('active')"></div>
     <div class="modal-content">
@@ -1410,7 +1425,6 @@
         <h1 id="ri5Title" onclick="window.showPremiumBenefits()">RI5</h1>
       </div>
       <p style="color: var(--text-secondary); margin:20px 0; text-align:center;" id="userWelcome"></p>
-      <!-- Contador de cálculos para no premium -->
       <div id="calculoCounter" class="calculo-limit-msg" style="display:none;"></div>
       
       <div class="tabs-container">
@@ -1426,8 +1440,8 @@
           <h2>> ZONAS DE ENTRENO_</h2>
           <input id="name" placeholder="> NOMBRE_" readonly disabled><div class="error-message" id="nameError"></div>
           <input id="age" type="number" min="14" max="85" placeholder="> EDAD_"><div class="error-message" id="ageError"></div>
-          <!-- CAMBIO 4: Placeholder actualizado -->
-          <input id="time" placeholder="> TIEMPO 6km_ (MM:SS) · ÚLTIMA MARCA"><div class="error-message" id="timeError"></div>
+          <!-- CAMBIO 5: Placeholder ajustado (más corto) -->
+          <input id="time" placeholder="> 6km_ (MM:SS) · ÚLTIMA MARCA"><div class="error-message" id="timeError"></div>
           <button class="button-main" id="calcBtn" disabled onclick="window.startCalc()">[ CALCULAR ]</button>
           <div class="curiosity" id="curiosity" onclick="window.changeConsejo()"><span>> CONSEJO_</span><small>// pulsa para nuevo consejo</small></div>
           <div id="results"></div>
@@ -1436,7 +1450,6 @@
         <!-- TAB PLAN -->
         <div id="tab-plan" class="tab-content">
           <h2>> CREADOR DE PLANES_</h2>
-          <!-- CAMBIO 6: Botón de entrenador personal -->
           <button class="action-button" style="border-color: var(--accent-purple); color: var(--accent-purple); margin-bottom: 20px;" onclick="window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank')">🏋️ ENTRENADOR PERSONAL · @navegacionpro</button>
           
           <button class="action-button btn-plan" onclick="window.toggleCuestionario()" id="nuevoPlanBtn">+ NUEVO PLAN</button>
@@ -1458,7 +1471,7 @@
               <option value="maraton" selected>MARATÓN</option>
             </select>
 
-            <select id="duracionPlan">
+            <select id="duracionPlan" onchange="window.validarOpcionesPlan()">
               <option value="1">1 MES</option>
               <option value="3">3 MESES</option>
             </select>
@@ -1474,7 +1487,7 @@
               <option value="avanzado">AVANZADO</option>
             </select>
 
-            <select id="experienciaDistancia">
+            <select id="experienciaDistancia" onchange="window.validarOpcionesPlan()">
               <option value="si">CON EXPERIENCIA</option>
               <option value="no" selected>PRIMERA VEZ</option>
             </select>
@@ -1497,7 +1510,7 @@
 
             <div class="fecha-inicio-container">
               <label for="fechaInicio">📅 FECHA DE INICIO DEL PLAN</label>
-              <input type="date" id="fechaInicio" value="2025-03-01" min="2025-01-01" max="2026-12-31">
+              <input type="date" id="fechaInicio" min="2025-01-01" max="2026-12-31">
             </div>
 
             <button class="action-button btn-save" onclick="window.generarCalendarioEntreno()" style="margin-top:16px;" id="generarPlanBtn">[ GENERAR PLAN ]</button>
@@ -1559,7 +1572,6 @@
 
       <div class="footer" id="footer"></div>
       
-      <!-- Botón de cerrar sesión en la parte baja -->
       <div class="logout-container">
         <button class="logout-button" onclick="window.logoutUser()">CERRAR SESIÓN</button>
       </div>
@@ -1637,14 +1649,12 @@
         setCurrentUser(u, premium=false, calculosMes=0, mesActual='') {
           this.currentUser = u; this.isPremium = premium; this.calculosMes = calculosMes; this.mesActual = mesActual;
           u?localStorage.setItem('ri5_current_user',u):localStorage.removeItem('ri5_current_user');
-          // CAMBIO 1: Guardar estado premium en localStorage
           if(u) {
             localStorage.setItem('ri5_premium', premium ? 'true' : 'false');
           } else {
             localStorage.removeItem('ri5_premium');
           }
           const t = document.getElementById('ri5Title'); if(t){ if(premium) t.classList.add('premium'); else t.classList.remove('premium'); }
-          // Autocompletar campo nombre (fijo, no editable)
           if(u) {
             const nameField = document.getElementById('name');
             if(nameField) nameField.value = u;
@@ -1658,7 +1668,6 @@
               const btn = document.getElementById(id);
               if(btn) btn.disabled = true;
             });
-            // Mostrar contador de cálculos
             const counterDiv = document.getElementById('calculoCounter');
             if(counterDiv) {
               counterDiv.style.display = 'block';
@@ -1675,12 +1684,11 @@
         },
         async incrementarCalculo() {
           if(!this.currentUser) return false;
-          if(this.isPremium) return true; // Premium no tiene límite
+          if(this.isPremium) return true;
           
           const ahora = new Date();
           const mesActualKey = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
           
-          // Si cambió de mes, resetear contador
           if(this.mesActual !== mesActualKey) {
             this.calculosMes = 0;
             this.mesActual = mesActualKey;
@@ -1693,7 +1701,6 @@
           
           this.calculosMes++;
           
-          // Guardar en Firebase
           const users = await Storage.getUsers();
           if(users[this.currentUser]) {
             users[this.currentUser].calculosMes = this.calculosMes;
@@ -1716,7 +1723,7 @@
           if(p.length<4) { err.innerText="> MÍNIMO 4 CARACTERES_"; err.classList.add('visible'); return; }
           const users = await Storage.getUsers();
           if(users[u]) { err.innerText="> EL USUARIO YA EXISTE_"; err.classList.add('visible'); return; }
-          const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1); // 1 mes de premium
+          const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
           users[u] = { 
@@ -1748,7 +1755,6 @@
           const now = new Date(), expiry = new Date(user.expires);
           if(now>expiry){ if(user.premium) alert("> Tu período premium ha expirado."); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); return; } }
           
-          // Comprobar si cambió de mes para resetear contador
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
           let calculosMes = user.calculosMes || 0;
@@ -1757,7 +1763,6 @@
           if(mesActualUsuario !== mesActual) {
             calculosMes = 0;
             mesActualUsuario = mesActual;
-            // Actualizar en Firebase
             users[u].calculosMes = 0;
             users[u].mesActual = mesActual;
             await Storage.saveUsers(users);
@@ -1800,7 +1805,6 @@
           delete users[u];
           await Storage.saveUsers(users);
           
-          // Si el usuario eliminado era el que tenía sesión activa, cerrar sesión
           if(AppState.currentUser === u) {
             AppState.setCurrentUser(null);
             document.getElementById("mainContent").style.display="none";
@@ -1817,7 +1821,6 @@
         async checkSavedSession() {
           const s = localStorage.getItem('ri5_current_user'); if(!s) return false;
           
-          // CAMBIO 1: Leer premium de localStorage primero para respuesta inmediata
           const savedPremium = localStorage.getItem('ri5_premium') === 'true';
           if(savedPremium) {
             const t = document.getElementById('ri5Title');
@@ -1829,7 +1832,6 @@
           const now = new Date(), expiry = new Date(user.expires);
           if(now>expiry && !user.premium){ localStorage.removeItem('ri5_current_user'); localStorage.removeItem('ri5_premium'); return false; }
           
-          // Comprobar mes para contador
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
           let calculosMes = user.calculosMes || 0;
@@ -1838,7 +1840,6 @@
           if(mesActualUsuario !== mesActual) {
             calculosMes = 0;
             mesActualUsuario = mesActual;
-            // Actualizar en Firebase
             users[s].calculosMes = 0;
             users[s].mesActual = mesActual;
             await Storage.saveUsers(users);
@@ -1853,7 +1854,7 @@
           document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
           if(now>expiry && user.premium) setTimeout(()=>alert("> Tu período premium ha expirado."),500);
           const nameField = document.getElementById('name');
-          if(nameField) nameField.value = s; // autocompletar (fijo)
+          if(nameField) nameField.value = s;
           UI.changeDailyTip(); UI.startConsejoAutoChange();
           AppState.actualizarInterfazPremium();
           const calc = await Storage.getUltimoCalculo(s); if(calc){ AppState.setLastCalc(calc); UI.mostrarResultadosGuardados(calc); }
@@ -2047,7 +2048,6 @@
           UI.validarTodo(); 
           if(document.getElementById("calcBtn").disabled) return; 
           
-          // Verificar límite de cálculos para no premium
           if(!AppState.isPremium) {
             const puedeCalcular = await AppState.incrementarCalculo();
             if(!puedeCalcular) return;
@@ -2063,19 +2063,67 @@
           },300); 
         },
         calculate() {
-          const n=AppState.currentUser; // Usar el nombre de usuario actual
+          const n=AppState.currentUser;
           const a=parseInt(document.getElementById("age").value), t=Utils.parseTime(document.getElementById("time").value);
           if(!n||!a||isNaN(t)) return alert("> COMPLETA TODOS LOS CAMPOS CORRECTAMENTE_");
           const r=t/6, fc=220-a, ul=Math.round(fc*0.92*1.03);
           const pred=[{dist:2,color:"var(--accent-blue)",ritmo:r*0.98},{dist:6,color:"var(--accent-green)",ritmo:r},{dist:10,color:"var(--accent-yellow)",ritmo:r*1.05},{dist:21,color:"var(--accent-red)",ritmo:r*1.12},{dist:42,color:"var(--accent-purple)",ritmo:r*1.20}];
-          // CAMBIO 2: Mejorar explicaciones de las zonas
+          // CAMBIO 2: Mejorar explicaciones de las zonas con estructura mejorada
           const zones=[
-            ["Z1","RECUPERACIÓN",0.75,0.80,1.35,"z1","Ritmo: "+Utils.formatR(r*1.35)+" min/km · Objetivo: Recuperación activa después de esfuerzos intensos. Beneficio: Mejora la circulación sanguínea, elimina toxinas y prepara el cuerpo para próximas sesiones sin fatiga adicional."],
-            ["Z2","BASE",0.80,0.90,1.25,"z2","Ritmo: "+Utils.formatR(r*1.25)+" min/km · Objetivo: Desarrollar resistencia aeróbica fundamental. Beneficio: Optimiza la quema de grasas como combustible, fortalece el corazón y mejora la eficiencia metabólica. Es la base de todo entrenamiento."],
-            ["Z3","TEMPO",0.90,0.95,1.15,"z3","Ritmo: "+Utils.formatR(r*1.15)+" min/km · Objetivo: Elevar el umbral de lactato. Beneficio: Permite correr más rápido durante más tiempo retrasando la fatiga muscular. Sensación de 'cómodamente duro', puedes hablar con frases cortas."],
-            ["Z4","UMBRAL",0.95,1.02,1.05,"z4","Ritmo: "+Utils.formatR(r*1.05)+" min/km · Objetivo: Limpiar y tolerar el lactato. Beneficio: Mejora la capacidad de mantener ritmos de carrera exigentes. Es la zona justo por debajo del esfuerzo máximo sostenible."],
-            ["Z5","VO₂MÁX",1.02,1.06,0.95,"z5","Ritmo: "+Utils.formatR(r*0.95)+" min/km · Objetivo: Potencia aeróbica máxima. Beneficio: Aumenta la capacidad del corazón para bombear sangre y la musculatura para utilizar oxígeno. Esfuerzo muy intenso, solo para intervalos cortos."],
-            ["Z6","VELOCIDAD",1.06,1.12,0.85,"z6","Ritmo: "+Utils.formatR(r*0.85)+" min/km · Objetivo: Potencia neuromuscular y velocidad. Beneficio: Mejora la zancada, la coordinación y la potencia explosiva. Esfuerzo máximo, sprints cortos con recuperación completa."]
+            ["Z1","RECUPERACIÓN",0.75,0.80,1.35,"z1",
+              "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.35) + " min/km</p>" +
+              "<p><strong>📍 Objetivo:</strong> Recuperación activa después de esfuerzos intensos.</p>" +
+              "<p><strong>✅ Beneficios:</strong></p><ul>" +
+              "<li>Mejora la circulación sanguínea</li>" +
+              "<li>Elimina toxinas (ácido láctico)</li>" +
+              "<li>Prepara el cuerpo para próximas sesiones</li></ul>" +
+              "<p><strong>😌 Sensación:</strong> Muy fácil, puedes mantener una conversación sin esfuerzo</p>"
+            ],
+            ["Z2","BASE",0.80,0.90,1.25,"z2",
+              "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.25) + " min/km</p>" +
+              "<p><strong>📍 Objetivo:</strong> Desarrollar resistencia aeróbica fundamental.</p>" +
+              "<p><strong>✅ Beneficios:</strong></p><ul>" +
+              "<li>Optimiza la quema de grasas</li>" +
+              "<li>Fortalece el corazón</li>" +
+              "<li>Mejora la eficiencia metabólica</li></ul>" +
+              "<p><strong>😌 Sensación:</strong> Cómodo y controlado, puedes hablar con frases completas</p>"
+            ],
+            ["Z3","TEMPO",0.90,0.95,1.15,"z3",
+              "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.15) + " min/km</p>" +
+              "<p><strong>📍 Objetivo:</strong> Elevar el umbral de lactato.</p>" +
+              "<p><strong>✅ Beneficios:</strong></p><ul>" +
+              "<li>Permite correr más rápido durante más tiempo</li>" +
+              "<li>Retrasa la aparición de la fatiga</li>" +
+              "<li>Mejora la resistencia a ritmos exigentes</li></ul>" +
+              "<p><strong>😌 Sensación:</strong> 'Cómodamente duro', puedes hablar con frases cortas</p>"
+            ],
+            ["Z4","UMBRAL",0.95,1.02,1.05,"z4",
+              "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.05) + " min/km</p>" +
+              "<p><strong>📍 Objetivo:</strong> Limpiar y tolerar el lactato.</p>" +
+              "<p><strong>✅ Beneficios:</strong></p><ul>" +
+              "<li>Mejora la capacidad de mantener ritmos de carrera</li>" +
+              "<li>Incrementa la velocidad en competición</li>" +
+              "<li>Prepara para esfuerzos sostenidos</li></ul>" +
+              "<p><strong>😌 Sensación:</strong> Fuerte, hablar es incómodo, solo palabras sueltas</p>"
+            ],
+            ["Z5","VO₂MÁX",1.02,1.06,0.95,"z5",
+              "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*0.95) + " min/km</p>" +
+              "<p><strong>📍 Objetivo:</strong> Potencia aeróbica máxima.</p>" +
+              "<p><strong>✅ Beneficios:</strong></p><ul>" +
+              "<li>Aumenta la capacidad del corazón</li>" +
+              "<li>Mejora el consumo de oxígeno</li>" +
+              "<li>Desarrolla la tolerancia al esfuerzo extremo</li></ul>" +
+              "<p><strong>😌 Sensación:</strong> Muy intenso, apenas puedes hablar, solo para intervalos cortos</p>"
+            ],
+            ["Z6","VELOCIDAD",1.06,1.12,0.85,"z6",
+              "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*0.85) + " min/km</p>" +
+              "<p><strong>📍 Objetivo:</strong> Potencia neuromuscular y velocidad.</p>" +
+              "<p><strong>✅ Beneficios:</strong></p><ul>" +
+              "<li>Mejora la zancada y coordinación</li>" +
+              "<li>Aumenta la potencia explosiva</li>" +
+              "<li>Desarrolla velocidad punta</li></ul>" +
+              "<p><strong>😌 Sensación:</strong> Esfuerzo máximo, sprints cortos con recuperación completa</p>"
+            ]
           ];
           const calc = {name:n, age:a, fcMax:fc, ul:ul, zones, pred, ritmoBase:r};
           AppState.setLastCalc(calc); UI.mostrarResultados(calc); document.getElementById("footer").innerText=`${n} · ${new Date().toLocaleDateString('es-ES')} · RI5`;
@@ -2100,6 +2148,35 @@
           txt+=`\n🎯 ZONAS:\n`;
           AppState.lastZones.forEach(z=>{ const min=Math.round(AppState.lastUL*z[2]), max=Math.round(AppState.lastUL*z[3]); txt+=`   ${z[0]} ${z[1]}: ${min}-${max} lpm · ${z[6]}\n`; });
           navigator.clipboard.writeText(txt).then(()=>{ const btn=document.querySelector('.btn-copy'); if(btn) Utils.showTemporaryMessage(btn,"✅ COPIADO",true); }).catch(()=>alert("> NO SE PUDO COPIAR."));
+        },
+        // CAMBIO 9: Compartir en redes sociales
+        shareResults() {
+          if(!AppState.lastName) return alert("> CALCULA ZONAS PRIMERO_");
+          let txt = "🏃‍♂️ MIS ZONAS DE ENTRENAMIENTO RI5 🏃‍♀️\n\n";
+          txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n`;
+          txt += `❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n`;
+          txt += `⏱️ RITMO 6km: ${Utils.formatR(AppState.lastRitmoBase)} min/km\n\n`;
+          txt += `📊 PREDICCIONES:\n`;
+          AppState.lastPred.forEach(p=>txt+=`   ${p.dist} km → ${Utils.formatR(p.ritmo)} min/km\n`);
+          
+          // Intentar compartir con Web Share API si está disponible
+          if (navigator.share) {
+            navigator.share({
+              title: 'Mis zonas de entrenamiento RI5',
+              text: txt,
+              url: window.location.href,
+            }).catch(() => {
+              // Si el usuario cancela, copiar al portapapeles
+              navigator.clipboard.writeText(txt).then(() => {
+                alert("✅ RESULTADOS COPIADOS AL PORTAPAPELES");
+              });
+            });
+          } else {
+            // Si no hay Web Share API, copiar al portapapeles
+            navigator.clipboard.writeText(txt).then(() => {
+              alert("✅ RESULTADOS COPIADOS AL PORTAPAPELES · AHORA PUEDES COMPARTIRLOS");
+            });
+          }
         }
       };
 
@@ -2113,7 +2190,7 @@
         marcarCampoTocado(c) { AppState.camposTocados[c]=true; this.validarCampo(c); this.validarTodo(); },
         validarCampo(c) {
           const el=document.getElementById(c), err=document.getElementById(c+'Error');
-          if(c==='name') return true; // El nombre nunca falla porque es fijo
+          if(c==='name') return true;
           if(!AppState.camposTocados[c]){ err.classList.remove('visible'); el.classList.remove('error'); return true; }
           let ok=true;
           if(c==='age'){ const a=parseInt(el.value); ok=!isNaN(a)&&a>=14&&a<=85; }
@@ -2131,7 +2208,8 @@
             const min=Math.round(d.ul*z[2]), max=Math.round(d.ul*z[3]); 
             html+=`<div class="zone-card ${z[5]}" onclick="this.classList.toggle('active')"><strong>${z[0]} – ${z[1]}</strong><br>FC: ${min}-${max} lpm<div class="long">${z[6]}</div></div>`; 
           }); 
-          html+=`<button class="action-button btn-copy" onclick="window.copyResults()">📋 COPIAR</button>`; 
+          html+=`<button class="action-button btn-copy" onclick="window.copyResults()">📋 COPIAR</button>`;
+          html+=`<button class="action-button btn-share" onclick="window.shareResults()">📱 COMPARTIR</button>`; // CAMBIO 9: Botón compartir
           document.getElementById("results").innerHTML=html; 
         },
         mostrarResultadosGuardados(d) { this.mostrarResultados(d); },
@@ -2199,7 +2277,18 @@
           m.classList.remove("visible"); o.classList.remove("visible"); 
         },
         cerrarPlan(){ document.getElementById("calendarioEntreno").style.display="none"; AppState.planGeneradoActual=null; },
-        initDiasCheckboxes(){ const c=document.getElementById('diasSemanaContainer'); const dias=['L','M','X','J','V','S','D']; let h=''; for(let i=0;i<7;i++){ const n=i+1; h+=`<div class="dia-checkbox"><input type="checkbox" id="dia${n}" value="${n}" ${n===4||n===6?'checked':''}><label for="dia${n}">${dias[i]}</label></div>`; } c.innerHTML=h; }
+        initDiasCheckboxes(){ const c=document.getElementById('diasSemanaContainer'); const dias=['L','M','X','J','V','S','D']; let h=''; for(let i=0;i<7;i++){ const n=i+1; h+=`<div class="dia-checkbox"><input type="checkbox" id="dia${n}" value="${n}" ${n===4||n===6?'checked':''}><label for="dia${n}">${dias[i]}</label></div>`; } c.innerHTML=h; },
+        // CAMBIO 2: Establecer fecha actual en el campo de fecha
+        setFechaActual() {
+          const fechaInput = document.getElementById('fechaInicio');
+          if (fechaInput) {
+            const hoy = new Date();
+            const año = hoy.getFullYear();
+            const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            fechaInput.value = `${año}-${mes}-${dia}`;
+          }
+        }
       };
 
       window.toggleHistorialDetalle = UI.toggleHistorialDetalle.bind(UI);
@@ -2212,10 +2301,11 @@
       window.borrarHistorial = UI.borrarHistorial.bind(UI);
       window.cerrarModalSesion = UI.cerrarModalSesion.bind(UI);
       window.cerrarPlan = UI.cerrarPlan.bind(UI);
+      window.shareResults = Training.shareResults.bind(Training); // CAMBIO 9: Exponer función compartir
 
-      // ==================== MÓDULO PLAN GENERATOR (con matriz completa y sin repeticiones) ====================
+      // ==================== MÓDULO PLAN GENERATOR ====================
       const PlanGenerator = {
-        // Matriz de entrenamientos COMPLETA y AMPLIADA (idéntica a la original)
+        // Matriz de entrenamientos COMPLETA y AMPLIADA (se mantiene exactamente igual)
         ENTRENAMIENTOS_DB: {
           runner: {
             "2k": {
@@ -3440,7 +3530,7 @@
           document.getElementById("experienciaDistancia").value = stored.experiencia || "no"; 
           document.getElementById("objetivoPrincipal").value = stored.objetivo || "mejorar"; 
           document.getElementById("diaLargo").value = stored.diaLargo; 
-          document.getElementById("fechaInicio").value = stored.fechaInicio || "2025-03-01"; 
+          document.getElementById("fechaInicio").value = stored.fechaInicio || new Date().toISOString().split('T')[0]; 
           document.getElementById("cuestionarioEntreno").style.display = "none"; 
           document.getElementById("calendarioEntreno").style.display = "block"; 
           this.generarCalendarioEntreno(); 
@@ -3451,6 +3541,29 @@
           alert("✅ PLAN ELIMINADO"); 
         },
         getRitmoPorZona(z) { if(!AppState.lastRitmoBase) return "Calcula zonas primero"; const f={'Z1':1.35,'Z2':1.25,'Z3':1.15,'Z4':1.05,'Z5':0.95,'Z6':0.85}; if(z.includes('-')){ const [a,b]=z.split('-'); return `${Utils.formatR(AppState.lastRitmoBase*(f[a]||1.15))} – ${Utils.formatR(AppState.lastRitmoBase*(f[b]||1.05))} min/km`; } return Utils.formatR(AppState.lastRitmoBase*(f[z]||1.15))+" min/km"; },
+        
+        // CAMBIO 6: Validar opciones de plan
+        validarOpcionesPlan() {
+          const duracion = document.getElementById('duracionPlan').value;
+          const experiencia = document.getElementById('experienciaDistancia').value;
+          const distSelect = document.getElementById('distObjetivo');
+          const opciones = distSelect.options;
+          
+          for (let i = 0; i < opciones.length; i++) {
+            if (opciones[i].value === 'medio' || opciones[i].value === 'maraton') {
+              if (duracion === '3' && experiencia === 'si') {
+                opciones[i].disabled = false;
+              } else {
+                opciones[i].disabled = true;
+                if (distSelect.value === opciones[i].value) {
+                  // Si la opción seleccionada es ahora inválida, cambiar a 10k
+                  distSelect.value = '10k';
+                }
+              }
+            }
+          }
+        },
+
         generarCalendarioEntreno() {
           if(!AppState.zonasCalculadas) return alert("> PRIMERO CALCULA TUS ZONAS_");
           if(!AppState.isPremium) {
@@ -3497,10 +3610,8 @@
               const posiblesTipos = ['series', 'tempo', 'rodaje'];
               otrosDias.forEach((dia,index)=> tipoPorDia[dia] = posiblesTipos[index%posiblesTipos.length]);
 
-              // Historial para evitar repeticiones recientes
               const ultimosUsados = { rodaje: [], series: [], tempo: [], largo: [] };
-              const MAX_HISTORIAL = 2; // Evitar repetir las últimas 2 sesiones del mismo tipo
-
+              const MAX_HISTORIAL = 2;
               const usados = { rodaje: 0, series: 0, tempo: 0, largo: 0 };
               const fragment = document.createDocumentFragment();
 
@@ -3527,21 +3638,17 @@
                   else opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.rodaje || [];
 
                   if(opts.length){
-                    // Filtrar opciones excluyendo las usadas recientemente
                     let opcionesDisponibles = opts.filter((opt, idx) => !ultimosUsados[tipo].includes(idx));
                     
-                    // Si no quedan opciones, resetear historial
                     if(opcionesDisponibles.length === 0){
                       opcionesDisponibles = opts;
                       ultimosUsados[tipo] = [];
                     }
                     
-                    // Seleccionar aleatoriamente entre las disponibles
                     const idxAleatorio = Math.floor(Math.random() * opcionesDisponibles.length);
                     const optOriginal = opcionesDisponibles[idxAleatorio];
                     const idxOriginal = opts.findIndex(opt => opt.nombre === optOriginal.nombre);
                     
-                    // Guardar en historial
                     ultimosUsados[tipo].push(idxOriginal);
                     if(ultimosUsados[tipo].length > MAX_HISTORIAL){
                       ultimosUsados[tipo].shift();
@@ -3577,11 +3684,12 @@
                   } else if(det){
                     tit = det.nombre || `${this.dataset.letra} · Semana ${this.dataset.semana}`;
                     const ritmo = PlanGenerator.getRitmoPorZona(det.zona);
+                    // CAMBIO 3: Descripciones más concisas para eliminar scroll
                     let extras = '';
-                    if(det.tipo==='rodaje') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar la eficiencia aeróbica. Debes sentir que puedes mantener una conversación sin esfuerzo.<br><br><strong>💡 CLAVES:</strong> Mantén un ritmo cómodo y constante. No te exijas.<br><br><strong>🧘 RECUPERACIÓN:</strong> Estiramientos suaves e hidratación.';
-                    else if(det.tipo==='series') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar velocidad y tolerancia al lactato. Cada repetición debe ser rápida pero controlada.<br><br><strong>💡 CLAVES:</strong> La recuperación entre repeticiones es clave.<br><br><strong>🧘 RECUPERACIÓN:</strong> Al terminar, trota suave y estira.';
-                    else if(det.tipo==='tempo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Aumentar la capacidad de mantener un ritmo rápido. Sensación "cómodamente duro".<br><br><strong>💡 CLAVES:</strong> Concéntrate en la respiración y la zancada.<br><br><strong>🧘 RECUPERACIÓN:</strong> Enfriamiento prolongado y buena hidratación.';
-                    else if(det.tipo==='largo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Desarrollar resistencia y confianza. Ritmo suave, prioriza el tiempo de pie.<br><br><strong>💡 CLAVES:</strong> Lleva nutrición e hidratación.<br><br><strong>🧘 RECUPERACIÓN:</strong> Descanso activo al día siguiente. Duerme bien.';
+                    if(det.tipo==='rodaje') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar eficiencia aeróbica. Sensación cómoda, ritmo constante.';
+                    else if(det.tipo==='series') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar velocidad y tolerancia al lactato. Recuperación completa entre repeticiones.';
+                    else if(det.tipo==='tempo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Aumentar capacidad de mantener ritmo rápido. Sensación "cómodamente duro".';
+                    else if(det.tipo==='largo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Desarrollar resistencia y confianza. Ritmo suave, prioriza el tiempo de pie.';
                     cont = `<strong>🏃 ${det.nombre}</strong><br><br><strong>⏱️ DURACIÓN:</strong> ${det.duracion} ${det.unidad}<br><strong>📊 ZONA:</strong> ${det.zona}<br><strong>⚡ RITMO:</strong> ${ritmo}<br><br><strong>📋 ESTRUCTURA:</strong><br>${det.estructura}<br><br><strong>💬 DESCRIPCIÓN:</strong><br>${det.desc}<br><br><strong>😌 SENSACIÓN:</strong> ${det.sensacion}${extras}`;
                   } else cont = "> SELECCIONA UN DÍA PARA VER DETALLES_";
                   document.getElementById("tituloSesion").innerText = tit;
@@ -3593,7 +3701,6 @@
               grid.appendChild(fragment);
               AppState.planGeneradoActual = { modalidad, distancia, macrociclo, diasPorSemana:diasEntreno.length, nivel, experiencia:exp, objetivo:obj, diaLargo, fechaInicio, diasEntreno };
               document.getElementById("calendarioEntreno").style.display = "block";
-              // CAMBIO 5: Cerrar cuestionario al generar plan
               document.getElementById("cuestionarioEntreno").style.display = "none";
               setTimeout(()=>document.getElementById("calendarioEntreno").scrollIntoView({ behavior:'smooth', block:'center' }),100);
               this.guardarPlanActual();
@@ -3602,6 +3709,8 @@
           },300);
         }
       };
+
+      window.validarOpcionesPlan = PlanGenerator.validarOpcionesPlan.bind(PlanGenerator); // CAMBIO 6: Exponer función de validación
 
       // ==================== MÓDULO PWA ====================
       const PWA = {
@@ -3635,6 +3744,12 @@
         document.getElementById("time").addEventListener("input", ()=>{ if(AppState.camposTocados.time) UI.validarCampo('time'); UI.validarTodo(); });
         UI.validarTodo();
         UI.initDiasCheckboxes();
+        UI.setFechaActual(); // CAMBIO 2: Establecer fecha actual al cargar
+        
+        // CAMBIO 6: Añadir listeners para validación de opciones de plan
+        document.getElementById('duracionPlan').addEventListener('change', PlanGenerator.validarOpcionesPlan.bind(PlanGenerator));
+        document.getElementById('experienciaDistancia').addEventListener('change', PlanGenerator.validarOpcionesPlan.bind(PlanGenerator));
+        
         if(localStorage.getItem('pwa_installed')==='true') document.getElementById('pwa-banner').style.display='none';
         PWA.init(); PWA.registerServiceWorker();
         setTimeout(()=>{ if(AppState.deferredPrompt && localStorage.getItem('pwa_installed')!=='true') document.getElementById('pwa-banner').style.display='flex'; },3000);
