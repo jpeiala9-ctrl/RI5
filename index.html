@@ -45,6 +45,8 @@
       --new-user-border: #7D8F69;
       --stat-bg: #E8E2D5;
       --stat-number: #2C2C2C;
+      --info-bg: rgba(212, 163, 115, 0.15);
+      --info-border: #D4A373;
     }
 
     /* Modo noche - BOWERS & WILKINS (cuando el sistema está en oscuro) */
@@ -68,6 +70,8 @@
         --new-user-border: #2E6B4C;
         --stat-bg: #2C2C2E;
         --stat-number: #F5F5F7;
+        --info-bg: rgba(204, 149, 77, 0.2);
+        --info-border: #CC954D;
       }
     }
 
@@ -480,6 +484,11 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .curiosity:hover {
+      transform: scale(1.02);
     }
     .curiosity::before {
       content: "";
@@ -505,10 +514,15 @@
       border: 1px solid var(--border-color);
       border-radius: 24px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
       position: relative;
       overflow: hidden;
       text-align: left;
+      will-change: transform;
+    }
+    .zone-card:hover {
+      transform: translateX(5px);
+      border-color: var(--accent-yellow);
     }
     .zone-card::after {
       content: "";
@@ -517,7 +531,6 @@
       width: 4px; height: 100%;
       transition: all 0.3s ease;
     }
-    .zone-card:hover { transform: translateX(5px); border-color: var(--accent-yellow); }
     .z1::after { background: var(--accent-blue); }
     .z2::after { background: var(--accent-green); }
     .z3::after { background: var(--accent-yellow); }
@@ -528,7 +541,7 @@
     .zone-card .long {
       max-height: 0;
       overflow: hidden;
-      transition: all 0.5s ease;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       margin-top: 0;
       color: var(--text-secondary);
       font-size: 14px;
@@ -627,7 +640,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s;
       font-size: 11px;
       width: 100%;
       min-width: 0;
@@ -638,6 +651,7 @@
       word-break: break-word;
       line-height: 1.2;
       text-align: center;
+      will-change: transform;
     }
     .calendario-dia:hover {
       border-color: var(--accent-blue);
@@ -720,7 +734,7 @@
       border-radius: 16px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease;
       min-height: 70px;
     }
     .historial-item:hover {
@@ -763,7 +777,7 @@
     .historial-item .detalle {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.3s ease;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s;
       margin-top: 0;
       color: var(--text-secondary);
       font-size: 13px;
@@ -1032,6 +1046,15 @@
       margin-bottom: 10px;
       overflow: hidden;
     }
+    .usuario-item.nuevo {
+      background: var(--new-user-bg);
+      border-left: 4px solid var(--new-user-border);
+    }
+    .usuario-item.nuevo .usuario-header span:first-child::after {
+      content: " 🆕";
+      font-size: 12px;
+      margin-left: 5px;
+    }
     .usuario-header {
       padding: 15px;
       cursor: pointer;
@@ -1184,23 +1207,97 @@
       font-weight: bold;
       animation: slideDown 0.5s ease;
     }
+    
+    /* CAMBIO 4: Tarjeta de bienvenida */
+    #welcome-banner {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 450px;
+      background: var(--bg-card);
+      border: 2px solid var(--accent-yellow);
+      border-radius: 32px;
+      padding: 30px;
+      z-index: 30000;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+      text-align: center;
+    }
+    #welcome-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      z-index: 29999;
+    }
+    #welcome-banner h2 {
+      color: var(--accent-yellow);
+      margin-bottom: 20px;
+    }
+    #welcome-banner .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+      text-align: left;
+    }
+    #welcome-banner .feature span {
+      font-size: 24px;
+    }
+    #welcome-banner button {
+      background: var(--accent-yellow);
+      color: var(--bg-primary);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+    #welcome-banner button:hover {
+      opacity: 0.9;
+    }
+    #welcome-banner .close-banner {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 20px;
+      cursor: pointer;
+      width: auto;
+      padding: 0;
+    }
+
+    /* CAMBIO 1: Mensaje informativo para larga distancia */
+    #info-mensaje-distancia {
+      background: var(--info-bg);
+      border: 1px solid var(--info-border);
+      border-radius: 16px;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 12px;
+      color: var(--text-primary);
+      display: none;
+    }
+    #info-mensaje-distancia.visible {
+      display: block;
+    }
+    #info-mensaje-distancia strong {
+      color: var(--accent-yellow);
+    }
+
     @keyframes slideDown {
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
-    }
-    #premium-expiry-banner button {
-      background: var(--bg-primary);
-      color: var(--accent-yellow);
-      border: none;
-      padding: 6px 12px;
-      border-radius: 30px;
-      margin-left: 10px;
-      cursor: pointer;
-      font-size: 12px;
-      width: auto;
-    }
-    #premium-expiry-banner button:hover {
-      background: var(--bg-card);
     }
 
     /* Overlay y modal de detalle de sesión */
@@ -1236,7 +1333,7 @@
       position: relative;
       background: var(--bg-card);
       border-radius: 22px;
-      text-align: center; /* CAMBIO 2: Texto centrado */
+      text-align: center;
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -1261,7 +1358,7 @@
       max-height: none;
       overflow-y: visible;
       padding-right: 0;
-      text-align: center; /* CAMBIO 2: Texto centrado */
+      text-align: center;
     }
 
     .close-btn {
@@ -1341,6 +1438,26 @@
       border-radius: 40px;
     }
 
+    /* CAMBIO 8: Ajustar espaciado del título CONFIGURACIÓN */
+    #cuestionarioEntreno h3 {
+      margin: 25px 0 15px;
+    }
+    #cuestionarioEntreno h3:first-of-type {
+      margin-top: 10px;
+    }
+
+    /* CAMBIO 7: Botones de admin en fila */
+    .admin-buttons {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+      flex-wrap: wrap;
+    }
+    .admin-buttons button {
+      flex: 1;
+      min-width: 120px;
+    }
+
     @media (max-width: 480px) {
       .card { padding: 20px; }
       .tabs-header { flex-wrap: wrap; height: auto; }
@@ -1368,6 +1485,9 @@
         order: 3;
         margin: 0 auto;
       }
+      .admin-buttons {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -1376,6 +1496,49 @@
   <div id="premium-expiry-banner">
     <span id="expiry-message"></span>
     <button onclick="window.contactarAdmin()">CONTACTAR</button>
+  </div>
+
+  <!-- CAMBIO 4: Tarjeta de bienvenida -->
+  <div id="welcome-overlay" onclick="window.cerrarWelcomeBanner()"></div>
+  <div id="welcome-banner">
+    <button class="close-banner" onclick="window.cerrarWelcomeBanner()">✕</button>
+    <h2>🎉 ¡BIENVENIDO A RI5!</h2>
+    <div class="feature">
+      <span>🏃</span>
+      <div>
+        <strong>Calcula tus zonas</strong>
+        <br><small>Edad y tiempo en 6km</small>
+      </div>
+    </div>
+    <div class="feature">
+      <span>📅</span>
+      <div>
+        <strong>Genera planes</strong>
+        <br><small>Personalizados a tu nivel</small>
+      </div>
+    </div>
+    <div class="feature">
+      <span>📊</span>
+      <div>
+        <strong>Historial</strong>
+        <br><small>Sigue tu progreso</small>
+      </div>
+    </div>
+    <div class="feature">
+      <span>💬</span>
+      <div>
+        <strong>Soporte directo</strong>
+        <br><small>Contacta con el admin</small>
+      </div>
+    </div>
+    <div class="feature">
+      <span>👑</span>
+      <div>
+        <strong>1 mes premium gratis</strong>
+        <br><small>Disfruta de todas las ventajas</small>
+      </div>
+    </div>
+    <button onclick="window.cerrarWelcomeBanner()">¡ENTENDIDO, A CORRER!</button>
   </div>
 
   <!-- BANNER PWA -->
@@ -1448,13 +1611,17 @@
       <p style="color: var(--accent-green); margin:20px 0; text-align:center;" id="adminWelcome"></p>
       <div class="tabs-container">
         <div class="tabs-header">
-          <button class="tab-button active" onclick="window.switchAdminTab('usuarios')">USUARIOS</button>
+          <button class="tab-button active" onclick="window.switchAdminTab('usuarios')" id="adminUsuariosTab">USUARIOS</button>
           <button class="tab-button" onclick="window.switchAdminTab('soporte')" id="adminSoporteTab">SOPORTE</button>
         </div>
         <div id="admin-tab-usuarios" class="tab-content active">
           <div class="admin-stats" id="adminStats"></div>
-          <button class="admin-btn admin-export-btn" onclick="window.exportarUsuariosCSV()" style="width:100%; margin:10px 0;">📥 EXPORTAR USUARIOS CSV</button>
-          <button class="admin-btn" onclick="window.renovarExpirados()" style="width:100%;">🔄 RENOVAR EXPIRADOS</button>
+          <!-- CAMBIO 7: Botones en fila -->
+          <div class="admin-buttons">
+            <button class="admin-btn admin-export-btn" onclick="window.exportarUsuariosCSV()">📥 EXPORTAR CSV</button>
+            <button class="admin-btn" onclick="window.renovarExpirados()">🔄 RENOVAR EXPIRADOS</button>
+            <button class="admin-btn" onclick="window.verUsuariosPremium()" style="background: var(--gold); color: var(--bg-primary);">👑 VER PREMIUM</button>
+          </div>
         </div>
         <div id="admin-tab-soporte" class="tab-content">
           <h2>SOPORTE</h2>
@@ -1550,6 +1717,11 @@
               <option value="medio">MEDIA MARATÓN</option>
               <option value="maraton" selected>MARATÓN</option>
             </select>
+
+            <!-- CAMBIO 1: Mensaje informativo -->
+            <div id="info-mensaje-distancia">
+              📢 <strong>MEDIA MARATÓN Y MARATÓN</strong> requieren <strong>3 MESES</strong> y <strong>CON EXPERIENCIA</strong>. Ajusta esos valores para desbloquearlas.
+            </div>
 
             <select id="duracionPlan" onchange="window.validarOpcionesPlan()">
               <option value="1">1 MES</option>
@@ -1658,9 +1830,9 @@
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
 
   <script>
     (function() {
@@ -1679,12 +1851,41 @@
 
       // ==================== MÓDULO UTILS ====================
       const Utils = {
-        parseTime(t) { t = t.trim(); if(!t) return NaN; const m = t.match(/^(\d{1,3}):?(\d{0,2})$/); if(!m) return NaN; const min = parseInt(m[1]), seg = m[2]?parseInt(m[2]):0; if(seg>59||min>120||min<10) return NaN; return min + seg/60; },
-        formatR(r) { if(!isFinite(r)||r<=0) return "--:--"; let m = Math.floor(r), s = Math.round((r-m)*60); if(s===60){ m++; s=0; } return m+":"+(s<10?'0':'')+s; },
-        showLoading(btn) { btn.classList.add('loading'); btn.disabled=true; },
-        hideLoading(btn) { btn.classList.remove('loading'); btn.disabled=false; },
-        showTemporaryMessage(btn, msg, ok=true) { const orig = btn.innerText; btn.innerText = msg; btn.classList.add(ok?'btn-success':'btn-error'); setTimeout(()=>{ btn.innerText=orig; btn.classList.remove('btn-success','btn-error'); },2000); },
-        hashPassword(str) { return btoa(str + "_RI5_SALT"); },
+        parseTime(t) { 
+          t = t.trim(); 
+          if(!t) return NaN; 
+          const m = t.match(/^(\d{1,3}):?(\d{0,2})$/); 
+          if(!m) return NaN; 
+          const min = parseInt(m[1]), seg = m[2]?parseInt(m[2]):0; 
+          if(seg>59||min>120||min<10) return NaN; 
+          return min + seg/60; 
+        },
+        formatR(r) { 
+          if(!isFinite(r)||r<=0) return "--:--"; 
+          let m = Math.floor(r), s = Math.round((r-m)*60); 
+          if(s===60){ m++; s=0; } 
+          return m+":"+(s<10?'0':'')+s; 
+        },
+        showLoading(btn) { 
+          btn.classList.add('loading'); 
+          btn.disabled=true; 
+        },
+        hideLoading(btn) { 
+          btn.classList.remove('loading'); 
+          btn.disabled=false; 
+        },
+        showTemporaryMessage(btn, msg, ok=true) { 
+          const orig = btn.innerText; 
+          btn.innerText = msg; 
+          btn.classList.add(ok?'btn-success':'btn-error'); 
+          setTimeout(()=>{ 
+            btn.innerText=orig; 
+            btn.classList.remove('btn-success','btn-error'); 
+          },2000); 
+        },
+        hashPassword(str) { 
+          return btoa(str + "_RI5_SALT"); 
+        },
         // CAMBIO 6: Feedback táctil y sonoro
         vibrate(pattern) {
           if (window.navigator && window.navigator.vibrate) {
@@ -1749,11 +1950,20 @@
 
       // ==================== ESTADO GLOBAL ====================
       const AppState = {
-        zonasCalculadas: false, lastName: "", lastAge: 0, lastFC: 0, lastUL: 0,
-        lastZones: [], lastPred: [], lastRitmoBase: 0,
-        ultimoPlanParams: null, planGeneradoActual: null,
+        zonasCalculadas: false, 
+        lastName: "", 
+        lastAge: 0, 
+        lastFC: 0, 
+        lastUL: 0,
+        lastZones: [], 
+        lastPred: [], 
+        lastRitmoBase: 0,
+        ultimoPlanParams: null, 
+        planGeneradoActual: null,
         camposTocados: { name: false, age: false, time: false },
-        currentUser: null, currentSesionDetalle: null, deferredPrompt: null,
+        currentUser: null, 
+        currentSesionDetalle: null, 
+        deferredPrompt: null,
         mensajesNoLeidos: 0,
         mensajesNoLeidosAdmin: 0,
         isPremium: false,
@@ -1761,32 +1971,70 @@
         calculosMes: 0,
         mesActual: '',
         usuariosVistos: JSON.parse(localStorage.getItem('usuariosVistos')||'[]'),
-        setLastCalc(d) { this.lastName=d.name; this.lastAge=d.age; this.lastFC=d.fcMax; this.lastUL=d.ul; this.lastZones=d.zones; this.lastPred=d.pred; this.lastRitmoBase=d.ritmoBase; this.zonasCalculadas=true; },
-        clearLastCalc() { this.zonasCalculadas=false; this.lastName=""; this.lastAge=0; this.lastFC=0; this.lastUL=0; this.lastZones=[]; this.lastPred=[]; this.lastRitmoBase=0; },
+        adminVistos: JSON.parse(localStorage.getItem('adminVistos')||'[]'),
+        
+        setLastCalc(d) { 
+          this.lastName=d.name; 
+          this.lastAge=d.age; 
+          this.lastFC=d.fcMax; 
+          this.lastUL=d.ul; 
+          this.lastZones=d.zones; 
+          this.lastPred=d.pred; 
+          this.lastRitmoBase=d.ritmoBase; 
+          this.zonasCalculadas=true; 
+        },
+        
+        clearLastCalc() { 
+          this.zonasCalculadas=false; 
+          this.lastName=""; 
+          this.lastAge=0; 
+          this.lastFC=0; 
+          this.lastUL=0; 
+          this.lastZones=[]; 
+          this.lastPred=[]; 
+          this.lastRitmoBase=0; 
+        },
+        
         setCurrentUser(u, premium=false, expiryDate=null, calculosMes=0, mesActual='') {
-          this.currentUser = u; this.isPremium = premium; this.premiumExpiryDate = expiryDate; this.calculosMes = calculosMes; this.mesActual = mesActual;
-          u?localStorage.setItem('ri5_current_user',u):localStorage.removeItem('ri5_current_user');
+          this.currentUser = u; 
+          this.isPremium = premium; 
+          this.premiumExpiryDate = expiryDate; 
+          this.calculosMes = calculosMes; 
+          this.mesActual = mesActual;
+          
+          u ? localStorage.setItem('ri5_current_user', u) : localStorage.removeItem('ri5_current_user');
+          
           if(u) {
             localStorage.setItem('ri5_premium', premium ? 'true' : 'false');
           } else {
             localStorage.removeItem('ri5_premium');
           }
-          const t = document.getElementById('ri5Title'); if(t){ if(premium) t.classList.add('premium'); else t.classList.remove('premium'); }
+          
+          const t = document.getElementById('ri5Title'); 
+          if(t){ 
+            if(premium) t.classList.add('premium'); 
+            else t.classList.remove('premium'); 
+          }
+          
           if(u) {
             const nameField = document.getElementById('name');
             if(nameField) nameField.value = u;
           }
+          
           this.actualizarInterfazPremium();
           // CAMBIO 4: Verificar expiración
           this.verificarExpiracionPremium();
         },
+        
         actualizarInterfazPremium() {
           const planBtns = ['nuevoPlanBtn', 'cargarPlanBtn', 'borrarPlanBtn', 'generarPlanBtn'];
+          
           if(!this.isPremium) {
             planBtns.forEach(id => {
               const btn = document.getElementById(id);
               if(btn) btn.disabled = true;
             });
+            
             const counterDiv = document.getElementById('calculoCounter');
             if(counterDiv) {
               counterDiv.style.display = 'block';
@@ -1797,10 +2045,12 @@
               const btn = document.getElementById(id);
               if(btn) btn.disabled = false;
             });
+            
             const counterDiv = document.getElementById('calculoCounter');
             if(counterDiv) counterDiv.style.display = 'none';
           }
         },
+        
         // CAMBIO 4: Verificar expiración premium
         verificarExpiracionPremium() {
           const banner = document.getElementById('premium-expiry-banner');
@@ -1825,6 +2075,7 @@
             banner.style.display = 'none';
           }
         },
+        
         async incrementarCalculo() {
           if(!this.currentUser) return false;
           if(this.isPremium) return true;
@@ -1858,17 +2109,51 @@
 
       // ==================== MÓDULO AUTENTICACIÓN ====================
       const Auth = {
-        switchAuthTab(tab) { document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active')); document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active')); if(tab==='login'){ document.querySelector('.auth-tab').classList.add('active'); document.getElementById('loginForm').classList.add('active'); }else{ document.querySelectorAll('.auth-tab')[1].classList.add('active'); document.getElementById('registerForm').classList.add('active'); } },
+        switchAuthTab(tab) { 
+          document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active')); 
+          document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active')); 
+          if(tab==='login'){ 
+            document.querySelector('.auth-tab').classList.add('active'); 
+            document.getElementById('loginForm').classList.add('active'); 
+          } else { 
+            document.querySelectorAll('.auth-tab')[1].classList.add('active'); 
+            document.getElementById('registerForm').classList.add('active'); 
+          } 
+        },
+        
         async registerUser() {
-          const u = document.getElementById('regUsername').value.trim(), p = document.getElementById('regPassword').value.trim(), err = document.getElementById('registerError');
-          if(!u||!p) { err.innerText="> COMPLETA TODOS LOS CAMPOS_"; err.classList.add('visible'); return; }
-          if(u.length<3) { err.innerText="> MÍNIMO 3 CARACTERES_"; err.classList.add('visible'); return; }
-          if(p.length<4) { err.innerText="> MÍNIMO 4 CARACTERES_"; err.classList.add('visible'); return; }
+          const u = document.getElementById('regUsername').value.trim(), 
+                p = document.getElementById('regPassword').value.trim(), 
+                err = document.getElementById('registerError');
+          
+          if(!u||!p) { 
+            err.innerText="> COMPLETA TODOS LOS CAMPOS_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          if(u.length<3) { 
+            err.innerText="> MÍNIMO 3 CARACTERES_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          if(p.length<4) { 
+            err.innerText="> MÍNIMO 4 CARACTERES_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          
           const users = await Storage.getUsers();
-          if(users[u]) { err.innerText="> EL USUARIO YA EXISTE_"; err.classList.add('visible'); return; }
-          const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
+          if(users[u]) { 
+            err.innerText="> EL USUARIO YA EXISTE_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          
+          const expiry = new Date(); 
+          expiry.setMonth(expiry.getMonth()+1);
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          
           users[u] = { 
             password: Utils.hashPassword(p), 
             created: new Date().toISOString(), 
@@ -1877,26 +2162,66 @@
             calculosMes: 0,
             mesActual: mesActual
           };
+          
           await Storage.saveUsers(users);
-          await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
+          
+          // CAMBIO 4: Mensaje de bienvenida mejorado
+          const mensajeBienvenida = `🎉 ¡BIENVENIDO A RI5!\n\nDisfrutas de 1 MES PREMIUM gratis. Esto incluye:\n• Cálculos ilimitados de zonas\n• Planes de entrenamiento personalizados\n• Historial ampliado (25 entradas)\n• Soporte prioritario\n\n📌 PRIMEROS PASOS:\n1. Ve a ENTRENO y calcula tus zonas\n2. Ve a PLAN y genera tu primer plan\n3. Revisa tu bandeja de SOPORTE si tienes dudas\n\n¡A correr! 🏃‍♂️`;
+          
+          await Storage.enviarMensajeAdminAUsuario(u, mensajeBienvenida);
+          
           AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
+          
           document.getElementById("loginPage").style.opacity="0";
           setTimeout(()=>{
             document.getElementById("loginPage").style.display="none";
             document.getElementById("mainContent").style.display="flex";
             document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
-            UI.changeDailyTip(); UI.startConsejoAutoChange();
+            UI.changeDailyTip(); 
+            UI.startConsejoAutoChange();
+            
+            // CAMBIO 4: Mostrar tarjeta de bienvenida solo la primera vez
+            const welcomeKey = `ri5_welcome_${u}`;
+            if (!localStorage.getItem(welcomeKey)) {
+              document.getElementById('welcome-overlay').style.display = 'block';
+              document.getElementById('welcome-banner').style.display = 'block';
+            }
+            localStorage.setItem(welcomeKey, 'true');
           },300);
         },
+        
         async loginUser() {
-          const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
-          if(!u||!p) { err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; err.classList.add('visible'); return; }
-          if(u==='admin' && p==='091118110485120385') { Auth.mostrarAdminPanel(); return; }
+          const u = document.getElementById('loginUsername').value.trim(), 
+                p = document.getElementById('loginPassword').value.trim(), 
+                err = document.getElementById('loginError');
+          
+          if(!u||!p) { 
+            err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          if(u==='admin' && p==='091118110485120385') { 
+            Auth.mostrarAdminPanel(); 
+            return; 
+          }
+          
           const users = await Storage.getUsers();
           const user = users[u];
-          if(!user || user.password !== Utils.hashPassword(p)) { err.innerText="> INCORRECTO_"; err.classList.add('visible'); return; }
+          if(!user || user.password !== Utils.hashPassword(p)) { 
+            err.innerText="> INCORRECTO_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          
           const now = new Date(), expiry = new Date(user.expires);
-          if(now>expiry){ if(user.premium) alert("> Tu período premium ha expirado."); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); return; } }
+          if(now>expiry){ 
+            if(user.premium) alert("> Tu período premium ha expirado."); 
+            else { 
+              err.innerText="> ACCESO EXPIRADO_"; 
+              err.classList.add('visible'); 
+              return; 
+            } 
+          }
           
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
@@ -1912,22 +2237,28 @@
           }
           
           AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
+          
           const msgs = await Storage.getMensajesUsuario(u);
           AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
           UI.actualizarBadgeMensajes();
+          
           document.getElementById("loginPage").style.opacity="0";
           setTimeout(()=>{
             document.getElementById("loginPage").style.display="none";
             document.getElementById("mainContent").style.display="flex";
             document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
-            UI.changeDailyTip(); UI.startConsejoAutoChange();
-            UI.cargarMensajesRecibidos(); UI.cargarMensajesEnviados();
+            UI.changeDailyTip(); 
+            UI.startConsejoAutoChange();
+            UI.cargarMensajesRecibidos(); 
+            UI.cargarMensajesEnviados();
             Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
           },300);
         },
+        
         async eliminarMiCuenta() {
           const u = document.getElementById('regUsername').value.trim();
           const p = document.getElementById('regPassword').value.trim();
+          
           if(!u || !p) {
             alert('> PARA ELIMINAR LA CUENTA, INTRODUCE USUARIO Y CONTRASEÑA EN EL FORMULARIO DE REGISTRO_');
             return;
@@ -1958,11 +2289,34 @@
           document.getElementById('regUsername').value = '';
           document.getElementById('regPassword').value = '';
         },
-        mostrarAdminPanel() { document.getElementById("loginPage").style.display="none"; document.getElementById("mainContent").style.display="none"; document.getElementById("adminPage").style.display="flex"; Admin.actualizarAdminPanel(); },
-        logoutUser() { if(!confirm("> ¿CERRAR SESIÓN?_")) return; AppState.setCurrentUser(null); document.getElementById("mainContent").style.display="none"; document.getElementById("loginPage").style.display="flex"; document.getElementById("loginUsername").value=''; document.getElementById("loginPassword").value=''; document.getElementById("results").innerHTML=''; document.getElementById("calendarioEntreno").style.display="none"; AppState.clearLastCalc(); },
-        logoutAdmin() { document.getElementById("adminPage").style.display="none"; document.getElementById("loginPage").style.display="flex"; },
+        
+        mostrarAdminPanel() { 
+          document.getElementById("loginPage").style.display="none"; 
+          document.getElementById("mainContent").style.display="none"; 
+          document.getElementById("adminPage").style.display="flex"; 
+          Admin.actualizarAdminPanel(); 
+        },
+        
+        logoutUser() { 
+          if(!confirm("> ¿CERRAR SESIÓN?_")) return; 
+          AppState.setCurrentUser(null); 
+          document.getElementById("mainContent").style.display="none"; 
+          document.getElementById("loginPage").style.display="flex"; 
+          document.getElementById("loginUsername").value=''; 
+          document.getElementById("loginPassword").value=''; 
+          document.getElementById("results").innerHTML=''; 
+          document.getElementById("calendarioEntreno").style.display="none"; 
+          AppState.clearLastCalc(); 
+        },
+        
+        logoutAdmin() { 
+          document.getElementById("adminPage").style.display="none"; 
+          document.getElementById("loginPage").style.display="flex"; 
+        },
+        
         async checkSavedSession() {
-          const s = localStorage.getItem('ri5_current_user'); if(!s) return false;
+          const s = localStorage.getItem('ri5_current_user'); 
+          if(!s) return false;
           
           const savedPremium = localStorage.getItem('ri5_premium') === 'true';
           if(savedPremium) {
@@ -1970,10 +2324,20 @@
             if(t) t.classList.add('premium');
           }
           
-          const users = await Storage.getUsers(); const user = users[s];
-          if(!user){ localStorage.removeItem('ri5_current_user'); localStorage.removeItem('ri5_premium'); return false; }
+          const users = await Storage.getUsers(); 
+          const user = users[s];
+          if(!user){ 
+            localStorage.removeItem('ri5_current_user'); 
+            localStorage.removeItem('ri5_premium'); 
+            return false; 
+          }
+          
           const now = new Date(), expiry = new Date(user.expires);
-          if(now>expiry && !user.premium){ localStorage.removeItem('ri5_current_user'); localStorage.removeItem('ri5_premium'); return false; }
+          if(now>expiry && !user.premium){ 
+            localStorage.removeItem('ri5_current_user'); 
+            localStorage.removeItem('ri5_premium'); 
+            return false; 
+          }
           
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
@@ -1988,7 +2352,8 @@
             await Storage.saveUsers(users);
           }
           
-          AppState.currentUser = s; AppState.isPremium = user.premium||false;
+          AppState.currentUser = s; 
+          AppState.isPremium = user.premium||false;
           AppState.premiumExpiryDate = user.expires;
           AppState.calculosMes = calculosMes;
           AppState.mesActual = mesActualUsuario;
@@ -1997,19 +2362,29 @@
           document.getElementById("mainContent").style.display="flex";
           document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
           if(now>expiry && user.premium) setTimeout(()=>alert("> Tu período premium ha expirado."),500);
+          
           const nameField = document.getElementById('name');
           if(nameField) nameField.value = s;
-          UI.changeDailyTip(); UI.startConsejoAutoChange();
+          
+          UI.changeDailyTip(); 
+          UI.startConsejoAutoChange();
           AppState.actualizarInterfazPremium();
           AppState.verificarExpiracionPremium();
-          const calc = await Storage.getUltimoCalculo(s); if(calc){ AppState.setLastCalc(calc); UI.mostrarResultadosGuardados(calc); }
+          
+          const calc = await Storage.getUltimoCalculo(s); 
+          if(calc){ 
+            AppState.setLastCalc(calc); 
+            UI.mostrarResultadosGuardados(calc); 
+          }
           return true;
         },
+        
         showPremiumBenefits() { 
           document.getElementById('premiumOverlay').classList.add('active');
           document.getElementById('premiumModal').classList.add('active');
         }
       };
+      
       window.cerrarPremiumModal = function() {
         document.getElementById('premiumOverlay').classList.remove('active');
         document.getElementById('premiumModal').classList.remove('active');
@@ -2020,41 +2395,80 @@
         window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank');
       };
 
+      // CAMBIO 4: Cerrar banner de bienvenida
+      window.cerrarWelcomeBanner = function() {
+        document.getElementById('welcome-overlay').style.display = 'none';
+        document.getElementById('welcome-banner').style.display = 'none';
+      };
+
       // ==================== MÓDULO ADMIN ====================
       const Admin = {
         async actualizarAdminPanel() {
           const users = await Storage.getUsers();
           const total = Object.keys(users).length, ahora = new Date();
           const activos = Object.values(users).filter(u=>new Date(u.expires)>ahora).length, expirados = total-activos;
+          
+          const usersArray = Object.entries(users);
+          const ultimaSemana = new Date(ahora - 7*24*60*60*1000);
+          const nuevos = usersArray.filter(([u,d]) => new Date(d.created) > ultimaSemana && !AppState.adminVistos.includes(u)).length;
+          
           document.getElementById("adminStats").innerHTML = `
             <span class="stat-badge" onclick="window.abrirModalUsuarios('total')">📊 TOTAL <span class="number">${total}</span></span>
             <span class="stat-badge" onclick="window.abrirModalUsuarios('activos')">✅ ACTIVOS <span class="number">${activos}</span></span>
             <span class="stat-badge" onclick="window.abrirModalUsuarios('expirados')">⏳ EXPIRADOS <span class="number">${expirados}</span></span>
           `;
+          
+          // CAMBIO 6: Contador de nuevos usuarios
+          const tabButton = document.getElementById('adminUsuariosTab');
+          if (nuevos > 0) {
+            if (!tabButton.innerHTML.includes('🔴')) {
+              tabButton.innerHTML = `USUARIOS <span style="color: var(--accent-red); margin-left: 5px;">🔴${nuevos}</span>`;
+            }
+          } else {
+            tabButton.innerHTML = 'USUARIOS';
+          }
+          
           document.getElementById("adminWelcome").innerText = `> ADMIN · ${new Date().toLocaleString()}`;
           this.cargarMensajesAdmin();
           this.cargarSelectorUsuarios();
         },
-        async abrirModalUsuarios(filtro='total') {
+        
+        async abrirModalUsuarios(filtro='total', soloPremium=false) {
           const users = await Storage.getUsers();
           const modal = document.getElementById('modalUsuarios');
           const listEl = document.getElementById('modalUserList');
           const titulo = document.getElementById('modalUsuariosTitulo');
           
           let tituloTexto = '👥 TODOS LOS USUARIOS';
-          if(filtro === 'activos') tituloTexto = '✅ USUARIOS ACTIVOS';
-          if(filtro === 'expirados') tituloTexto = '⏳ USUARIOS EXPIRADOS';
+          if (soloPremium) tituloTexto = '👑 USUARIOS PREMIUM';
+          else if(filtro === 'activos') tituloTexto = '✅ USUARIOS ACTIVOS';
+          else if(filtro === 'expirados') tituloTexto = '⏳ USUARIOS EXPIRADOS';
+          
           titulo.innerText = tituloTexto;
           
-          this.renderizarListaUsuarios(users, listEl, '', filtro);
+          this.renderizarListaUsuarios(users, listEl, '', filtro, soloPremium);
           modal.classList.add('active');
-          document.getElementById('modalBuscarUsuario').oninput = (e)=>this.filtrarUsuariosModal(e.target.value, filtro);
+          
+          // Marcar como vistos los nuevos usuarios
+          const nuevosVistos = Object.keys(users).filter(u => {
+            const d = users[u];
+            return new Date(d.created) > new Date(Date.now() - 7*24*60*60*1000) && !AppState.adminVistos.includes(u);
+          });
+          
+          AppState.adminVistos = [...AppState.adminVistos, ...nuevosVistos];
+          localStorage.setItem('adminVistos', JSON.stringify(AppState.adminVistos));
+          
+          this.actualizarAdminPanel();
+          
+          document.getElementById('modalBuscarUsuario').oninput = (e)=>this.filtrarUsuariosModal(e.target.value, filtro, soloPremium);
         },
-        renderizarListaUsuarios(users, container, filtro='', tipoFiltro='total') {
+        
+        renderizarListaUsuarios(users, container, filtro='', tipoFiltro='total', soloPremium=false) {
           const ahora = new Date();
           const items = Object.entries(users)
             .filter(([u,d])=>u.toLowerCase().includes(filtro.toLowerCase()))
             .filter(([u,d])=>{
+              if (soloPremium) return d.premium === true;
               if(tipoFiltro === 'activos') return new Date(d.expires) > ahora;
               if(tipoFiltro === 'expirados') return new Date(d.expires) <= ahora;
               return true;
@@ -2065,8 +2479,12 @@
             const premium = d.premium ? '✅ PREMIUM' : '❌ NO PREMIUM';
             const estado = new Date(d.expires) > ahora ? '🟢 ACTIVO' : '🔴 EXPIRADO';
             const calculos = d.calculosMes || 0;
+            
+            // CAMBIO 6: Detectar si es nuevo
+            const esNuevo = new Date(d.created) > new Date(Date.now() - 7*24*60*60*1000) && !AppState.adminVistos.includes(u);
+            
             return `
-              <div class="usuario-item" onclick="window.toggleUsuario(this)">
+              <div class="usuario-item ${esNuevo ? 'nuevo' : ''}" onclick="window.toggleUsuario(this)">
                 <div class="usuario-header">
                   <span>${u}</span>
                   <span class="flecha">▼</span>
@@ -2090,57 +2508,112 @@
               </div>
             `;
           }).join('');
+          
           container.innerHTML = items || '<p style="text-align:center; padding:20px;">📭 NO HAY USUARIOS</p>';
         },
-        filtrarUsuariosModal(filtro, tipoFiltro) { 
+        
+        filtrarUsuariosModal(filtro, tipoFiltro, soloPremium) { 
           Storage.getUsers().then(u=>{ 
             const l=document.getElementById('modalUserList'); 
-            this.renderizarListaUsuarios(u,l,filtro,tipoFiltro); 
+            this.renderizarListaUsuarios(u,l,filtro,tipoFiltro, soloPremium); 
           }); 
         },
+        
         async extenderUsuario(u,m) {
           const users = await Storage.getUsers();
-          if(users[u]){ const e=new Date(users[u].expires); e.setMonth(e.getMonth()+m); users[u].expires=e.toISOString(); await Storage.saveUsers(users); this.actualizarAdminPanel(); alert(`✅ ${u} extendido ${m} mes`); this.abrirModalUsuarios(); }
+          if(users[u]){ 
+            const e=new Date(users[u].expires); 
+            e.setMonth(e.getMonth()+m); 
+            users[u].expires=e.toISOString(); 
+            await Storage.saveUsers(users); 
+            this.actualizarAdminPanel(); 
+            alert(`✅ ${u} extendido ${m} mes`); 
+            this.abrirModalUsuarios(); 
+          }
         },
+        
         async togglePremium(u) {
           const users = await Storage.getUsers();
-          if(users[u]){ users[u].premium = !users[u].premium; await Storage.saveUsers(users); this.actualizarAdminPanel(); alert(`✅ Premium de ${u} cambiado`); this.abrirModalUsuarios(); }
+          if(users[u]){ 
+            users[u].premium = !users[u].premium; 
+            await Storage.saveUsers(users); 
+            this.actualizarAdminPanel(); 
+            alert(`✅ Premium de ${u} cambiado`); 
+            this.abrirModalUsuarios(); 
+          }
         },
+        
         async eliminarUsuario(u) {
           if(!confirm(`> ¿ELIMINAR "${u}"?`)) return;
           const users = await Storage.getUsers();
-          delete users[u]; await Storage.saveUsers(users);
+          delete users[u]; 
+          await Storage.saveUsers(users);
           if(AppState.currentUser===u) AppState.setCurrentUser(null);
-          this.actualizarAdminPanel(); alert(`✅ ${u} eliminado`); this.abrirModalUsuarios();
+          this.actualizarAdminPanel(); 
+          alert(`✅ ${u} eliminado`); 
+          this.abrirModalUsuarios();
         },
-        exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
+        
+        exportarUsuariosCSV() { 
+          Storage.getUsers().then(u=>{ 
+            let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes\n"; 
+            Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0}\n`); 
+            const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); 
+            a.href=URL.createObjectURL(b); 
+            a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; 
+            a.click(); 
+            URL.revokeObjectURL(a.href); 
+          }); 
+        },
+        
         async renovarExpirados() {
           if(!confirm("> ¿RENOVAR TODOS LOS EXPIRADOS POR 1 MES?")) return;
           const users = await Storage.getUsers(), ahora=new Date();
-          Object.entries(users).forEach(([u,d])=>{ if(new Date(d.expires)<=ahora){ const e=new Date(d.expires); e.setMonth(e.getMonth()+1); users[u].expires=e.toISOString(); } });
-          await Storage.saveUsers(users); this.actualizarAdminPanel(); alert("✅ EXPIRADOS RENOVADOS");
+          Object.entries(users).forEach(([u,d])=>{ 
+            if(new Date(d.expires)<=ahora){ 
+              const e=new Date(d.expires); 
+              e.setMonth(e.getMonth()+1); 
+              users[u].expires=e.toISOString(); 
+            } 
+          });
+          await Storage.saveUsers(users); 
+          this.actualizarAdminPanel(); 
+          alert("✅ EXPIRADOS RENOVADOS");
         },
-        async enviarMensajeAUsuario(usuario) { const txt=prompt(`> MENSAJE PARA ${usuario}:`); if(!txt) return; await Storage.enviarMensajeAdminAUsuario(usuario,txt); alert("✅ ENVIADO"); this.cargarMensajesAdmin(); },
+        
+        async enviarMensajeAUsuario(usuario) { 
+          const txt=prompt(`> MENSAJE PARA ${usuario}:`); 
+          if(!txt) return; 
+          await Storage.enviarMensajeAdminAUsuario(usuario,txt); 
+          alert("✅ ENVIADO"); 
+          this.cargarMensajesAdmin(); 
+        },
+        
         async cargarMensajesAdmin() {
           const recibidos = await Storage.getMensajesRecibidosAdmin();
           let htmlRec='', noLeidosRecibidos=0;
+          
           recibidos.forEach(item=>{
             if(!item.mensaje.leido) noLeidosRecibidos++;
             htmlRec+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📨 ${item.mensaje.fecha} · ${item.usuario}</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido">${item.mensaje.texto}</div></div>`;
           });
+          
           document.getElementById('listaMensajesRecibidosAdmin').innerHTML = htmlRec || '<p>📭 NO HAY MENSAJES</p>';
           
           const enviados = await Storage.getMensajesEnviadosAdmin();
           let htmlEnv='';
+          
           enviados.forEach(item=>{
             const claseNoLeido = !item.mensaje.leido ? 'no-leido-usuario' : '';
             htmlEnv+=`<div class="mensaje-item ${claseNoLeido}"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${item.mensaje.fecha} · <strong style="color:var(--accent-green);">👤 ${item.usuario}</strong></span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido"><div style="margin-bottom:8px;color:var(--accent-green);"><strong>Para: ${item.usuario}</strong></div>${item.mensaje.texto}</div></div>`;
           });
+          
           document.getElementById('listaMensajesEnviadosAdmin').innerHTML = htmlEnv || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
           
           AppState.mensajesNoLeidosAdmin = noLeidosRecibidos;
           this.actualizarBadgeAdminSoporte();
         },
+        
         async cargarSelectorUsuarios() {
           const users = await Storage.getUsers();
           const select = document.getElementById('adminSelectorUsuarios');
@@ -2150,10 +2623,12 @@
           });
           select.innerHTML = options;
         },
+        
         async enviarMensajeAdmin() {
           const select = document.getElementById('adminSelectorUsuarios');
           const destino = select.value;
           const texto = document.getElementById('adminMensaje').value.trim();
+          
           if(!texto) return alert('> ESCRIBE UN MENSAJE');
           
           if(destino === 'todos') {
@@ -2166,11 +2641,28 @@
             await Storage.enviarMensajeAdminAUsuario(destino, texto);
             alert(`✅ MENSAJE ENVIADO A ${destino}`);
           }
+          
           document.getElementById('adminMensaje').value = '';
           this.cargarMensajesAdmin();
         },
-        actualizarBadgeAdminSoporte() { const t=document.getElementById('adminSoporteTab'); if(AppState.mensajesNoLeidosAdmin>0) t.classList.add('soporte-unread'); else t.classList.remove('soporte-unread'); },
-        cambiarSoporteTab(tab) { document.querySelectorAll('#admin-tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); document.querySelectorAll('#admin-tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); if(tab==='recibidos'){ document.querySelectorAll('#admin-tab-soporte .soporte-tab')[0].classList.add('active'); document.getElementById('admin-soporte-recibidos').classList.add('active'); }else{ document.querySelectorAll('#admin-tab-soporte .soporte-tab')[1].classList.add('active'); document.getElementById('admin-soporte-enviados').classList.add('active'); } }
+        
+        actualizarBadgeAdminSoporte() { 
+          const t=document.getElementById('adminSoporteTab'); 
+          if(AppState.mensajesNoLeidosAdmin>0) t.classList.add('soporte-unread'); 
+          else t.classList.remove('soporte-unread'); 
+        },
+        
+        cambiarSoporteTab(tab) { 
+          document.querySelectorAll('#admin-tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); 
+          document.querySelectorAll('#admin-tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); 
+          if(tab==='recibidos'){ 
+            document.querySelectorAll('#admin-tab-soporte .soporte-tab')[0].classList.add('active'); 
+            document.getElementById('admin-soporte-recibidos').classList.add('active'); 
+          } else { 
+            document.querySelectorAll('#admin-tab-soporte .soporte-tab')[1].classList.add('active'); 
+            document.getElementById('admin-soporte-enviados').classList.add('active'); 
+          } 
+        }
       };
 
       window.toggleUsuario = (el)=>el.classList.toggle('abierto');
@@ -2183,14 +2675,28 @@
       window.renovarExpirados = Admin.renovarExpirados.bind(Admin);
       window.enviarMensajeAdmin = Admin.enviarMensajeAdmin.bind(Admin);
       window.borrarMensajeAdmin = (k,i)=>Storage.borrarMensaje(k,i).then(()=>Admin.cargarMensajesAdmin());
+      
       window.switchAdminTab = function(tab) {
         document.querySelectorAll('#adminPage .tab-button').forEach(b=>b.classList.remove('active'));
         document.querySelectorAll('#adminPage .tab-content').forEach(c=>c.classList.remove('active'));
-        if(tab==='usuarios'){ document.querySelectorAll('#adminPage .tab-button')[0].classList.add('active'); document.getElementById('admin-tab-usuarios').classList.add('active'); }
-        else { document.querySelectorAll('#adminPage .tab-button')[1].classList.add('active'); document.getElementById('admin-tab-soporte').classList.add('active'); Admin.cargarMensajesAdmin(); Admin.cargarSelectorUsuarios(); }
+        if(tab==='usuarios'){ 
+          document.querySelectorAll('#adminPage .tab-button')[0].classList.add('active'); 
+          document.getElementById('admin-tab-usuarios').classList.add('active'); 
+        } else { 
+          document.querySelectorAll('#adminPage .tab-button')[1].classList.add('active'); 
+          document.getElementById('admin-tab-soporte').classList.add('active'); 
+          Admin.cargarMensajesAdmin(); 
+          Admin.cargarSelectorUsuarios(); 
+        }
       };
+      
       window.cambiarAdminSoporteTab = (tab)=>Admin.cambiarSoporteTab(tab);
       window.eliminarMiCuenta = Auth.eliminarMiCuenta.bind(Auth);
+      
+      // CAMBIO 7: Función para ver solo usuarios premium
+      window.verUsuariosPremium = function() {
+        Admin.abrirModalUsuarios('total', true);
+      };
 
       // ==================== MÓDULO ENTRENAMIENTO ====================
       const Training = {
@@ -2215,12 +2721,25 @@
             Utils.playSound('success');
           },300); 
         },
+        
         calculate() {
           const n=AppState.currentUser;
-          const a=parseInt(document.getElementById("age").value), t=Utils.parseTime(document.getElementById("time").value);
+          const a=parseInt(document.getElementById("age").value), 
+                t=Utils.parseTime(document.getElementById("time").value);
+          
           if(!n||!a||isNaN(t)) return alert("> COMPLETA TODOS LOS CAMPOS CORRECTAMENTE_");
+          
           const r=t/6, fc=220-a, ul=Math.round(fc*0.92*1.03);
-          const pred=[{dist:2,color:"var(--accent-blue)",ritmo:r*0.98},{dist:6,color:"var(--accent-green)",ritmo:r},{dist:10,color:"var(--accent-yellow)",ritmo:r*1.05},{dist:21,color:"var(--accent-red)",ritmo:r*1.12},{dist:42,color:"var(--accent-purple)",ritmo:r*1.20}];
+          
+          const pred=[
+            {dist:2, color:"var(--accent-blue)", ritmo:r*0.98},
+            {dist:6, color:"var(--accent-green)", ritmo:r},
+            {dist:10, color:"var(--accent-yellow)", ritmo:r*1.05},
+            {dist:21, color:"var(--accent-red)", ritmo:r*1.12},
+            {dist:42, color:"var(--accent-purple)", ritmo:r*1.20}
+          ];
+          
+          // CAMBIO 2: Mejorar explicaciones de las zonas con estructura mejorada
           const zones=[
             ["Z1","RECUPERACIÓN",0.75,0.80,1.35,"z1",
               "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.35) + " min/km</p>" +
@@ -2277,32 +2796,70 @@
               "<p><strong>😌 Sensación:</strong> Esfuerzo máximo, sprints cortos con recuperación completa</p>"
             ]
           ];
+          
           const calc = {name:n, age:a, fcMax:fc, ul:ul, zones, pred, ritmoBase:r};
-          AppState.setLastCalc(calc); UI.mostrarResultados(calc); document.getElementById("footer").innerText=`${n} · ${new Date().toLocaleDateString('es-ES')} · RI5`;
+          AppState.setLastCalc(calc); 
+          UI.mostrarResultados(calc); 
+          document.getElementById("footer").innerText=`${n} · ${new Date().toLocaleDateString('es-ES')} · RI5`;
           this.guardarCalculoAutomatico(calc);
         },
+        
         async guardarCalculoAutomatico(calc) {
           if(!AppState.currentUser) return;
+          
           const ahora=new Date();
-          let zonasResumen = calc.zones.map(z=>{ const min=Math.round(calc.ul*z[2]), max=Math.round(calc.ul*z[3]); return {zona:z[0],min,max}; });
-          const data = { date: ahora.toLocaleDateString('es-ES'), hora: ahora.toLocaleTimeString('es-ES'), nombre:calc.name, edad:calc.age, fcMax:calc.fcMax, umbral:calc.ul, ritmo6k:Utils.formatR(calc.ritmoBase), predicciones:calc.pred.map(p=>`${p.dist}km:${Utils.formatR(p.ritmo)}`).join(' '), resumen:`${calc.name} · ${calc.age} años · 6km: ${Utils.formatR(calc.ritmoBase)}`, zonasResumen };
+          let zonasResumen = calc.zones.map(z=>{ 
+            const min=Math.round(calc.ul*z[2]), max=Math.round(calc.ul*z[3]); 
+            return {zona:z[0],min,max}; 
+          });
+          
+          const data = { 
+            date: ahora.toLocaleDateString('es-ES'), 
+            hora: ahora.toLocaleTimeString('es-ES'), 
+            nombre:calc.name, 
+            edad:calc.age, 
+            fcMax:calc.fcMax, 
+            umbral:calc.ul, 
+            ritmo6k:Utils.formatR(calc.ritmoBase), 
+            predicciones:calc.pred.map(p=>`${p.dist}km:${Utils.formatR(p.ritmo)}`).join(' '), 
+            resumen:`${calc.name} · ${calc.age} años · 6km: ${Utils.formatR(calc.ritmoBase)}`, 
+            zonasResumen 
+          };
+          
           let hist = await Storage.getHistorial(AppState.currentUser);
-          hist.unshift(data); const lim = AppState.isPremium?25:10; if(hist.length>lim) hist.pop();
+          hist.unshift(data); 
+          const lim = AppState.isPremium?25:10; 
+          if(hist.length>lim) hist.pop();
+          
           await Storage.saveHistorial(AppState.currentUser, hist);
           await Storage.setUltimoCalculo(AppState.currentUser, calc);
+          
           if(document.getElementById('tab-historial').classList.contains('active')) UI.cargarHistorial();
         },
+        
         copyResults() {
           if(!AppState.lastName) return alert("> CALCULA ZONAS PRIMERO_");
+          
           let txt = "🔹 RI5 - ZONAS DE ENTRENO 🔹\n\n";
           txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n⏱️ RITMO 6km: ${Utils.formatR(AppState.lastRitmoBase)} min/km\n\n📊 PREDICCIONES:\n`;
+          
           AppState.lastPred.forEach(p=>txt+=`   ${p.dist} km → ${Utils.formatR(p.ritmo)} min/km\n`);
           txt+=`\n🎯 ZONAS:\n`;
-          AppState.lastZones.forEach(z=>{ const min=Math.round(AppState.lastUL*z[2]), max=Math.round(AppState.lastUL*z[3]); txt+=`   ${z[0]} ${z[1]}: ${min}-${max} lpm · ${z[6]}\n`; });
-          navigator.clipboard.writeText(txt).then(()=>{ const btn=document.querySelector('.btn-copy'); if(btn) Utils.showTemporaryMessage(btn,"✅ COPIADO",true); }).catch(()=>alert("> NO SE PUDO COPIAR."));
+          
+          AppState.lastZones.forEach(z=>{ 
+            const min=Math.round(AppState.lastUL*z[2]), max=Math.round(AppState.lastUL*z[3]); 
+            txt+=`   ${z[0]} ${z[1]}: ${min}-${max} lpm · ${z[6]}\n`; 
+          });
+          
+          navigator.clipboard.writeText(txt).then(()=>{ 
+            const btn=document.querySelector('.btn-copy'); 
+            if(btn) Utils.showTemporaryMessage(btn,"✅ COPIADO",true); 
+          }).catch(()=>alert("> NO SE PUDO COPIAR."));
         },
+        
         shareResults() {
           if(!AppState.lastName) return alert("> CALCULA ZONAS PRIMERO_");
+          
           let txt = "🏃‍♂️ MIS ZONAS DE ENTRENAMIENTO RI5 🏃‍♀️\n\n";
           txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n`;
           txt += `❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n`;
@@ -2334,22 +2891,81 @@
       const UI = {
         consejos: ["La constancia es la clave.", "El descanso es entrenamiento.", "Confía en el proceso.", "La Z2 es tu mejor amiga.", "Hidratación antes de sed.", "El sueño construye resistencia.", "Escucha a tu cuerpo.", "La nutrición es el combustible."],
         consejoIndex:0,
-        changeDailyTip() { const e=document.getElementById("dailyTip"); if(e) setTimeout(()=>{ e.innerHTML='<span>> '+this.consejos[this.consejoIndex]+'</span><small>// pulsa para otro</small>'; this.consejoIndex=(this.consejoIndex+1)%this.consejos.length; },100); },
-        changeConsejo() { const e=document.getElementById("curiosity"); if(e) setTimeout(()=>{ e.innerHTML='<span>'+this.consejos[this.consejoIndex]+'</span><small>// pulsa para otro</small>'; this.consejoIndex=(this.consejoIndex+1)%this.consejos.length; },100); },
-        startConsejoAutoChange() { setInterval(()=>{ if(document.getElementById("loginPage").style.display!=="none") this.changeDailyTip(); if(document.getElementById("mainContent").style.display!=="none") this.changeConsejo(); },8000); },
-        marcarCampoTocado(c) { AppState.camposTocados[c]=true; this.validarCampo(c); this.validarTodo(); },
+        consejoInterval: null, // CAMBIO 5: Guardar referencia al intervalo
+        
+        changeDailyTip() { 
+          const e=document.getElementById("dailyTip"); 
+          if(e) setTimeout(()=>{ 
+            e.innerHTML='<span>> '+this.consejos[this.consejoIndex]+'</span><small>// pulsa para otro</small>'; 
+            this.consejoIndex=(this.consejoIndex+1)%this.consejos.length; 
+          },100); 
+        },
+        
+        // CAMBIO 5: Modificar changeConsejo para reiniciar el intervalo
+        changeConsejo() { 
+          const e=document.getElementById("curiosity"); 
+          if(e) setTimeout(()=>{ 
+            e.innerHTML='<span>'+this.consejos[this.consejoIndex]+'</span><small>// pulsa para otro</small>'; 
+            this.consejoIndex=(this.consejoIndex+1)%this.consejos.length; 
+            
+            // CAMBIO 5: Reiniciar el intervalo
+            if (this.consejoInterval) {
+              clearInterval(this.consejoInterval);
+              this.startConsejoAutoChange();
+            }
+          },100); 
+        },
+        
+        startConsejoAutoChange() { 
+          if (this.consejoInterval) clearInterval(this.consejoInterval);
+          
+          this.consejoInterval = setInterval(()=>{ 
+            if(document.getElementById("loginPage").style.display!=="none") this.changeDailyTip(); 
+            if(document.getElementById("mainContent").style.display!=="none") this.changeConsejo(); 
+          },8000); 
+        },
+        
+        marcarCampoTocado(c) { 
+          AppState.camposTocados[c]=true; 
+          this.validarCampo(c); 
+          this.validarTodo(); 
+        },
+        
         validarCampo(c) {
           const el=document.getElementById(c), err=document.getElementById(c+'Error');
           if(c==='name') return true;
-          if(!AppState.camposTocados[c]){ err.classList.remove('visible'); el.classList.remove('error'); return true; }
+          
+          if(!AppState.camposTocados[c]){ 
+            err.classList.remove('visible'); 
+            el.classList.remove('error'); 
+            return true; 
+          }
+          
           let ok=true;
-          if(c==='age'){ const a=parseInt(el.value); ok=!isNaN(a)&&a>=14&&a<=85; }
-          else if(c==='time'){ const t=Utils.parseTime(el.value); ok=!isNaN(t)&&t>=12&&t<=90; }
-          if(!ok){ err.innerText=c==='age'?'> EDAD 14-85_':'> FORMATO MM:SS (12-90 MIN)_'; err.classList.add('visible'); el.classList.add('error'); }
-          else{ err.classList.remove('visible'); el.classList.remove('error'); }
+          if(c==='age'){ 
+            const a=parseInt(el.value); 
+            ok=!isNaN(a)&&a>=14&&a<=85; 
+          } else if(c==='time'){ 
+            const t=Utils.parseTime(el.value); 
+            ok=!isNaN(t)&&t>=12&&t<=90; 
+          }
+          
+          if(!ok){ 
+            err.innerText=c==='age'?'> EDAD 14-85_':'> FORMATO MM:SS (12-90 MIN)_'; 
+            err.classList.add('visible'); 
+            el.classList.add('error'); 
+          } else { 
+            err.classList.remove('visible'); 
+            el.classList.remove('error'); 
+          }
           return ok;
         },
-        validarTodo() { const a=this.validarCampo('age'), t=this.validarCampo('time'); document.getElementById("calcBtn").disabled = !(a&&t); },
+        
+        validarTodo() { 
+          const a=this.validarCampo('age'), t=this.validarCampo('time'); 
+          document.getElementById("calcBtn").disabled = !(a&&t); 
+        },
+        
         mostrarResultados(d) { 
           let html=`<h2>> MÉTRICAS_</h2><div style="text-align:center; margin:20px 0;">${d.name} · ${d.age} años<br>FC MÁX: ${d.fcMax} lpm · UMBRAL: ${d.ul} lpm<br>RITMO 6km: ${Utils.formatR(d.ritmoBase)} min/km</div><h2>> PREDICCIONES_</h2>`; 
           d.pred.forEach(p=>html+=`<div class="pred-bar" style="border-color:${p.color}; color:${p.color};">${p.dist} km → ${Utils.formatR(p.ritmo)} min/km</div>`); 
@@ -2362,27 +2978,42 @@
           html+=`<button class="action-button btn-share" onclick="window.shareResults()">📱 COMPARTIR</button>`;
           document.getElementById("results").innerHTML=html; 
         },
+        
         mostrarResultadosGuardados(d) { this.mostrarResultados(d); },
+        
         switchTab(tab) {
           document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));
           document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+          
           const btns = document.querySelectorAll('.tab-button');
           for(let b of btns) if(b.textContent.includes(tab==='entreno'?'ENTRENO':tab==='plan'?'PLAN':tab==='historial'?'HISTORIAL':'SOPORTE')){ b.classList.add('active'); break; }
+          
           document.getElementById(`tab-${tab}`).classList.add('active');
           if(tab==='historial') this.cargarHistorial();
           if(tab==='soporte'){ this.cargarMensajesRecibidos(); this.cargarMensajesEnviados(); }
         },
+        
         async cargarHistorial() {
           const cont=document.getElementById("historialContainer");
           if(!AppState.currentUser){ cont.innerHTML='<p style="text-align:center; padding:20px; color: var(--text-secondary);">📭 SIN USUARIO</p>'; return; }
+          
           let hist = await Storage.getHistorial(AppState.currentUser);
-          const lim = parseInt(document.getElementById('historialLimit').value); if(hist.length>lim) hist = hist.slice(0,lim);
+          const lim = parseInt(document.getElementById('historialLimit').value); 
+          if(hist.length>lim) hist = hist.slice(0,lim);
+          
           if(!hist.length){ cont.innerHTML='<p style="text-align:center; padding:20px; color: var(--text-secondary);">📭 SIN HISTORIAL</p>'; return; }
+          
           let html='<div class="historial-list">';
           hist.forEach((it,i)=>{
-            let zonas=''; if(it.zonasResumen&&Array.isArray(it.zonasResumen)){ zonas='<div class="zonas-pastillas">'; it.zonasResumen.forEach(z=>zonas+=`<span class="zona-pastilla ${z.zona.toLowerCase()}"><span></span> ${z.zona}: ${z.min}-${z.max}</span>`); zonas+='</div>'; }
+            let zonas=''; 
+            if(it.zonasResumen&&Array.isArray(it.zonasResumen)){ 
+              zonas='<div class="zonas-pastillas">'; 
+              it.zonasResumen.forEach(z=>zonas+=`<span class="zona-pastilla ${z.zona.toLowerCase()}"><span></span> ${z.zona}: ${z.min}-${z.max}</span>`); 
+              zonas+='</div>'; 
+            }
             const pred = it.predicciones?`<div class="predicciones">📊 ${it.predicciones}</div>`:'';
             const hora = it.hora?`<div class="hora-detalle">🕒 ${it.hora}</div>`:'';
+            
             html+=`<div class="historial-item" onclick="window.toggleHistorialDetalle(this)">
               <div class="fecha">📅 ${it.date}</div>
               <div class="resumen">${it.resumen||it.nombre+' · '+it.edad+' años'}</div>
@@ -2390,44 +3021,125 @@
               <div class="detalle">${hora}${pred}${zonas}${it.fcMax?`<div>❤️ FC Máx: ${it.fcMax} lpm</div>`:''}${it.umbral?`<div>⚡ Umbral: ${it.umbral} lpm</div>`:''}</div>
             </div>`;
           });
-          html+='</div>'; cont.innerHTML=html;
+          html+='</div>'; 
+          cont.innerHTML=html;
         },
+        
         toggleHistorialDetalle(el){ el.classList.toggle('abierto'); },
+        
         async borrarEntradaHistorial(i){
           if(!AppState.currentUser||!confirm("> ¿ELIMINAR ESTA ENTRADA?_")) return;
-          let hist=await Storage.getHistorial(AppState.currentUser); hist.splice(i,1); await Storage.saveHistorial(AppState.currentUser,hist); this.cargarHistorial(); alert("✅ ELIMINADA");
+          let hist=await Storage.getHistorial(AppState.currentUser); 
+          hist.splice(i,1); 
+          await Storage.saveHistorial(AppState.currentUser,hist); 
+          this.cargarHistorial(); 
+          alert("✅ ELIMINADA");
         },
+        
         async borrarHistorial(){
           if(!AppState.currentUser||!confirm("> ¿ELIMINAR TODO EL HISTORIAL?_")) return;
-          await Storage.saveHistorial(AppState.currentUser,[]); this.cargarHistorial(); alert("✅ HISTORIAL LIMPIO");
+          await Storage.saveHistorial(AppState.currentUser,[]); 
+          this.cargarHistorial(); 
+          alert("✅ HISTORIAL LIMPIO");
         },
+        
         async cargarMensajesRecibidos(){
           if(!AppState.currentUser) return;
           const msgs=await Storage.getMensajesUsuario(AppState.currentUser);
-          let html=''; msgs.forEach((m,i)=>{
+          let html=''; 
+          
+          msgs.forEach((m,i)=>{
             const nuevo=!m.leido?'nuevo':'';
             html+=`<div class="mensaje-item ${nuevo}" data-indice="${i}"><div class="mensaje-header" onclick="window.toggleMensajeRecibido(this,${i})"><span>📨 ${m.fecha} · Admin</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeUsuario(${i})">🗑️</button></div><div class="mensaje-contenido">${m.texto}</div></div>`;
           });
+          
           document.getElementById('listaMensajesRecibidos').innerHTML = html || '<p>📭 NO HAY MENSAJES</p>';
           this.actualizarBadgeMensajes();
         },
-        async borrarMensajeUsuario(i){ if(!AppState.currentUser||!confirm("> ¿ELIMINAR?")) return; await Storage.borrarMensajeUsuario(AppState.currentUser,i); this.cargarMensajesRecibidos(); alert("✅ ELIMINADO"); },
+        
+        async borrarMensajeUsuario(i){ 
+          if(!AppState.currentUser||!confirm("> ¿ELIMINAR?")) return; 
+          await Storage.borrarMensajeUsuario(AppState.currentUser,i); 
+          this.cargarMensajesRecibidos(); 
+          alert("✅ ELIMINADO"); 
+        },
+        
         async cargarMensajesEnviados(){
           if(!AppState.currentUser) return;
           const msgs=await Storage.getMensajesEnviadosUsuario(AppState.currentUser);
-          let html=''; msgs.forEach(m=>{ html+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${m.fecha} · Tú</span><span class="flecha">▼</span></div><div class="mensaje-contenido">${m.texto}</div></div>`; });
+          let html=''; 
+          
+          msgs.forEach(m=>{ 
+            html+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${m.fecha} · Tú</span><span class="flecha">▼</span></div><div class="mensaje-contenido">${m.texto}</div></div>`; 
+          });
+          
           document.getElementById('listaMensajesEnviados').innerHTML = html || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
         },
-        async toggleMensajeRecibido(h,i){ const it=h.closest('.mensaje-item'); it.classList.toggle('abierto'); if(it.classList.contains('nuevo')&&it.classList.contains('abierto')){ it.classList.remove('nuevo'); if(AppState.currentUser){ await Storage.marcarLeido(AppState.currentUser,i); const msgs=await Storage.getMensajesUsuario(AppState.currentUser); AppState.mensajesNoLeidos=msgs.filter(m=>!m.leido).length; this.actualizarBadgeMensajes(); } } },
-        async enviarMensajeUsuario(){ if(!AppState.currentUser) return; const t=document.getElementById('mensajeUsuario').value.trim(); if(!t) return alert('> ESCRIBE UN MENSAJE_'); await Storage.enviarMensajeUsuario(AppState.currentUser,t); document.getElementById('mensajeUsuario').value=''; this.cargarMensajesEnviados(); alert('✅ ENVIADO'); },
-        cambiarSoporteTab(tab){ document.querySelectorAll('#tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); document.querySelectorAll('#tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); if(tab==='recibidos'){ document.querySelectorAll('#tab-soporte .soporte-tab')[0].classList.add('active'); document.getElementById('soporte-recibidos').classList.add('active'); }else{ document.querySelectorAll('#tab-soporte .soporte-tab')[1].classList.add('active'); document.getElementById('soporte-enviados').classList.add('active'); } },
-        actualizarBadgeMensajes(){ const t=document.getElementById('soporteTabButton'); if(AppState.mensajesNoLeidos>0) t.classList.add('soporte-unread'); else t.classList.remove('soporte-unread'); },
-        cerrarModalSesion(){ 
-          const m=document.getElementById("detalleSesion"), o=document.getElementById("modalOverlay"); 
-          m.classList.remove("visible"); o.classList.remove("visible"); 
+        
+        async toggleMensajeRecibido(h,i){ 
+          const it=h.closest('.mensaje-item'); 
+          it.classList.toggle('abierto'); 
+          
+          if(it.classList.contains('nuevo')&&it.classList.contains('abierto')){ 
+            it.classList.remove('nuevo'); 
+            if(AppState.currentUser){ 
+              await Storage.marcarLeido(AppState.currentUser,i); 
+              const msgs=await Storage.getMensajesUsuario(AppState.currentUser); 
+              AppState.mensajesNoLeidos=msgs.filter(m=>!m.leido).length; 
+              this.actualizarBadgeMensajes(); 
+            } 
+          } 
         },
-        cerrarPlan(){ document.getElementById("calendarioEntreno").style.display="none"; AppState.planGeneradoActual=null; },
-        initDiasCheckboxes(){ const c=document.getElementById('diasSemanaContainer'); const dias=['L','M','X','J','V','S','D']; let h=''; for(let i=0;i<7;i++){ const n=i+1; h+=`<div class="dia-checkbox"><input type="checkbox" id="dia${n}" value="${n}" ${n===4||n===6?'checked':''}><label for="dia${n}">${dias[i]}</label></div>`; } c.innerHTML=h; },
+        
+        async enviarMensajeUsuario(){ 
+          if(!AppState.currentUser) return; 
+          const t=document.getElementById('mensajeUsuario').value.trim(); 
+          if(!t) return alert('> ESCRIBE UN MENSAJE_'); 
+          await Storage.enviarMensajeUsuario(AppState.currentUser,t); 
+          document.getElementById('mensajeUsuario').value=''; 
+          this.cargarMensajesEnviados(); 
+          alert('✅ ENVIADO'); 
+        },
+        
+        cambiarSoporteTab(tab){ 
+          document.querySelectorAll('#tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); 
+          document.querySelectorAll('#tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); 
+          if(tab==='recibidos'){ 
+            document.querySelectorAll('#tab-soporte .soporte-tab')[0].classList.add('active'); 
+            document.getElementById('soporte-recibidos').classList.add('active'); 
+          } else { 
+            document.querySelectorAll('#tab-soporte .soporte-tab')[1].classList.add('active'); 
+            document.getElementById('soporte-enviados').classList.add('active'); 
+          } 
+        },
+        
+        actualizarBadgeMensajes(){ 
+          const t=document.getElementById('soporteTabButton'); 
+          if(AppState.mensajesNoLeidos>0) t.classList.add('soporte-unread'); 
+          else t.classList.remove('soporte-unread'); 
+        },
+        
+        cerrarModalSesion(){ 
+          document.getElementById("detalleSesion").classList.remove("visible"); 
+          document.getElementById("modalOverlay").classList.remove("visible"); 
+        },
+        
+        cerrarPlan(){ 
+          document.getElementById("calendarioEntreno").style.display="none"; 
+          AppState.planGeneradoActual=null; 
+        },
+        
+        initDiasCheckboxes(){ 
+          const c=document.getElementById('diasSemanaContainer'); 
+          const dias=['L','M','X','J','V','S','D']; 
+          let h=''; 
+          for(let i=0;i<7;i++){ 
+            const n=i+1; 
+            h+=`<div class="dia-checkbox"><input type="checkbox" id="dia${n}" value="${n}" ${n===4||n===6?'checked':''}><label for="dia${n}">${dias[i]}</label></div>`; 
+          } 
+          c.innerHTML=h; 
+        },
+        
         setFechaActual() {
           const fechaInput = document.getElementById('fechaInicio');
           if (fechaInput) {
@@ -2454,7 +3166,7 @@
 
       // ==================== MÓDULO PLAN GENERATOR ====================
       const PlanGenerator = {
-        // MATRIZ COMPLETA DE ENTRENAMIENTOS (se mantiene exactamente igual)
+        // MATRIZ COMPLETA DE ENTRENAMIENTOS (se mantiene igual)
         ENTRENAMIENTOS_DB: {
           runner: {
             "2k": {
@@ -3660,7 +4372,12 @@
           const q=document.getElementById("cuestionarioEntreno"); 
           q.style.display=q.style.display==="block"?"none":"block"; 
         },
-        async guardarPlanActual() { if(!AppState.currentUser||!AppState.planGeneradoActual) return; await Storage.setUltimoPlan(AppState.currentUser, AppState.planGeneradoActual); },
+        
+        async guardarPlanActual() { 
+          if(!AppState.currentUser||!AppState.planGeneradoActual) return; 
+          await Storage.setUltimoPlan(AppState.currentUser, AppState.planGeneradoActual); 
+        },
+        
         async mostrarUltimoPlanGuardado() { 
           if(!AppState.currentUser) return alert("> NO HAY USUARIO_"); 
           if(!AppState.isPremium) {
@@ -3669,33 +4386,53 @@
           }
           const stored = await Storage.getUltimoPlan(AppState.currentUser); 
           if(!stored) return alert("> NO HAY PLAN GUARDADO_"); 
+          
           AppState.ultimoPlanParams = stored; 
           document.getElementById("modalidad").value = stored.modalidad; 
           document.getElementById("distObjetivo").value = stored.distancia; 
           document.getElementById("duracionPlan").value = stored.macrociclo / 4; 
+          
           const diasGuardados = stored.diasEntreno || [4,6]; 
-          for(let i=1;i<=7;i++){ const cb=document.getElementById(`dia${i}`); if(cb) cb.checked = diasGuardados.includes(i); } 
+          for(let i=1;i<=7;i++){ 
+            const cb=document.getElementById(`dia${i}`); 
+            if(cb) cb.checked = diasGuardados.includes(i); 
+          } 
+          
           document.getElementById("nivel").value = stored.nivel; 
           document.getElementById("experienciaDistancia").value = stored.experiencia || "no"; 
           document.getElementById("objetivoPrincipal").value = stored.objetivo || "mejorar"; 
           document.getElementById("diaLargo").value = stored.diaLargo; 
           document.getElementById("fechaInicio").value = stored.fechaInicio || new Date().toISOString().split('T')[0]; 
+          
           document.getElementById("cuestionarioEntreno").style.display = "none"; 
           document.getElementById("calendarioEntreno").style.display = "block"; 
           this.generarCalendarioEntreno(); 
         },
+        
         async borrarPlanGuardado() { 
           if(!AppState.currentUser||!confirm("> ¿ELIMINAR PLAN GUARDADO?_")) return; 
           await Storage.removeUltimoPlan(AppState.currentUser); 
           alert("✅ PLAN ELIMINADO"); 
         },
-        getRitmoPorZona(z) { if(!AppState.lastRitmoBase) return "Calcula zonas primero"; const f={'Z1':1.35,'Z2':1.25,'Z3':1.15,'Z4':1.05,'Z5':0.95,'Z6':0.85}; if(z.includes('-')){ const [a,b]=z.split('-'); return `${Utils.formatR(AppState.lastRitmoBase*(f[a]||1.15))} – ${Utils.formatR(AppState.lastRitmoBase*(f[b]||1.05))} min/km`; } return Utils.formatR(AppState.lastRitmoBase*(f[z]||1.15))+" min/km"; },
+        
+        getRitmoPorZona(z) { 
+          if(!AppState.lastRitmoBase) return "Calcula zonas primero"; 
+          const f={'Z1':1.35,'Z2':1.25,'Z3':1.15,'Z4':1.05,'Z5':0.95,'Z6':0.85}; 
+          if(z.includes('-')){ 
+            const [a,b]=z.split('-'); 
+            return `${Utils.formatR(AppState.lastRitmoBase*(f[a]||1.15))} – ${Utils.formatR(AppState.lastRitmoBase*(f[b]||1.05))} min/km`; 
+          } 
+          return Utils.formatR(AppState.lastRitmoBase*(f[z]||1.15))+" min/km"; 
+        },
         
         validarOpcionesPlan() {
           const duracion = document.getElementById('duracionPlan').value;
           const experiencia = document.getElementById('experienciaDistancia').value;
           const distSelect = document.getElementById('distObjetivo');
           const opciones = distSelect.options;
+          const infoDiv = document.getElementById('info-mensaje-distancia');
+          
+          let mostrarInfo = false;
           
           for (let i = 0; i < opciones.length; i++) {
             if (opciones[i].value === 'medio' || opciones[i].value === 'maraton') {
@@ -3706,8 +4443,15 @@
                 if (distSelect.value === opciones[i].value) {
                   distSelect.value = '10k';
                 }
+                mostrarInfo = true;
               }
             }
+          }
+          
+          if (mostrarInfo) {
+            infoDiv.classList.add('visible');
+          } else {
+            infoDiv.classList.remove('visible');
           }
         },
 
@@ -3732,6 +4476,7 @@
           
           const btn = document.querySelector('[onclick="window.generarCalendarioEntreno()"]');
           if(btn) Utils.showLoading(btn);
+          
           setTimeout(()=>{
             try{
               const modalidad = document.getElementById("modalidad").value;
@@ -3741,21 +4486,32 @@
               const obj = document.getElementById("objetivoPrincipal").value;
               const diaLargo = parseInt(document.getElementById("diaLargo").value);
               const fechaInicio = document.getElementById("fechaInicio").value;
+              
               if(!fechaInicio) return alert("> SELECCIONA UNA FECHA DE INICIO_");
               
               const diasEntreno = [];
-              for(let i=1;i<=7;i++){ const cb=document.getElementById(`dia${i}`); if(cb&&cb.checked) diasEntreno.push(i); }
+              for(let i=1;i<=7;i++){ 
+                const cb=document.getElementById(`dia${i}`); 
+                if(cb&&cb.checked) diasEntreno.push(i); 
+              }
+              
               if(diasEntreno.length===0) return alert("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_");
+              
               if(!diasEntreno.includes(diaLargo)){
                 if(confirm("> El día de tirada larga no está seleccionado. ¿Añadirlo automáticamente?")){
-                  diasEntreno.push(diaLargo); document.getElementById(`dia${diaLargo}`).checked = true;
+                  diasEntreno.push(diaLargo); 
+                  document.getElementById(`dia${diaLargo}`).checked = true;
                 } else return;
               }
+              
               diasEntreno.sort((a,b)=>a-b);
+              
               const fecha = new Date(fechaInicio+"T00:00:00");
               const macrociclo = meses*4;
+              
               const mapa = { "2k":"2 km","5k":"5 km","10k":"10 km","medio":"MEDIA","maraton":"MARATÓN" };
               const diaNombre = ["","LUN","MAR","MIÉ","JUE","VIE","SÁB","DOM"][diaLargo];
+              
               document.getElementById("resumenObjetivo").innerText = `${mapa[distancia]} · ${diasEntreno.length} DÍAS/SEM · ${nivel.toUpperCase()} · ${exp==='si'?'CON EXPERIENCIA':'PRIMERA VEZ'} · ${obj==='acabar'?'OBJ: TERMINAR':obj==='mejorar'?'OBJ: MEJORAR':'OBJ: COMPETIR'} · LARGO: ${diaNombre} · ${modalidad==='runner'?'ASFALTO':'MONTAÑA'} · ${meses} MES(ES) · INICIO: ${fecha.toLocaleDateString()}`;
 
               const grid = document.getElementById("calendarioGrid");
@@ -3784,6 +4540,7 @@
                   
                   const esDescarga = (semana+1)%4===0;
                   let factorPersonal = 1.0;
+                  
                   if(AppState.lastRitmoBase){
                     const ritmoRef = 5.0;
                     factorPersonal = Math.min(1.2, Math.max(0.8, ritmoRef/AppState.lastRitmoBase));
@@ -3832,43 +4589,76 @@
                 div.dataset.colorClass = color;
 
                 div.onclick = function() {
-                  const modal = document.getElementById("detalleSesion"), overlay = document.getElementById("modalOverlay"), wrapper = document.getElementById("modalColorWrapper");
-                  wrapper.className = "modal-content"; wrapper.classList.add(this.dataset.colorClass);
+                  const modal = document.getElementById("detalleSesion"), 
+                        overlay = document.getElementById("modalOverlay"), 
+                        wrapper = document.getElementById("modalColorWrapper");
+                  
+                  wrapper.className = "modal-content"; 
+                  wrapper.classList.add(this.dataset.colorClass);
+                  
                   const det = this.dataset.detalle ? JSON.parse(this.dataset.detalle) : null;
                   AppState.currentSesionDetalle = det;
+                  
                   let tit = "", cont = "";
+                  
                   if(this.dataset.letra === "D"){
                     tit = "DÍA DE DESCANSO";
                     cont = "<strong>OBJETIVO:</strong> Recuperación completa<br><br><strong>RECOMENDADO:</strong><br>• No correr<br>• Estiramientos suaves<br>• Buena nutrición";
                   } else if(det){
                     tit = det.nombre || `${this.dataset.letra} · Semana ${this.dataset.semana}`;
                     const ritmo = PlanGenerator.getRitmoPorZona(det.zona);
+                    
                     // CAMBIO 3: Descripciones más concisas (ya se mantienen)
                     let extras = '';
                     if(det.tipo==='rodaje') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar eficiencia aeróbica. Sensación cómoda, ritmo constante.';
                     else if(det.tipo==='series') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar velocidad y tolerancia al lactato. Recuperación completa entre repeticiones.';
                     else if(det.tipo==='tempo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Aumentar capacidad de mantener ritmo rápido. Sensación "cómodamente duro".';
                     else if(det.tipo==='largo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Desarrollar resistencia y confianza. Ritmo suave, prioriza el tiempo de pie.';
+                    
                     cont = `<strong>🏃 ${det.nombre}</strong><br><br><strong>⏱️ DURACIÓN:</strong> ${det.duracion} ${det.unidad}<br><strong>📊 ZONA:</strong> ${det.zona}<br><strong>⚡ RITMO:</strong> ${ritmo}<br><br><strong>📋 ESTRUCTURA:</strong><br>${det.estructura}<br><br><strong>💬 DESCRIPCIÓN:</strong><br>${det.desc}<br><br><strong>😌 SENSACIÓN:</strong> ${det.sensacion}${extras}`;
                   } else cont = "> SELECCIONA UN DÍA PARA VER DETALLES_";
+                  
                   document.getElementById("tituloSesion").innerText = tit;
                   document.getElementById("descripcionSesion").innerHTML = cont;
-                  modal.classList.add("visible"); overlay.classList.add("visible");
+                  modal.classList.add("visible"); 
+                  overlay.classList.add("visible");
                 };
+                
                 fragment.appendChild(div);
               }
+              
               grid.appendChild(fragment);
-              AppState.planGeneradoActual = { modalidad, distancia, macrociclo, diasPorSemana:diasEntreno.length, nivel, experiencia:exp, objetivo:obj, diaLargo, fechaInicio, diasEntreno };
+              
+              AppState.planGeneradoActual = { 
+                modalidad, 
+                distancia, 
+                macrociclo, 
+                diasPorSemana:diasEntreno.length, 
+                nivel, 
+                experiencia:exp, 
+                objetivo:obj, 
+                diaLargo, 
+                fechaInicio, 
+                diasEntreno 
+              };
+              
               document.getElementById("calendarioEntreno").style.display = "block";
               document.getElementById("cuestionarioEntreno").style.display = "none";
+              
               setTimeout(()=>document.getElementById("calendarioEntreno").scrollIntoView({ behavior:'smooth', block:'center' }),100);
+              
               this.guardarPlanActual();
               if(btn) Utils.hideLoading(btn);
               
               // CAMBIO 6: Feedback al generar plan
               Utils.vibrate(50);
               Utils.playSound('success');
-            } catch(e){ console.error(e); alert("> ERROR GENERANDO PLAN_"); if(btn) Utils.hideLoading(btn); }
+              
+            } catch(e){ 
+              console.error(e); 
+              alert("> ERROR GENERANDO PLAN_"); 
+              if(btn) Utils.hideLoading(btn); 
+            }
           },300);
         }
       };
@@ -3883,19 +4673,38 @@
             AppState.deferredPrompt = e;
             if(localStorage.getItem('pwa_installed')!=='true') document.getElementById('pwa-banner').style.display='flex';
           });
+          
           window.addEventListener('appinstalled', ()=>{
             document.getElementById('pwa-banner').style.display='none';
             AppState.deferredPrompt=null;
             localStorage.setItem('pwa_installed','true');
           });
         },
+        
         instalarPWA() {
-          if(!AppState.deferredPrompt){ alert('Para instalar: menú del navegador → "Añadir a pantalla de inicio"'); return; }
+          if(!AppState.deferredPrompt){ 
+            alert('Para instalar: menú del navegador → "Añadir a pantalla de inicio"'); 
+            return; 
+          }
           AppState.deferredPrompt.prompt();
-          AppState.deferredPrompt.userChoice.then(c=>{ if(c.outcome==='accepted') localStorage.setItem('pwa_installed','true'); AppState.deferredPrompt=null; document.getElementById('pwa-banner').style.display='none'; });
+          AppState.deferredPrompt.userChoice.then(c=>{ 
+            if(c.outcome==='accepted') localStorage.setItem('pwa_installed','true'); 
+            AppState.deferredPrompt=null; 
+            document.getElementById('pwa-banner').style.display='none'; 
+          });
         },
-        cerrarBannerPWA() { document.getElementById('pwa-banner').style.display='none'; },
-        registerServiceWorker() { if('serviceWorker' in navigator){ const sw=`const CACHE='ri5-cache-v1'; const urls=['.','https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js']; self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(urls)))); self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)))); self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.map(k=>k!==CACHE?caches.delete(k):null)))));`; const b=new Blob([sw],{type:'application/javascript'}); navigator.serviceWorker.register(URL.createObjectURL(b)).catch(console.log); } }
+        
+        cerrarBannerPWA() { 
+          document.getElementById('pwa-banner').style.display='none'; 
+        },
+        
+        registerServiceWorker() { 
+          if('serviceWorker' in navigator){ 
+            const sw = `const CACHE='ri5-cache-v1';const urls=['.','https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js'];self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(urls))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.map(k=>k!==CACHE?caches.delete(k):null)))));`;
+            const b = new Blob([sw], {type:'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(b)).catch(console.log);
+          } 
+        }
       };
 
       // ==================== MÓDULO DE TEMA (CAMBIO 5) ====================
@@ -3907,6 +4716,7 @@
           }
           this.updateButton();
         },
+        
         toggle() {
           if (document.body.classList.contains('manual-light')) {
             document.body.classList.remove('manual-light');
@@ -3928,6 +4738,7 @@
           }
           this.updateButton();
         },
+        
         updateButton() {
           const btns = document.querySelectorAll('.theme-toggle');
           btns.forEach(btn => {
@@ -3947,10 +4758,18 @@
       // ==================== INICIALIZACIÓN ====================
       document.addEventListener("DOMContentLoaded", async () => {
         if(!await Auth.checkSavedSession()) document.getElementById("loginPage").style.display="flex";
+        
         document.getElementById("age").addEventListener("blur", ()=>UI.marcarCampoTocado('age'));
         document.getElementById("time").addEventListener("blur", ()=>UI.marcarCampoTocado('time'));
-        document.getElementById("age").addEventListener("input", ()=>{ if(AppState.camposTocados.age) UI.validarCampo('age'); UI.validarTodo(); });
-        document.getElementById("time").addEventListener("input", ()=>{ if(AppState.camposTocados.time) UI.validarCampo('time'); UI.validarTodo(); });
+        document.getElementById("age").addEventListener("input", ()=>{ 
+          if(AppState.camposTocados.age) UI.validarCampo('age'); 
+          UI.validarTodo(); 
+        });
+        document.getElementById("time").addEventListener("input", ()=>{ 
+          if(AppState.camposTocados.time) UI.validarCampo('time'); 
+          UI.validarTodo(); 
+        });
+        
         UI.validarTodo();
         UI.initDiasCheckboxes();
         UI.setFechaActual();
@@ -3960,8 +4779,12 @@
         PlanGenerator.validarOpcionesPlan();
 
         if(localStorage.getItem('pwa_installed')==='true') document.getElementById('pwa-banner').style.display='none';
-        PWA.init(); PWA.registerServiceWorker();
-        setTimeout(()=>{ if(AppState.deferredPrompt && localStorage.getItem('pwa_installed')!=='true') document.getElementById('pwa-banner').style.display='flex'; },3000);
+        
+        PWA.init(); 
+        setTimeout(()=>{ 
+          if(AppState.deferredPrompt && localStorage.getItem('pwa_installed')!=='true') 
+            document.getElementById('pwa-banner').style.display='flex'; 
+        },3000);
         
         // CAMBIO 5: Inicializar gestor de temas
         ThemeManager.init();
