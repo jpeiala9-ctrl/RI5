@@ -22,35 +22,57 @@
     }
 
     :root {
-      /* Modo noche (por defecto) - Inspirado en Bowers & Wilkins */
-      --bg-primary: #1C1C1E;
-      --bg-secondary: #2C2C2E;
-      --bg-card: #3A3A3C;
-      --text-primary: #F5F5F7;
-      --text-secondary: #E0E0E0;
-      --accent-red: #8B3A3A;
-      --accent-green: #2E6B4C;
-      --accent-blue: #4A5B6E;
-      --accent-yellow: #CC954D;
-      --accent-purple: #B87333;
-      --border-color: #4A4A4E;
-      --glow-color: rgba(184, 115, 51, 0.2);
-      --dot-color: rgba(142, 142, 147, 0.05);
-      --gold: #B59A6B;
-      --new-user-bg: rgba(46, 107, 76, 0.2);
-      --new-user-border: #2E6B4C;
-      --stat-bg: #2C2C2E;
-      --stat-number: #F5F5F7;
-      --pending-bg: #E6B800; /* Amarillo mostaza para pendientes */
-      --pending-text: #1C1C1E;
+      --bg-primary: #F5F2EB;
+      --bg-secondary: #E8E2D5;
+      --bg-card: #FFFFFF;
+      --text-primary: #2C2C2C;
+      --text-secondary: #2E2E2E;
+      --accent-red: #C46D5E;
+      --accent-green: #7D8F69;
+      --accent-blue: #5A6572;
+      --accent-yellow: #D4A373;
+      --accent-purple: #B76E3C;
+      --border-color: #D6D2C5;
+      --glow-color: rgba(212, 163, 115, 0.15);
+      --font-mono: 'Courier New', monospace;
+      --font-dot: 'Courier New', 'Dot Matrix', monospace;
+      --dot-color: rgba(107, 107, 107, 0.05);
+      --gold: #C4A77D;
+      --new-user-bg: rgba(125, 143, 105, 0.2);
+      --new-user-border: #7D8F69;
+      --stat-bg: #E8E2D5;
+      --stat-number: #2C2C2C;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1C1C1E;
+        --bg-secondary: #2C2C2E;
+        --bg-card: #3A3A3C;
+        --text-primary: #F5F5F7;
+        --text-secondary: #E0E0E0;
+        --accent-red: #8B3A3A;
+        --accent-green: #2E6B4C;
+        --accent-blue: #4A5B6E;
+        --accent-yellow: #CC954D;
+        --accent-purple: #B87333;
+        --border-color: #4A4A4E;
+        --glow-color: rgba(184, 115, 51, 0.2);
+        --dot-color: rgba(142, 142, 147, 0.05);
+        --gold: #B59A6B;
+        --new-user-bg: rgba(46, 107, 76, 0.2);
+        --new-user-border: #2E6B4C;
+        --stat-bg: #2C2C2E;
+        --stat-number: #F5F5F7;
+      }
     }
 
     body.manual-light {
-      --bg-primary: #F5F5F7 !important;
+      --bg-primary: #F5F2EB !important;
       --bg-secondary: #E8E2D5 !important;
       --bg-card: #FFFFFF !important;
-      --text-primary: #1C1C1E !important;
-      --text-secondary: #2C2C2E !important;
+      --text-primary: #2C2C2C !important;
+      --text-secondary: #2E2E2E !important;
       --accent-red: #C46D5E !important;
       --accent-green: #7D8F69 !important;
       --accent-blue: #5A6572 !important;
@@ -58,10 +80,20 @@
       --accent-purple: #B76E3C !important;
       --border-color: #D6D2C5 !important;
       --gold: #C4A77D !important;
-      --stat-bg: #E8E2D5 !important;
-      --stat-number: #1C1C1E !important;
-      --pending-bg: #E6B800 !important;
-      --pending-text: #1C1C1E !important;
+    }
+    body.manual-dark {
+      --bg-primary: #1C1C1E !important;
+      --bg-secondary: #2C2C2E !important;
+      --bg-card: #3A3A3C !important;
+      --text-primary: #F5F5F7 !important;
+      --text-secondary: #E0E0E0 !important;
+      --accent-red: #8B3A3A !important;
+      --accent-green: #2E6B4C !important;
+      --accent-blue: #4A5B6E !important;
+      --accent-yellow: #CC954D !important;
+      --accent-purple: #B87333 !important;
+      --border-color: #4A4A4E !important;
+      --gold: #B59A6B !important;
     }
 
     body {
@@ -380,7 +412,7 @@
     }
     input.error { border-color: var(--accent-red); }
 
-    /* ===== CAMPO DE CONTRASEÑA CON TEXTO MINIMALISTA ===== */
+    /* ===== CAMPO DE CONTRASEÑA CON OJO ===== */
     .password-wrapper {
       position: relative;
       width: 100%;
@@ -388,8 +420,7 @@
     }
     .password-wrapper input {
       margin-bottom: 0;
-      padding-right: 70px;
-      line-height: 1.5; /* Asegura altura coherente */
+      padding-right: 50px;
     }
     .password-toggle {
       position: absolute;
@@ -398,24 +429,12 @@
       transform: translateY(-50%);
       cursor: pointer;
       color: var(--text-secondary);
-      font-size: 14px;
+      font-size: 20px;
       user-select: none;
       z-index: 2;
-      text-transform: lowercase;
-      letter-spacing: 1px;
-      background: var(--bg-secondary);
-      padding: 4px 8px;
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: auto;
-      line-height: 1;
     }
     .password-toggle:hover {
       color: var(--accent-blue);
-      border-color: var(--accent-blue);
     }
 
     .fecha-inicio-container {
@@ -463,17 +482,6 @@
     .button-main:hover::before { left: 100%; }
     .button-main:hover { box-shadow: 0 0 25px rgba(90, 101, 114, 0.4); }
     .button-main:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
-
-    /* Animación de parpadeo para el botón de login */
-    @keyframes blink {
-      0% { opacity: 1; background-color: var(--accent-blue); color: var(--bg-primary); }
-      50% { opacity: 0.5; background-color: var(--accent-green); color: var(--bg-primary); }
-      100% { opacity: 1; background-color: var(--accent-blue); color: var(--bg-primary); }
-    }
-    .button-main.blink {
-      animation: blink 1s ease-in-out;
-      pointer-events: none;
-    }
 
     /* ===== CURIOSIDAD ===== */
     .curiosity {
@@ -540,10 +548,10 @@
       font-size: 14px;
       padding-left: 10px;
       border-left: 2px solid var(--border-color);
-      text-align: center;
+      text-align: center; /* CENTRADO */
     }
     .zone-card.active .long {
-      max-height: 500px; /* Aumentado para mostrar todo el contenido */
+      max-height: 300px;
       margin-top: 16px;
     }
     
@@ -986,17 +994,9 @@
       font-weight: bold;
       font-size: 20px;
     }
-    .stat-badge.pending {
-      background: var(--pending-bg);
-      color: var(--pending-text);
-      border-color: var(--pending-bg);
-    }
-    .stat-badge.pending .number {
-      color: var(--pending-text);
-    }
 
-    /* Modal de usuarios pendientes */
-    #modalPendientes {
+    /* Modal de usuarios */
+    #modalUsuarios {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -1004,16 +1004,16 @@
       align-items: center;
       justify-content: center;
     }
-    #modalPendientes.active {
+    #modalUsuarios.active {
       display: flex;
     }
-    #modalPendientes .modal-overlay {
+    #modalUsuarios .modal-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
     }
-    #modalPendientes .modal-content {
+    #modalUsuarios .modal-content {
       position: relative;
       z-index: 20001;
       background: var(--bg-card);
@@ -1027,11 +1027,11 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.9);
       margin: auto;
     }
-    #modalPendientes .modal-content h2 {
+    #modalUsuarios .modal-content h2 {
       margin-bottom: 20px;
       color: var(--accent-blue);
     }
-    #modalPendientes .modal-close {
+    #modalUsuarios .modal-close {
       position: absolute;
       top: 20px;
       right: 20px;
@@ -1043,48 +1043,53 @@
       width: auto;
       padding: 0;
     }
-    #modalPendientes .modal-close:hover {
+    #modalUsuarios .modal-close:hover {
       color: var(--accent-red);
     }
+    #modalUsuarios .modal-search {
+      margin-bottom: 20px;
+    }
+    #modalUsuarios .modal-search input {
+      margin-bottom: 0;
+      padding: 12px;
+    }
 
-    .usuario-pendiente {
-      background: var(--pending-bg);
-      color: var(--pending-text);
+    .usuario-item {
+      background: var(--bg-secondary);
       border: 1px solid var(--border-color);
       border-radius: 16px;
       margin-bottom: 10px;
       overflow: hidden;
     }
-    .usuario-pendiente .usuario-header {
+    .usuario-header {
       padding: 15px;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--pending-bg);
-      color: var(--pending-text);
+      background: var(--bg-primary);
+      color: var(--accent-blue);
       font-weight: bold;
       transition: background 0.2s;
     }
-    .usuario-pendiente .usuario-header:hover {
-      filter: brightness(0.95);
+    .usuario-header:hover {
+      background: var(--bg-card);
     }
-    .usuario-pendiente .usuario-header .flecha {
+    .usuario-header .flecha {
       font-size: 16px;
       transition: transform 0.3s;
     }
-    .usuario-pendiente.abierto .flecha {
+    .usuario-item.abierto .flecha {
       transform: rotate(180deg);
     }
-    .usuario-pendiente .usuario-detalle {
+    .usuario-detalle {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease;
       padding: 0 15px;
-      background: var(--bg-card);
-      color: var(--text-primary);
+      background: var(--bg-primary);
     }
-    .usuario-pendiente.abierto .usuario-detalle {
+    .usuario-item.abierto .usuario-detalle {
       max-height: 300px;
       padding: 15px;
     }
@@ -1108,15 +1113,6 @@
       padding: 6px 12px;
       font-size: 11px;
       width: auto;
-    }
-    .btn-enterado {
-      background: var(--accent-green);
-      color: var(--bg-primary);
-      border: none;
-    }
-    .btn-enterado:hover {
-      background: var(--accent-green);
-      filter: brightness(1.1);
     }
 
     /* ===== SELECCIÓN DE DÍAS ===== */
@@ -1431,7 +1427,7 @@
       border: 1px solid var(--border-color);
     }
 
-    /* ===== LOADING OVERLAY (ya no se usa, pero se mantiene por si acaso) ===== */
+    /* ===== LOADING OVERLAY ===== */
     #loadingOverlay {
       display: none;
       position: fixed;
@@ -1699,20 +1695,6 @@
       color: var(--bg-primary);
     }
 
-    /* Ajustes de coherencia visual en login */
-    #loginPage .auth-form input,
-    #loginPage .auth-form .password-wrapper,
-    #loginPage .auth-form button {
-      margin-bottom: 20px;
-    }
-    #loginPage .auth-form .error-message {
-      margin-top: -15px;
-      margin-bottom: 15px;
-    }
-    #loginPage .curiosity {
-      margin-top: 40px;
-    }
-
     @media (max-width: 480px) {
       .card { padding: 20px; }
       .tabs-header { flex-wrap: wrap; height: auto; }
@@ -1763,7 +1745,7 @@
     </div>
   </div>
 
-  <!-- Loading overlay (ya no se usa, pero se mantiene por compatibilidad) -->
+  <!-- Loading overlay -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
   </div>
@@ -1858,7 +1840,7 @@
         <input type="text" id="loginUsername" placeholder="> USUARIO_">
         <div class="password-wrapper">
           <input type="password" id="loginPassword" placeholder="> CONTRASEÑA_">
-          <span class="password-toggle" onclick="window.togglePassword('loginPassword', this)">ver</span>
+          <span class="password-toggle" onclick="window.togglePassword('loginPassword', this)">👁️</span>
         </div>
         <div class="error-message" id="loginError"></div>
         <button class="button-main" id="loginBtn" onclick="window.loginUser()">[ ACCEDER ]</button>
@@ -1869,7 +1851,7 @@
         <input type="email" id="regEmail" placeholder="> CORREO ELECTRÓNICO_" oninput="window.validarRegistroEnTiempoReal()">
         <div class="password-wrapper">
           <input type="password" id="regPassword" placeholder="> NUEVA CONTRASEÑA_" oninput="window.validarRegistroEnTiempoReal()">
-          <span class="password-toggle" onclick="window.togglePassword('regPassword', this)">ver</span>
+          <span class="password-toggle" onclick="window.togglePassword('regPassword', this)">👁️</span>
         </div>
         <div class="error-message" id="registerError"></div>
         <button class="button-main" id="registerBtn" onclick="window.registerUser()">[ REGISTRARSE ]</button>
@@ -1927,7 +1909,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE USUARIOS PARA ADMIN (general) -->
+  <!-- MODAL DE USUARIOS PARA ADMIN -->
   <div id="modalUsuarios">
     <div class="modal-overlay" onclick="if(event.target===this) document.getElementById('modalUsuarios').classList.remove('active')"></div>
     <div class="modal-content">
@@ -1937,16 +1919,6 @@
         <input type="text" id="modalBuscarUsuario" placeholder="🔍 Buscar por nombre...">
       </div>
       <div class="modal-user-list" id="modalUserList"></div>
-    </div>
-  </div>
-
-  <!-- MODAL DE USUARIOS PENDIENTES (nuevo sistema) -->
-  <div id="modalPendientes">
-    <div class="modal-overlay" onclick="if(event.target===this) document.getElementById('modalPendientes').classList.remove('active')"></div>
-    <div class="modal-content">
-      <button class="modal-close" onclick="document.getElementById('modalPendientes').classList.remove('active')">✕</button>
-      <h2>🆕 USUARIOS PENDIENTES</h2>
-      <div id="listaPendientes"></div>
     </div>
   </div>
 
@@ -2004,9 +1976,7 @@
             </select>
 
             <!-- Mensaje informativo para larga distancia -->
-            <div id="info-mensaje-distancia" class="calculo-limit-msg" style="display:none; margin-top:10px; color: var(--accent-red);">⚠️ Las distancias de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.</div>
-            <!-- Mensaje de error adicional para el botón -->
-            <div id="error-plan-generar" class="error-message" style="margin-bottom:10px;"></div>
+            <div id="info-mensaje-distancia" class="calculo-limit-msg" style="display:none; margin-top:10px;">⚠️ Las distancias de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.</div>
 
             <select id="duracionPlan" onchange="window.validarOpcionesPlan()">
               <option value="1">1 MES</option>
@@ -2149,8 +2119,8 @@
       const Utils = {
         parseTime(t) { t = t.trim(); if(!t) return NaN; const m = t.match(/^(\d{1,3}):?(\d{0,2})$/); if(!m) return NaN; const min = parseInt(m[1]), seg = m[2]?parseInt(m[2]):0; if(seg>59||min>120||min<10) return NaN; return min + seg/60; },
         formatR(r) { if(!isFinite(r)||r<=0) return "--:--"; let m = Math.floor(r), s = Math.round((r-m)*60); if(s===60){ m++; s=0; } return m+":"+(s<10?'0':'')+s; },
-        showLoading() { /* Eliminado para evitar bugs, se usa parpadeo en login */ },
-        hideLoading() { /* Eliminado */ },
+        showLoading() { document.getElementById('loadingOverlay').classList.add('active'); },
+        hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); },
         showToast(message, type = 'info', duration = 3000) {
           const container = document.getElementById('toast-container');
           const toast = document.createElement('div');
@@ -2388,6 +2358,7 @@
         premiumExpiryDate: null,
         calculosMes: 0,
         mesActual: '',
+        usuariosVistos: JSON.parse(localStorage.getItem('usuariosVistos')||'[]'),
         mensajeListeners: [],
         setLastCalc(d) { this.lastName=d.name; this.lastAge=d.age; this.lastFC=d.fcMax; this.lastUL=d.ul; this.lastZones=d.zones; this.lastPred=d.pred; this.lastRitmoBase=d.ritmoBase; this.zonasCalculadas=true; },
         clearLastCalc() { this.zonasCalculadas=false; this.lastName=""; this.lastAge=0; this.lastFC=0; this.lastUL=0; this.lastZones=[]; this.lastPred=[]; this.lastRitmoBase=0; },
@@ -2487,10 +2458,10 @@
         const input = document.getElementById(inputId);
         if (input.type === 'password') {
           input.type = 'text';
-          element.textContent = 'ocultar';
+          element.textContent = '👁️‍🗨️';
         } else {
           input.type = 'password';
-          element.textContent = 'ver';
+          element.textContent = '👁️';
         }
       };
 
@@ -2535,129 +2506,119 @@
             return;
           }
           btn.disabled = true;
-          // Sin loading overlay, usamos un pequeño retraso
-          setTimeout(async () => {
-            try {
-              const userCredential = await auth.createUserWithEmailAndPassword(email, p);
-              const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
-              const ahora = new Date();
-              const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
-              const users = await Storage.getUsers();
-              if(users[u]) {
-                err.innerText="> EL USUARIO YA EXISTE_";
-                err.classList.add('visible');
-                btn.disabled = false;
-                return;
-              }
-              // Nuevo campo adminNotified = false
-              users[u] = { 
-                password: Utils.hashPassword(p), 
-                email: email,
-                created: new Date().toISOString(), 
-                expires: expiry.toISOString(), 
-                premium: true,
-                calculosMes: 0,
-                mesActual: mesActual,
-                welcomeSeen: false,
-                adminNotified: false  // <-- nuevo campo
-              };
-              await Storage.saveUsers(users);
-              await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
-              AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
-              Utils.showToast('✅ Registro exitoso', 'success');
-              document.getElementById("loginPage").style.opacity="0";
-              setTimeout(()=>{
-                document.getElementById("loginPage").style.display="none";
-                document.getElementById("mainContent").style.display="flex";
-                document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${email}) · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
-                UI.changeDailyTip(); UI.startConsejoAutoChange();
-                if (!users[u].welcomeSeen) {
-                  UI.mostrarWelcomeModal(u);
-                }
-              },300);
-            } catch (error) {
-              btn.disabled = false;
-              if (error.code === 'auth/email-already-in-use') {
-                err.innerText="> EL CORREO YA ESTÁ REGISTRADO_";
-              } else {
-                err.innerText="> ERROR EN EL REGISTRO: " + error.message;
-              }
+          Utils.showLoading();
+          try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, p);
+            const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
+            const ahora = new Date();
+            const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+            const users = await Storage.getUsers();
+            if(users[u]) {
+              err.innerText="> EL USUARIO YA EXISTE_";
               err.classList.add('visible');
+              Utils.hideLoading();
+              btn.disabled = false;
+              return;
             }
-          }, 100);
+            users[u] = { 
+              password: Utils.hashPassword(p), 
+              email: email,
+              created: new Date().toISOString(), 
+              expires: expiry.toISOString(), 
+              premium: true,
+              calculosMes: 0,
+              mesActual: mesActual,
+              welcomeSeen: false
+            };
+            await Storage.saveUsers(users);
+            await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
+            AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
+            Utils.hideLoading();
+            Utils.showToast('✅ Registro exitoso', 'success');
+            document.getElementById("loginPage").style.opacity="0";
+            setTimeout(()=>{
+              document.getElementById("loginPage").style.display="none";
+              document.getElementById("mainContent").style.display="flex";
+              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${email}) · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
+              UI.changeDailyTip(); UI.startConsejoAutoChange();
+              if (!users[u].welcomeSeen) {
+                UI.mostrarWelcomeModal(u);
+              }
+            },300);
+          } catch (error) {
+            Utils.hideLoading();
+            btn.disabled = false;
+            if (error.code === 'auth/email-already-in-use') {
+              err.innerText="> EL CORREO YA ESTÁ REGISTRADO_";
+            } else {
+              err.innerText="> ERROR EN EL REGISTRO: " + error.message;
+            }
+            err.classList.add('visible');
+          }
         },
         async loginUser() {
           const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
           const btn = document.getElementById('loginBtn');
           if(!u||!p) { err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; err.classList.add('visible'); return; }
           if(u==='admin' && p==='091118110485120385') { Auth.mostrarAdminPanel(); return; }
-          
-          // Añadir efecto de parpadeo y deshabilitar botón
-          btn.classList.add('blink');
           btn.disabled = true;
-          
-          // Iniciamos la verificación asíncrona pero el parpadeo dura 1 segundo
-          setTimeout(async () => {
-            const users = await Storage.getUsers();
-            const user = users[u];
-            if(!user || user.password !== Utils.hashPassword(p)) { 
-              err.innerText="> INCORRECTO_"; 
-              err.classList.add('visible'); 
-              btn.classList.remove('blink');
-              btn.disabled = false;
-              return; 
-            }
-            // Si el usuario no tiene email, mostrar modal para actualizar
-            if (!user.email) {
-              btn.classList.remove('blink');
-              btn.disabled = false;
-              UI.mostrarModalActualizarEmail(u, p);
-              return;
-            }
-            try {
-              await auth.signInWithEmailAndPassword(user.email, p);
-            } catch (e) {
-              // Ignorar, solo importa la sesión en RTDB
-            }
-            const now = new Date(), expiry = new Date(user.expires);
-            if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); btn.classList.remove('blink'); btn.disabled = false; return; } }
-            
-            const ahora = new Date();
-            const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
-            let calculosMes = user.calculosMes || 0;
-            let mesActualUsuario = user.mesActual || '';
-            
-            if(mesActualUsuario !== mesActual) {
-              calculosMes = 0;
-              mesActualUsuario = mesActual;
-              users[u].calculosMes = 0;
-              users[u].mesActual = mesActual;
-              await Storage.saveUsers(users);
-            }
-            
-            AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
-            const msgs = await Storage.getMensajesUsuario(u);
-            AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
-            UI.actualizarBadgeMensajes();
-            
-            // Quitamos la clase blink y deshabilitamos, y procedemos a la app
-            btn.classList.remove('blink');
+          Utils.showLoading();
+          const users = await Storage.getUsers();
+          const user = users[u];
+          if(!user || user.password !== Utils.hashPassword(p)) { 
+            err.innerText="> INCORRECTO_"; 
+            err.classList.add('visible'); 
+            Utils.hideLoading();
             btn.disabled = false;
-            
-            Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
-            document.getElementById("loginPage").style.opacity="0";
-            setTimeout(()=>{
-              document.getElementById("loginPage").style.display="none";
-              document.getElementById("mainContent").style.display="flex";
-              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
-              UI.changeDailyTip(); UI.startConsejoAutoChange();
-              UI.setupMensajesListeners();
-              Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
-              if (!user.welcomeSeen) {
-                UI.mostrarWelcomeModal(u);
-              }
-            },300);
-          }, 1000); // 1 segundo de parpadeo
+            return; 
+          }
+          // Si el usuario no tiene email, mostrar modal para actualizar
+          if (!user.email) {
+            Utils.hideLoading();
+            btn.disabled = false;
+            UI.mostrarModalActualizarEmail(u, p);
+            return;
+          }
+          try {
+            await auth.signInWithEmailAndPassword(user.email, p);
+          } catch (e) {
+            // Ignorar, solo importa la sesión en RTDB
+          }
+          const now = new Date(), expiry = new Date(user.expires);
+          if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); Utils.hideLoading(); btn.disabled = false; return; } }
+          
+          const ahora = new Date();
+          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          let calculosMes = user.calculosMes || 0;
+          let mesActualUsuario = user.mesActual || '';
+          
+          if(mesActualUsuario !== mesActual) {
+            calculosMes = 0;
+            mesActualUsuario = mesActual;
+            users[u].calculosMes = 0;
+            users[u].mesActual = mesActual;
+            await Storage.saveUsers(users);
+          }
+          
+          AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
+          const msgs = await Storage.getMensajesUsuario(u);
+          AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
+          UI.actualizarBadgeMensajes();
+          Utils.hideLoading();
+          btn.disabled = false;
+          Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
+          document.getElementById("loginPage").style.opacity="0";
+          setTimeout(()=>{
+            document.getElementById("loginPage").style.display="none";
+            document.getElementById("mainContent").style.display="flex";
+            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+            UI.changeDailyTip(); UI.startConsejoAutoChange();
+            UI.setupMensajesListeners();
+            Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
+            if (!user.welcomeSeen) {
+              UI.mostrarWelcomeModal(u);
+            }
+          },300);
         },
         async eliminarMiCuenta() {
           const u = document.getElementById('regUsername').value.trim();
@@ -2796,20 +2757,23 @@
             err.classList.add('visible');
             return;
           }
-          // Sin loading overlay
+          Utils.showLoading();
           // Verificar que el usuario existe y el email coincide
           const users = await Storage.getUsers();
           const user = users[username];
           if (!user || user.email !== email) {
+            Utils.hideLoading();
             Utils.showToast('Si los datos son correctos, recibirás un enlace', 'info');
             ResetPassword.cerrarModal();
             return;
           }
           try {
             await auth.sendPasswordResetEmail(email);
+            Utils.hideLoading();
             Utils.showToast('✅ Revisa tu correo (también spam)', 'success');
             ResetPassword.cerrarModal();
           } catch (error) {
+            Utils.hideLoading();
             Utils.showToast('❌ No se pudo enviar el correo', 'error');
           }
         }
@@ -2847,7 +2811,7 @@
             err.classList.add('visible');
             return;
           }
-          // Sin loading overlay
+          Utils.showLoading();
           try {
             // Crear la cuenta en Firebase Auth con el email y la contraseña actual
             const userCredential = await auth.createUserWithEmailAndPassword(email, this.password);
@@ -2857,6 +2821,7 @@
               users[this.usuario].email = email;
               await Storage.saveUsers(users);
             }
+            Utils.hideLoading();
             Utils.showToast('✅ Correo guardado. Ya puedes iniciar sesión.', 'success');
             EmailUpdate.cerrarModal();
             // Iniciar sesión automáticamente con el nuevo email
@@ -2864,6 +2829,7 @@
             // Recargar la página para que todo fluya
             window.location.reload();
           } catch (error) {
+            Utils.hideLoading();
             if (error.code === 'auth/email-already-in-use') {
               err.innerText = "> ESTE CORREO YA ESTÁ REGISTRADO POR OTRO USUARIO_";
             } else {
@@ -2877,72 +2843,29 @@
       window.cerrarEmailUpdateModal = () => EmailUpdate.cerrarModal();
       window.guardarEmailActualizacion = () => EmailUpdate.guardar();
 
-      // ==================== MÓDULO ADMIN (con nuevo sistema de pendientes) ====================
+      // ==================== MÓDULO ADMIN ====================
       const Admin = {
+        adminSeenUsers: JSON.parse(localStorage.getItem('admin_seen_users') || '[]'),
         mensajesRecibidosUnsub: null,
         mensajesEnviadosUnsub: null,
         async actualizarAdminPanel() {
           const users = await Storage.getUsers();
           const ahora = new Date(), total = Object.keys(users).length;
           const activos = Object.values(users).filter(u=>new Date(u.expires)>ahora).length, expirados = total-activos;
-          // Contar pendientes (adminNotified === false)
-          const pendientes = Object.values(users).filter(u => u.adminNotified === false).length;
-          
+          const newUsersCount = Object.entries(users).filter(([u,d])=>{
+            const created = new Date(d.created);
+            const daysDiff = (ahora - created) / (1000*3600*24);
+            return daysDiff <= 7 && !this.adminSeenUsers.includes(u);
+          }).length;
           document.getElementById("adminStats").innerHTML = `
             <span class="stat-badge" onclick="window.abrirModalUsuarios('total')">📊 TOTAL <span class="number">${total}</span></span>
             <span class="stat-badge" onclick="window.abrirModalUsuarios('activos')">✅ ACTIVOS <span class="number">${activos}</span></span>
             <span class="stat-badge" onclick="window.abrirModalUsuarios('expirados')">⏳ EXPIRADOS <span class="number">${expirados}</span></span>
-            <span class="stat-badge pending" onclick="window.abrirModalPendientes()">🆕 PENDIENTES <span class="number">${pendientes}</span></span>
+            <span class="stat-badge" onclick="window.abrirModalUsuarios('nuevos')" style="background: var(--new-user-bg); border-color: var(--new-user-border);">🆕 NUEVOS <span class="number" style="color: var(--accent-red);">${newUsersCount}</span></span>
           `;
           document.getElementById("adminWelcome").innerText = `> ADMIN · ${ahora.toLocaleString()}`;
           this.setupMensajesListeners();
           this.cargarSelectorUsuarios();
-        },
-        async abrirModalPendientes() {
-          const users = await Storage.getUsers();
-          const pendientes = Object.entries(users).filter(([u, d]) => d.adminNotified === false);
-          const lista = document.getElementById('listaPendientes');
-          let html = '';
-          pendientes.forEach(([u, d]) => {
-            const creado = new Date(d.created).toLocaleDateString();
-            const expiry = new Date(d.expires).toLocaleDateString();
-            html += `
-              <div class="usuario-pendiente" data-usuario="${u}">
-                <div class="usuario-header" onclick="this.parentNode.classList.toggle('abierto')">
-                  <span>${u}</span>
-                  <span class="flecha">▼</span>
-                </div>
-                <div class="usuario-detalle">
-                  <div class="user-details">
-                    <span>📅 Creado: ${creado}</span>
-                    <span>⏳ Expira: ${expiry}</span>
-                    <span>📧 Email: ${d.email || 'No registrado'}</span>
-                  </div>
-                  <div class="modal-user-actions">
-                    <button class="btn-enterado" onclick="window.marcarEnterado('${u}')">✓ ENTERADO</button>
-                  </div>
-                </div>
-              </div>
-            `;
-          });
-          lista.innerHTML = html || '<p style="text-align:center; padding:20px;">📭 NO HAY USUARIOS PENDIENTES</p>';
-          document.getElementById('modalPendientes').classList.add('active');
-        },
-        async marcarEnterado(usuario) {
-          const users = await Storage.getUsers();
-          if (users[usuario]) {
-            users[usuario].adminNotified = true;
-            await Storage.saveUsers(users);
-            this.actualizarAdminPanel();
-            // Actualizar la lista del modal
-            const pendientes = Object.entries(users).filter(([u, d]) => d.adminNotified === false);
-            if (pendientes.length === 0) {
-              document.getElementById('modalPendientes').classList.remove('active');
-            } else {
-              this.abrirModalPendientes(); // refresca
-            }
-            Utils.showToast(`✅ Usuario ${usuario} marcado como enterado`, 'success');
-          }
         },
         setupMensajesListeners() {
           if (this.mensajesRecibidosUnsub) this.mensajesRecibidosUnsub();
@@ -2981,12 +2904,26 @@
           let tituloTexto = '👥 TODOS LOS USUARIOS';
           if(filtro === 'activos') tituloTexto = '✅ USUARIOS ACTIVOS';
           if(filtro === 'expirados') tituloTexto = '⏳ USUARIOS EXPIRADOS';
+          if(filtro === 'nuevos') tituloTexto = '🆕 USUARIOS NUEVOS (NO VISTOS)';
           if(filtro === 'premium') tituloTexto = '👑 USUARIOS PREMIUM';
           titulo.innerText = tituloTexto;
           
           const ahora = new Date();
+          // Marcar como vistos los usuarios de ≤7 días
+          Object.keys(users).forEach(u => {
+            const created = new Date(users[u].created);
+            const daysDiff = (ahora - created) / (1000*3600*24);
+            if (daysDiff <= 7 && !this.adminSeenUsers.includes(u)) {
+              this.adminSeenUsers.push(u);
+            }
+          });
+          localStorage.setItem('admin_seen_users', JSON.stringify(this.adminSeenUsers));
           
+          // Si el filtro es 'nuevos', aplicar subfiltro de no vistos
           let filtroReal = filtro;
+          if (filtro === 'nuevos') {
+            filtroReal = 'nuevos_no_vistos';
+          }
           this.renderizarListaUsuarios(users, listEl, '', filtroReal);
           modal.classList.add('active');
           document.getElementById('modalBuscarUsuario').oninput = (e)=>this.filtrarUsuariosModal(e.target.value, filtroReal);
@@ -2998,6 +2935,11 @@
             .filter(([u,d])=>{
               if(tipoFiltro === 'activos') return new Date(d.expires) > ahora;
               if(tipoFiltro === 'expirados') return new Date(d.expires) <= ahora;
+              if(tipoFiltro === 'nuevos_no_vistos') {
+                const created = new Date(d.created);
+                const daysDiff = (ahora - created) / (1000*3600*24);
+                return daysDiff <= 7 && !this.adminSeenUsers.includes(u);
+              }
               if(tipoFiltro === 'premium') return d.premium === true;
               return true;
             })
@@ -3007,11 +2949,10 @@
             const premium = d.premium ? '✅ PREMIUM' : '❌ NO PREMIUM';
             const estado = new Date(d.expires) > ahora ? '🟢 ACTIVO' : '🔴 EXPIRADO';
             const calculos = d.calculosMes || 0;
-            const pendiente = d.adminNotified === false ? ' (🆕 Pendiente)' : '';
             return `
               <div class="usuario-item" onclick="window.toggleUsuario(this)">
                 <div class="usuario-header">
-                  <span>${u}${pendiente}</span>
+                  <span>${u}</span>
                   <span class="flecha">▼</span>
                 </div>
                 <div class="usuario-detalle">
@@ -3058,7 +2999,7 @@
           if(AppState.currentUser===u) AppState.setCurrentUser(null);
           this.actualizarAdminPanel(); Utils.showToast(`✅ ${u} eliminado`, 'success'); this.abrirModalUsuarios();
         },
-        exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes,Email,AdminNotified\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0},${d.email||''},${d.adminNotified?'SI':'NO'}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
+        exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes,Email\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0},${d.email||''}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
         async renovarExpirados() {
           const confirmed = await Utils.confirm('RENOVAR EXPIRADOS', "> ¿RENOVAR TODOS LOS EXPIRADOS POR 1 MES?");
           if(!confirmed) return;
@@ -3100,8 +3041,6 @@
 
       window.toggleUsuario = (el)=>el.classList.toggle('abierto');
       window.abrirModalUsuarios = Admin.abrirModalUsuarios.bind(Admin);
-      window.abrirModalPendientes = Admin.abrirModalPendientes.bind(Admin);
-      window.marcarEnterado = Admin.marcarEnterado.bind(Admin);
       window.extenderUsuario = Admin.extenderUsuario.bind(Admin);
       window.togglePremium = Admin.togglePremium.bind(Admin);
       window.eliminarUsuario = Admin.eliminarUsuario.bind(Admin);
@@ -3131,9 +3070,10 @@
           }
           
           const b=document.getElementById("calcBtn"); 
-          // Sin loading overlay, ejecutamos directamente
+          Utils.showLoading(); 
           setTimeout(()=>{ 
             this.calculate(); 
+            Utils.hideLoading(); 
             Utils.showToast("✓ CALCULADO", 'success'); 
             document.getElementById('results').scrollIntoView({behavior:'smooth'});
             Utils.vibrate(50);
@@ -3413,11 +3353,12 @@
         },
         async cargarPlanDesdeHistorial(planId) {
           if (!AppState.currentUser) return;
-          // Sin loading overlay
+          Utils.showLoading();
           try {
             const planCompleto = await Storage.getPlanCompleto(AppState.currentUser, planId);
             if (!planCompleto) {
               Utils.showToast('No se pudo cargar el plan', 'error');
+              Utils.hideLoading();
               return;
             }
             AppState.planGeneradoActual = planCompleto.params;
@@ -3447,8 +3388,10 @@
             });
             grid.appendChild(fragment);
             document.getElementById("resumenObjetivo").innerText = planCompleto.resumen;
+            Utils.hideLoading();
           } catch (e) {
             Utils.showToast('Error al cargar el plan', 'error');
+            Utils.hideLoading();
           }
         },
         async eliminarPlanHistorial(planId) {
@@ -3618,7 +3561,7 @@
 
       // ==================== MÓDULO PLAN GENERATOR ====================
       const PlanGenerator = {
-        // MATRIZ COMPLETA DE ENTRENAMIENTOS (runner y trail) - INCLUIDA COMPLETA
+        // MATRIZ COMPLETA DE ENTRENAMIENTOS (runner y trail) - INCLUIDA
         ENTRENAMIENTOS_DB: {
           runner: {
             "2k": {
@@ -4855,13 +4798,7 @@
           if(!AppState.currentUser) return;
           const confirmed = await Utils.confirm('ELIMINAR PLAN', "> ¿ELIMINAR PLAN GUARDADO?_");
           if(!confirmed) return;
-          await Storage.removeUltimoPlan(AppState.currentUser);
-          // Ocultar calendario y cuestionario si están visibles
-          document.getElementById("calendarioEntreno").style.display = "none";
-          document.getElementById("cuestionarioEntreno").style.display = "none";
-          AppState.planGeneradoActual = null;
-          AppState.planActualId = null;
-          AppState.sesionesRealizadas = {};
+          await Storage.removeUltimoPlan(AppState.currentUser); 
           Utils.showToast("✅ PLAN ELIMINADO", 'success');
         },
         getRitmoPorZona(z) { if(!AppState.lastRitmoBase) return "Calcula zonas primero"; const f={'Z1':1.35,'Z2':1.25,'Z3':1.15,'Z4':1.05,'Z5':0.95,'Z6':0.85}; if(z.includes('-')){ const [a,b]=z.split('-'); return `${Utils.formatR(AppState.lastRitmoBase*(f[a]||1.15))} – ${Utils.formatR(AppState.lastRitmoBase*(f[b]||1.05))} min/km`; } return Utils.formatR(AppState.lastRitmoBase*(f[z]||1.15))+" min/km"; },
@@ -4872,13 +4809,8 @@
           const distSelect = document.getElementById('distObjetivo');
           const opciones = distSelect.options;
           const infoDiv = document.getElementById('info-mensaje-distancia');
-          const errorDiv = document.getElementById('error-plan-generar');
-          const generarBtn = document.getElementById('generarPlanBtn');
           
           let mostrarMensaje = false;
-          let errorTexto = '';
-          let habilitarBtn = true;
-          
           for (let i = 0; i < opciones.length; i++) {
             if (opciones[i].value === 'medio' || opciones[i].value === 'maraton') {
               if (duracion === '3' && experiencia === 'si') {
@@ -4889,19 +4821,10 @@
                   distSelect.value = '10k';
                 }
                 mostrarMensaje = true;
-                errorTexto = '⚠️ Para Media Maratón o Maratón necesitas 3 meses de duración y experiencia previa.';
-                habilitarBtn = false;
               }
             }
           }
           infoDiv.style.display = mostrarMensaje ? 'block' : 'none';
-          if (mostrarMensaje) {
-            errorDiv.innerText = errorTexto;
-            errorDiv.classList.add('visible');
-          } else {
-            errorDiv.classList.remove('visible');
-          }
-          generarBtn.disabled = !habilitarBtn;
         },
 
         generarCalendarioEntreno() {
@@ -4923,7 +4846,7 @@
           }
           
           const btn = document.querySelector('[onclick="window.generarCalendarioEntreno()"]');
-          // Sin loading overlay
+          Utils.showLoading();
           setTimeout(()=>{
             try{
               const modalidad = document.getElementById("modalidad").value;
@@ -4933,15 +4856,15 @@
               const obj = document.getElementById("objetivoPrincipal").value;
               const diaLargo = parseInt(document.getElementById("diaLargo").value);
               const fechaInicio = document.getElementById("fechaInicio").value;
-              if(!fechaInicio) { Utils.showToast("> SELECCIONA UNA FECHA DE INICIO_", 'error'); return; }
+              if(!fechaInicio) { Utils.showToast("> SELECCIONA UNA FECHA DE INICIO_", 'error'); Utils.hideLoading(); return; }
               
               const diasEntreno = [];
               for(let i=1;i<=7;i++){ const cb=document.getElementById(`dia${i}`); if(cb&&cb.checked) diasEntreno.push(i); }
-              if(diasEntreno.length===0) { Utils.showToast("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_", 'error'); return; }
+              if(diasEntreno.length===0) { Utils.showToast("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_", 'error'); Utils.hideLoading(); return; }
               if(!diasEntreno.includes(diaLargo)){
                 if(confirm("> El día de tirada larga no está seleccionado. ¿Añadirlo automáticamente?")){
                   diasEntreno.push(diaLargo); document.getElementById(`dia${diaLargo}`).checked = true;
-                } else { return; }
+                } else { Utils.hideLoading(); return; }
               }
               diasEntreno.sort((a,b)=>a-b);
               const fecha = new Date(fechaInicio+"T00:00:00");
@@ -5069,11 +4992,12 @@
               setTimeout(()=>document.getElementById("calendarioEntreno").scrollIntoView({ behavior:'smooth', block:'center' }),100);
               this.guardarPlanActual();
               UI.guardarPlanEnHistorial(planCompleto.params, planCompleto);
+              Utils.hideLoading();
               
               Utils.vibrate(50);
               Utils.playSound('success');
               Utils.showToast('✅ Plan generado', 'success');
-            } catch(e){ console.error(e); Utils.showToast("> ERROR GENERANDO PLAN_", 'error'); }
+            } catch(e){ console.error(e); Utils.showToast("> ERROR GENERANDO PLAN_", 'error'); Utils.hideLoading(); }
           },300);
         }
       };
