@@ -539,39 +539,43 @@
     .z5::after { background: var(--accent-purple); }
     .z6::after { background: var(--accent-blue); }
 
+    .zone-card strong {
+      display: block;
+      text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 8px;
+    }
+
     .zone-card .long {
       max-height: 0;
       overflow: hidden;
-      transition: all 0.5s ease;
+      transition: max-height 0.5s ease, margin 0.3s ease;
       margin-top: 0;
       color: var(--text-secondary);
-      font-size: 14px;
-      padding-left: 10px;
+      font-size: 13px;
+      line-height: 1.4;
+      padding: 0 10px;
+      text-align: center;
       border-left: 2px solid var(--border-color);
-      text-align: center; /* CENTRADO */
     }
     .zone-card.active .long {
-      max-height: 300px;
+      max-height: 200px;
       margin-top: 16px;
+      padding: 10px;
     }
     
     .zone-card .long p {
-      margin: 8px 0;
-      line-height: 1.5;
-    }
-    .zone-card .long strong {
-      color: var(--accent-yellow);
-      display: inline-block;
-      min-width: 80px;
+      margin: 6px 0;
     }
     .zone-card .long ul {
-      margin: 8px 0 8px 20px;
+      margin: 6px 0 6px 20px;
       list-style-type: none;
+      text-align: left;
     }
     .zone-card .long li {
-      margin: 4px 0;
+      margin: 3px 0;
       position: relative;
-      padding-left: 20px;
+      padding-left: 18px;
     }
     .zone-card .long li::before {
       content: "•";
@@ -926,6 +930,13 @@
     .mensaje-item.no-leido-usuario {
       border-left-color: var(--accent-green) !important;
     }
+    .mensaje-item.solicitud-premium .mensaje-header {
+      border-left: 4px solid var(--gold);
+      background: rgba(196, 167, 125, 0.1);
+    }
+    .mensaje-item.solicitud-premium .mensaje-header span:first-child {
+      color: var(--gold);
+    }
 
     .soporte-section {
       margin-top: 30px;
@@ -993,6 +1004,11 @@
       color: var(--accent-blue);
       font-weight: bold;
       font-size: 20px;
+    }
+    .usuario-item.nuevo .usuario-header {
+      background: var(--new-user-bg) !important;
+      border-color: var(--new-user-border) !important;
+      color: var(--new-user-border) !important;
     }
 
     /* Modal de usuarios */
@@ -1569,8 +1585,7 @@
     #emailUpdateModal.active { display: block; }
     #emailUpdateModal h2 { color: var(--accent-blue); margin-bottom: 20px; }
     #emailUpdateModal p { margin: 10px 0; color: var(--text-secondary); }
-    #emailUpdateModal .password-wrapper { margin-bottom: 20px; }
-    #emailUpdateModal input { margin-bottom: 0; }
+    #emailUpdateModal input { margin-bottom: 20px; }
     #emailUpdateModal button {
       margin-top: 10px;
       background: var(--accent-blue);
@@ -1633,6 +1648,93 @@
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
     }
+
+    /* Modal de solicitud premium */
+    #premiumSolicitudOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      z-index: 20000;
+    }
+    #premiumSolicitudOverlay.active { display: block; }
+    #premiumSolicitudModal {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-card);
+      border: 3px solid var(--gold);
+      border-radius: 32px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      z-index: 20001;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+    }
+    #premiumSolicitudModal.active { display: block; }
+    #premiumSolicitudModal h2 { color: var(--gold); margin-bottom: 20px; }
+    #premiumSolicitudModal p { margin: 10px 0; color: var(--text-secondary); }
+    #premiumSolicitudModal textarea {
+      margin-bottom: 10px;
+      min-height: 80px;
+    }
+    #premiumSolicitudModal button {
+      margin-top: 10px;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #premiumSolicitudModal button:hover { box-shadow: 0 0 20px var(--gold); }
+    #premiumSolicitudModal .cancel-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    /* Modal de cuenta inactiva */
+    #inactivoOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      z-index: 20000;
+    }
+    #inactivoOverlay.active { display: block; }
+    #inactivoModal {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-card);
+      border: 3px solid var(--accent-red);
+      border-radius: 32px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      z-index: 20001;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+    }
+    #inactivoModal.active { display: block; }
+    #inactivoModal h2 { color: var(--accent-red); margin-bottom: 20px; }
+    #inactivoModal p { margin: 10px 0; color: var(--text-secondary); }
+    #inactivoModal button {
+      margin-top: 20px;
+      background: var(--accent-red);
+      color: var(--bg-primary);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #inactivoModal button:hover { box-shadow: 0 0 20px var(--accent-red); }
 
     /* ===== HISTORIAL DE PLANES ===== */
     .planes-historial {
@@ -1827,6 +1929,24 @@
     <button class="cancel-btn" onclick="window.cerrarResetModal()">CANCELAR</button>
   </div>
 
+  <!-- Modal de solicitud premium -->
+  <div id="premiumSolicitudOverlay"></div>
+  <div id="premiumSolicitudModal">
+    <h2>👑 SOLICITAR PREMIUM</h2>
+    <p>Cuéntanos por qué te gustaría ser premium (opcional):</p>
+    <textarea id="premiumSolicitudMensaje" placeholder="> ESCRIBE TU MENSAJE..."></textarea>
+    <button onclick="window.enviarSolicitudPremium()">[ ENVIAR SOLICITUD ]</button>
+    <button class="cancel-btn" onclick="window.cerrarSolicitudPremiumModal()">CANCELAR</button>
+  </div>
+
+  <!-- Modal de cuenta inactiva -->
+  <div id="inactivoOverlay"></div>
+  <div id="inactivoModal">
+    <h2>⚠️ CUENTA INACTIVA</h2>
+    <p>Has estado más de 6 meses sin acceder. Por favor, contacta con el administrador para reactivar tu cuenta o haz clic en "REACTIVAR" para continuar (se actualizará tu última actividad).</p>
+    <button onclick="window.reactivarCuenta()">REACTIVAR</button>
+  </div>
+
   <!-- LOGIN PAGE -->
   <div class="wrapper" id="loginPage">
     <div class="card">
@@ -1931,6 +2051,11 @@
       </div>
       <p style="color: var(--text-secondary); margin:20px 0; text-align:center;" id="userWelcome"></p>
       <div id="calculoCounter" class="calculo-limit-msg" style="display:none;"></div>
+      
+      <!-- Botón de solicitud premium (visible solo para no premium) -->
+      <div id="premiumSolicitudBtnContainer" style="display: none;">
+        <button class="action-button" style="border-color: var(--gold); color: var(--gold); margin-bottom: 20px;" onclick="window.abrirSolicitudPremiumModal()">👑 SOLICITAR PREMIUM</button>
+      </div>
       
       <div class="tabs-container">
         <div class="tabs-header" role="tablist">
@@ -2338,6 +2463,20 @@
         },
         async enviarMensajeUsuario(us,txt) { return this.getMensajes().then(t=>{ const k="admin_"+us; if(!t[k]) t[k]=[]; t[k].push({fecha:new Date().toLocaleString(),texto:txt,leido:false,esUsuario:true}); return this.saveMensajes(t); }); },
         async enviarMensajeAdminAUsuario(us,txt) { return this.getMensajes().then(t=>{ if(!t[us]) t[us]=[]; t[us].push({fecha:new Date().toLocaleString(),texto:txt,leido:false,esAdmin:true}); return this.saveMensajes(t); }); },
+        async enviarSolicitudPremium(us, txt) { 
+          return this.getMensajes().then(t=>{ 
+            const k="admin_solicitudes"; 
+            if(!t[k]) t[k]=[]; 
+            t[k].push({
+              fecha: new Date().toLocaleString(),
+              usuario: us,
+              texto: txt || "(sin mensaje)",
+              leido: false,
+              tipo: "solicitud_premium"
+            }); 
+            return this.saveMensajes(t); 
+          }); 
+        },
         async marcarLeido(u,i) { return this.getMensajes().then(t=>{ if(t[u]&&t[u][i]){ t[u][i].leido=true; return this.saveMensajes(t); } }); },
         async borrarMensajeUsuario(u,i) { return this.getMensajes().then(t=>{ if(t[u]&&t[u][i]){ t[u].splice(i,1); if(t[u].length===0) delete t[u]; return this.saveMensajes(t); } }); },
         async borrarMensaje(k,i) { return this.getMensajes().then(t=>{ if(t[k]&&t[k][i]){ t[k].splice(i,1); if(t[k].length===0) delete t[k]; return this.saveMensajes(t); } }); }
@@ -2360,6 +2499,8 @@
         mesActual: '',
         usuariosVistos: JSON.parse(localStorage.getItem('usuariosVistos')||'[]'),
         mensajeListeners: [],
+        activeTab: 'entreno', // Para persistencia
+        activeAdminTab: 'usuarios',
         setLastCalc(d) { this.lastName=d.name; this.lastAge=d.age; this.lastFC=d.fcMax; this.lastUL=d.ul; this.lastZones=d.zones; this.lastPred=d.pred; this.lastRitmoBase=d.ritmoBase; this.zonasCalculadas=true; },
         clearLastCalc() { this.zonasCalculadas=false; this.lastName=""; this.lastAge=0; this.lastFC=0; this.lastUL=0; this.lastZones=[]; this.lastPred=[]; this.lastRitmoBase=0; },
         setCurrentUser(u, premium=false, expiryDate=null, calculosMes=0, mesActual='') {
@@ -2377,6 +2518,11 @@
           }
           this.actualizarInterfazPremium();
           this.verificarExpiracionPremium();
+          // Mostrar/ocultar botón de solicitud premium
+          const btnContainer = document.getElementById('premiumSolicitudBtnContainer');
+          if (btnContainer) {
+            btnContainer.style.display = (!u || premium) ? 'none' : 'block';
+          }
         },
         actualizarInterfazPremium() {
           const planBtns = ['nuevoPlanBtn', 'cargarPlanBtn', 'borrarPlanBtn', 'generarPlanBtn'];
@@ -2524,6 +2670,7 @@
               password: Utils.hashPassword(p), 
               email: email,
               created: new Date().toISOString(), 
+              lastLogin: new Date().toISOString(),
               expires: expiry.toISOString(), 
               premium: true,
               calculosMes: 0,
@@ -2544,6 +2691,9 @@
               if (!users[u].welcomeSeen) {
                 UI.mostrarWelcomeModal(u);
               }
+              // Restaurar pestaña guardada
+              const savedTab = localStorage.getItem('ri5_active_tab') || 'entreno';
+              UI.switchTab(savedTab);
             },300);
           } catch (error) {
             Utils.hideLoading();
@@ -2579,6 +2729,16 @@
             UI.mostrarModalActualizarEmail(u, p);
             return;
           }
+          // Comprobar inactividad (más de 180 días)
+          const ahora = new Date();
+          const ultimoLogin = user.lastLogin ? new Date(user.lastLogin) : new Date(user.created);
+          const diasInactivo = Math.floor((ahora - ultimoLogin) / (1000 * 60 * 60 * 24));
+          if (diasInactivo > 180) {
+            Utils.hideLoading();
+            btn.disabled = false;
+            UI.mostrarModalInactivo(u);
+            return;
+          }
           try {
             await auth.signInWithEmailAndPassword(user.email, p);
           } catch (e) {
@@ -2587,7 +2747,6 @@
           const now = new Date(), expiry = new Date(user.expires);
           if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); Utils.hideLoading(); btn.disabled = false; return; } }
           
-          const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
           let calculosMes = user.calculosMes || 0;
           let mesActualUsuario = user.mesActual || '';
@@ -2599,6 +2758,10 @@
             users[u].mesActual = mesActual;
             await Storage.saveUsers(users);
           }
+          
+          // Actualizar lastLogin
+          users[u].lastLogin = ahora.toISOString();
+          await Storage.saveUsers(users);
           
           AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
           const msgs = await Storage.getMensajesUsuario(u);
@@ -2618,6 +2781,9 @@
             if (!user.welcomeSeen) {
               UI.mostrarWelcomeModal(u);
             }
+            // Restaurar pestaña guardada
+            const savedTab = localStorage.getItem('ri5_active_tab') || 'entreno';
+            UI.switchTab(savedTab);
           },300);
         },
         async eliminarMiCuenta() {
@@ -2669,9 +2835,10 @@
             document.getElementById("results").innerHTML=''; 
             document.getElementById("calendarioEntreno").style.display="none"; 
             AppState.clearLastCalc();
+            localStorage.removeItem('ri5_active_tab');
           });
         },
-        logoutAdmin() { document.getElementById("adminPage").style.display="none"; document.getElementById("loginPage").style.display="flex"; },
+        logoutAdmin() { document.getElementById("adminPage").style.display="none"; document.getElementById("loginPage").style.display="flex"; localStorage.removeItem('ri5_admin_tab'); },
         async checkSavedSession() {
           const s = localStorage.getItem('ri5_current_user'); if(!s) return false;
           
@@ -2698,6 +2865,10 @@
             users[s].mesActual = mesActual;
             await Storage.saveUsers(users);
           }
+          
+          // Actualizar lastLogin (sesión reanudada)
+          users[s].lastLogin = ahora.toISOString();
+          await Storage.saveUsers(users);
           
           AppState.currentUser = s; AppState.isPremium = user.premium||false;
           AppState.premiumExpiryDate = user.expires;
@@ -2758,7 +2929,6 @@
             return;
           }
           Utils.showLoading();
-          // Verificar que el usuario existe y el email coincide
           const users = await Storage.getUsers();
           const user = users[username];
           if (!user || user.email !== email) {
@@ -2797,6 +2967,9 @@
         cerrarModal() {
           document.getElementById('emailUpdateOverlay').style.display = 'none';
           document.getElementById('emailUpdateModal').style.display = 'none';
+          // Vuelve al login
+          document.getElementById("mainContent").style.display = "none";
+          document.getElementById("loginPage").style.display = "flex";
         },
         async guardar() {
           const email = document.getElementById('emailUpdateInput').value.trim();
@@ -2813,9 +2986,7 @@
           }
           Utils.showLoading();
           try {
-            // Crear la cuenta en Firebase Auth con el email y la contraseña actual
             const userCredential = await auth.createUserWithEmailAndPassword(email, this.password);
-            // Actualizar el email en Realtime Database
             const users = await Storage.getUsers();
             if (users[this.usuario]) {
               users[this.usuario].email = email;
@@ -2824,9 +2995,7 @@
             Utils.hideLoading();
             Utils.showToast('✅ Correo guardado. Ya puedes iniciar sesión.', 'success');
             EmailUpdate.cerrarModal();
-            // Iniciar sesión automáticamente con el nuevo email
             await auth.signInWithEmailAndPassword(email, this.password);
-            // Recargar la página para que todo fluya
             window.location.reload();
           } catch (error) {
             Utils.hideLoading();
@@ -2842,6 +3011,65 @@
       window.mostrarModalActualizarEmail = (u, p) => EmailUpdate.mostrarModal(u, p);
       window.cerrarEmailUpdateModal = () => EmailUpdate.cerrarModal();
       window.guardarEmailActualizacion = () => EmailUpdate.guardar();
+
+      // ==================== MÓDULO CUENTA INACTIVA ====================
+      const Inactivo = {
+        usuario: null,
+        mostrarModal(u) {
+          this.usuario = u;
+          document.getElementById('inactivoOverlay').style.display = 'block';
+          document.getElementById('inactivoModal').style.display = 'block';
+        },
+        cerrarModal() {
+          document.getElementById('inactivoOverlay').style.display = 'none';
+          document.getElementById('inactivoModal').style.display = 'none';
+        },
+        async reactivar() {
+          if (!this.usuario) return;
+          const users = await Storage.getUsers();
+          if (users[this.usuario]) {
+            users[this.usuario].lastLogin = new Date().toISOString();
+            await Storage.saveUsers(users);
+            Utils.showToast('✅ Cuenta reactivada. Vuelve a iniciar sesión.', 'success');
+            Inactivo.cerrarModal();
+            // Redirigir al login
+            document.getElementById("mainContent").style.display = "none";
+            document.getElementById("loginPage").style.display = "flex";
+          }
+        }
+      };
+      window.mostrarModalInactivo = (u) => Inactivo.mostrarModal(u);
+      window.reactivarCuenta = () => Inactivo.reactivar();
+
+      // ==================== MÓDULO SOLICITUD PREMIUM ====================
+      const PremiumSolicitud = {
+        abrirModal() {
+          document.getElementById('premiumSolicitudOverlay').style.display = 'block';
+          document.getElementById('premiumSolicitudModal').style.display = 'block';
+          document.getElementById('premiumSolicitudMensaje').value = '';
+        },
+        cerrarModal() {
+          document.getElementById('premiumSolicitudOverlay').style.display = 'none';
+          document.getElementById('premiumSolicitudModal').style.display = 'none';
+        },
+        async enviar() {
+          if (!AppState.currentUser) return;
+          const mensaje = document.getElementById('premiumSolicitudMensaje').value.trim();
+          Utils.showLoading();
+          try {
+            await Storage.enviarSolicitudPremium(AppState.currentUser, mensaje);
+            Utils.hideLoading();
+            Utils.showToast('✅ Solicitud enviada al administrador', 'success');
+            PremiumSolicitud.cerrarModal();
+          } catch (e) {
+            Utils.hideLoading();
+            Utils.showToast('❌ Error al enviar la solicitud', 'error');
+          }
+        }
+      };
+      window.abrirSolicitudPremiumModal = () => PremiumSolicitud.abrirModal();
+      window.cerrarSolicitudPremiumModal = () => PremiumSolicitud.cerrarModal();
+      window.enviarSolicitudPremium = () => PremiumSolicitud.enviar();
 
       // ==================== MÓDULO ADMIN ====================
       const Admin = {
@@ -2881,7 +3109,15 @@
           let htmlRec='', noLeidosRecibidos=0;
           recibidos.forEach(item=>{
             if(!item.mensaje.leido) noLeidosRecibidos++;
-            htmlRec+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📨 ${item.mensaje.fecha} · ${item.usuario}</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido">${item.mensaje.texto}</div></div>`;
+            const claseExtra = item.mensaje.tipo === 'solicitud_premium' ? 'solicitud-premium' : '';
+            htmlRec+=`<div class="mensaje-item ${claseExtra}">
+              <div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')">
+                <span>${item.mensaje.tipo === 'solicitud_premium' ? '👑 ' : '📨 '}${item.mensaje.fecha} · ${item.usuario}${item.mensaje.tipo === 'solicitud_premium' ? ' (SOLICITUD PREMIUM)' : ''}</span>
+                <span class="flecha">▼</span>
+                <button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button>
+              </div>
+              <div class="mensaje-contenido">${item.mensaje.texto}</div>
+            </div>`;
           });
           document.getElementById('listaMensajesRecibidosAdmin').innerHTML = htmlRec || '<p>📭 NO HAY MENSAJES</p>';
           AppState.mensajesNoLeidosAdmin = noLeidosRecibidos;
@@ -2919,7 +3155,6 @@
           });
           localStorage.setItem('admin_seen_users', JSON.stringify(this.adminSeenUsers));
           
-          // Si el filtro es 'nuevos', aplicar subfiltro de no vistos
           let filtroReal = filtro;
           if (filtro === 'nuevos') {
             filtroReal = 'nuevos_no_vistos';
@@ -2949,8 +3184,10 @@
             const premium = d.premium ? '✅ PREMIUM' : '❌ NO PREMIUM';
             const estado = new Date(d.expires) > ahora ? '🟢 ACTIVO' : '🔴 EXPIRADO';
             const calculos = d.calculosMes || 0;
+            const esNuevo = (new Date() - new Date(d.created)) / (1000*3600*24) <= 7 && !this.adminSeenUsers.includes(u);
+            const claseNuevo = esNuevo ? 'nuevo' : '';
             return `
-              <div class="usuario-item" onclick="window.toggleUsuario(this)">
+              <div class="usuario-item ${claseNuevo}" onclick="window.toggleUsuario(this)">
                 <div class="usuario-header">
                   <span>${u}</span>
                   <span class="flecha">▼</span>
@@ -3054,6 +3291,7 @@
         document.querySelectorAll('#adminPage .tab-content').forEach(c=>c.classList.remove('active'));
         if(tab==='usuarios'){ document.querySelectorAll('#adminPage .tab-button')[0].classList.add('active'); document.getElementById('admin-tab-usuarios').classList.add('active'); }
         else { document.querySelectorAll('#adminPage .tab-button')[1].classList.add('active'); document.getElementById('admin-tab-soporte').classList.add('active'); Admin.cargarSelectorUsuarios(); }
+        localStorage.setItem('ri5_admin_tab', tab);
       };
       window.cambiarAdminSoporteTab = (tab)=>Admin.cambiarSoporteTab(tab);
       window.eliminarMiCuenta = Auth.eliminarMiCuenta.bind(Auth);
@@ -3090,56 +3328,38 @@
             ["Z1","RECUPERACIÓN",0.75,0.80,1.35,"z1",
               "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.35) + " min/km</p>" +
               "<p><strong>📍 Objetivo:</strong> Recuperación activa después de esfuerzos intensos.</p>" +
-              "<p><strong>✅ Beneficios:</strong></p><ul>" +
-              "<li>Mejora la circulación sanguínea</li>" +
-              "<li>Elimina toxinas (ácido láctico)</li>" +
-              "<li>Prepara el cuerpo para próximas sesiones</li></ul>" +
-              "<p><strong>😌 Sensación:</strong> Muy fácil, puedes mantener una conversación sin esfuerzo</p>"
+              "<p><strong>✅ Beneficios:</strong> Mejora la circulación, elimina toxinas.</p>" +
+              "<p><strong>😌 Sensación:</strong> Muy fácil.</p>"
             ],
             ["Z2","BASE",0.80,0.90,1.25,"z2",
               "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.25) + " min/km</p>" +
-              "<p><strong>📍 Objetivo:</strong> Desarrollar resistencia aeróbica fundamental.</p>" +
-              "<p><strong>✅ Beneficios:</strong></p><ul>" +
-              "<li>Optimiza la quema de grasas</li>" +
-              "<li>Fortalece el corazón</li>" +
-              "<li>Mejora la eficiencia metabólica</li></ul>" +
-              "<p><strong>😌 Sensación:</strong> Cómodo y controlado, puedes hablar con frases completas</p>"
+              "<p><strong>📍 Objetivo:</strong> Resistencia aeróbica.</p>" +
+              "<p><strong>✅ Beneficios:</strong> Quema grasas, fortalece el corazón.</p>" +
+              "<p><strong>😌 Sensación:</strong> Cómodo.</p>"
             ],
             ["Z3","TEMPO",0.90,0.95,1.15,"z3",
               "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.15) + " min/km</p>" +
-              "<p><strong>📍 Objetivo:</strong> Elevar el umbral de lactato.</p>" +
-              "<p><strong>✅ Beneficios:</strong></p><ul>" +
-              "<li>Permite correr más rápido durante más tiempo</li>" +
-              "<li>Retrasa la aparición de la fatiga</li>" +
-              "<li>Mejora la resistencia a ritmos exigentes</li></ul>" +
-              "<p><strong>😌 Sensación:</strong> 'Cómodamente duro', puedes hablar con frases cortas</p>"
+              "<p><strong>📍 Objetivo:</strong> Elevar umbral de lactato.</p>" +
+              "<p><strong>✅ Beneficios:</strong> Ritmo rápido más tiempo.</p>" +
+              "<p><strong>😌 Sensación:</strong> Cómodamente duro.</p>"
             ],
             ["Z4","UMBRAL",0.95,1.02,1.05,"z4",
               "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*1.05) + " min/km</p>" +
-              "<p><strong>📍 Objetivo:</strong> Limpiar y tolerar el lactato.</p>" +
-              "<p><strong>✅ Beneficios:</strong></p><ul>" +
-              "<li>Mejora la capacidad de mantener ritmos de carrera</li>" +
-              "<li>Incrementa la velocidad en competición</li>" +
-              "<li>Prepara para esfuerzos sostenidos</li></ul>" +
-              "<p><strong>😌 Sensación:</strong> Fuerte, hablar es incómodo, solo palabras sueltas</p>"
+              "<p><strong>📍 Objetivo:</strong> Tolerar lactato.</p>" +
+              "<p><strong>✅ Beneficios:</strong> Mantener ritmos de carrera.</p>" +
+              "<p><strong>😌 Sensación:</strong> Fuerte.</p>"
             ],
             ["Z5","VO₂MÁX",1.02,1.06,0.95,"z5",
               "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*0.95) + " min/km</p>" +
               "<p><strong>📍 Objetivo:</strong> Potencia aeróbica máxima.</p>" +
-              "<p><strong>✅ Beneficios:</strong></p><ul>" +
-              "<li>Aumenta la capacidad del corazón</li>" +
-              "<li>Mejora el consumo de oxígeno</li>" +
-              "<li>Desarrolla la tolerancia al esfuerzo extremo</li></ul>" +
-              "<p><strong>😌 Sensación:</strong> Muy intenso, apenas puedes hablar, solo para intervalos cortos</p>"
+              "<p><strong>✅ Beneficios:</strong> Aumenta capacidad pulmonar.</p>" +
+              "<p><strong>😌 Sensación:</strong> Muy intenso.</p>"
             ],
             ["Z6","VELOCIDAD",1.06,1.12,0.85,"z6",
               "<p><strong>🎯 Ritmo:</strong> " + Utils.formatR(r*0.85) + " min/km</p>" +
-              "<p><strong>📍 Objetivo:</strong> Potencia neuromuscular y velocidad.</p>" +
-              "<p><strong>✅ Beneficios:</strong></p><ul>" +
-              "<li>Mejora la zancada y coordinación</li>" +
-              "<li>Aumenta la potencia explosiva</li>" +
-              "<li>Desarrolla velocidad punta</li></ul>" +
-              "<p><strong>😌 Sensación:</strong> Esfuerzo máximo, sprints cortos con recuperación completa</p>"
+              "<p><strong>📍 Objetivo:</strong> Potencia neuromuscular.</p>" +
+              "<p><strong>✅ Beneficios:</strong> Velocidad y coordinación.</p>" +
+              "<p><strong>😌 Sensación:</strong> Esfuerzo máximo.</p>"
             ]
           ];
           const calc = {name:n, age:a, fcMax:fc, ul:ul, zones, pred, ritmoBase:r};
@@ -3258,6 +3478,7 @@
           const btns = document.querySelectorAll('.tab-button');
           for(let b of btns) if(b.textContent.includes(tab==='entreno'?'ENTRENO':tab==='plan'?'PLAN':tab==='historial'?'HISTORIAL':'SOPORTE')){ b.classList.add('active'); break; }
           document.getElementById(`tab-${tab}`).classList.add('active');
+          localStorage.setItem('ri5_active_tab', tab);
           if(tab==='historial') this.cargarHistorial();
           if(tab==='plan') this.cargarHistorialPlanes();
           if(tab==='soporte'){ this.cargarMensajesRecibidos(); this.cargarMensajesEnviados(); }
@@ -3530,6 +3751,9 @@
         },
         mostrarModalActualizarEmail(u, p) {
           EmailUpdate.mostrarModal(u, p);
+        },
+        mostrarModalInactivo(u) {
+          Inactivo.mostrarModal(u);
         }
       };
 
