@@ -22,44 +22,46 @@
     }
 
     :root {
-      --bg-primary: #F5F2EB;
-      --bg-secondary: #E8E2D5;
-      --bg-card: #FFFFFF;
-      --text-primary: #2C2C2C;
-      --text-secondary: #4A4A4A; /* Mejor contraste */
-      --accent-red: #C46D5E;
-      --accent-green: #7D8F69;
-      --accent-blue: #5A6572;
-      --accent-yellow: #D4A373;
-      --accent-purple: #B76E3C;
-      --border-color: #D6D2C5;
+      /* Modo claro (por defecto) - BANG & OLUFSEN */
+      --bg-primary: #F5F2EB;        /* Gris cálido muy claro */
+      --bg-secondary: #E8E2D5;       /* Gris arena */
+      --bg-card: #FFFFFF;            /* Blanco roto */
+      --text-primary: #2C2C2C;       /* Gris antracita (contraste excelente) */
+      --text-secondary: #3A3A3A;     /* Mejorado: más oscuro para mayor contraste (antes #4A4A4A) */
+      --accent-red: #C46D5E;         /* Terracota */
+      --accent-green: #7D8F69;       /* Verde oliva suave */
+      --accent-blue: #5A6572;        /* Gris pizarra */
+      --accent-yellow: #D4A373;      /* Ámbar cálido (acento principal) */
+      --accent-purple: #B76E3C;      /* Cobre suave (acento secundario) */
+      --border-color: #D6D2C5;       /* Gris muy claro */
       --glow-color: rgba(212, 163, 115, 0.15);
       --font-mono: 'Courier New', monospace;
       --font-dot: 'Courier New', 'Dot Matrix', monospace;
       --dot-color: rgba(107, 107, 107, 0.05);
-      --gold: #C4A77D;
+      --gold: #C4A77D;               /* Latón (premium) */
       --new-user-bg: rgba(125, 143, 105, 0.2);
       --new-user-border: #7D8F69;
       --stat-bg: #E8E2D5;
       --stat-number: #2C2C2C;
     }
 
+    /* Modo noche - BOWERS & WILKINS (cuando el sistema está en oscuro) */
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg-primary: #1C1C1E;
-        --bg-secondary: #2C2C2E;
-        --bg-card: #3A3A3C;
-        --text-primary: #F5F5F7;
-        --text-secondary: #8E8E93;
-        --accent-red: #8B3A3A;
-        --accent-green: #2E6B4C;
-        --accent-blue: #4A5B6E;
-        --accent-yellow: #CC954D;
-        --accent-purple: #B87333;
-        --border-color: #4A4A4E;
+        --bg-primary: #1C1C1E;        /* Negro carbón */
+        --bg-secondary: #2C2C2E;       /* Grafito */
+        --bg-card: #3A3A3C;            /* Gris muy oscuro */
+        --text-primary: #F5F5F7;       /* Blanco crema (contraste excelente) */
+        --text-secondary: #B0B0B0;     /* Mejorado: más claro para legibilidad (antes #8E8E93) */
+        --accent-red: #8B3A3A;         /* Burdeos */
+        --accent-green: #2E6B4C;       /* Verde bosque */
+        --accent-blue: #4A5B6E;        /* Azul medianoche */
+        --accent-yellow: #CC954D;      /* Ámbar oscuro */
+        --accent-purple: #B87333;      /* Cobre cálido (acento principal noche) */
+        --border-color: #4A4A4E;       /* Gris pizarra */
         --glow-color: rgba(184, 115, 51, 0.2);
         --dot-color: rgba(142, 142, 147, 0.05);
-        --gold: #B59A6B;
+        --gold: #B59A6B;               /* Latón antiguo */
         --new-user-bg: rgba(46, 107, 76, 0.2);
         --new-user-border: #2E6B4C;
         --stat-bg: #2C2C2E;
@@ -67,12 +69,13 @@
       }
     }
 
+    /* Clases para modo manual (sobrescriben preferencias del sistema) */
     body.manual-light {
       --bg-primary: #F5F2EB !important;
       --bg-secondary: #E8E2D5 !important;
       --bg-card: #FFFFFF !important;
       --text-primary: #2C2C2C !important;
-      --text-secondary: #4A4A4A !important;
+      --text-secondary: #3A3A3A !important;
       --accent-red: #C46D5E !important;
       --accent-green: #7D8F69 !important;
       --accent-blue: #5A6572 !important;
@@ -86,7 +89,7 @@
       --bg-secondary: #2C2C2E !important;
       --bg-card: #3A3A3C !important;
       --text-primary: #F5F5F7 !important;
-      --text-secondary: #8E8E93 !important;
+      --text-secondary: #B0B0B0 !important;
       --accent-red: #8B3A3A !important;
       --accent-green: #2E6B4C !important;
       --accent-blue: #4A5B6E !important;
@@ -1161,7 +1164,7 @@
     }
     #premiumModal button:hover { box-shadow: 0 0 20px var(--gold); }
 
-    /* CAMBIO 4: Banner de expiración premium */
+    /* Banner de expiración premium */
     #premium-expiry-banner {
       display: none;
       background: var(--accent-yellow);
@@ -1282,6 +1285,115 @@
     #pwa-banner button:hover { background: var(--accent-green); }
     #pwa-banner .close-banner { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); }
 
+    /* ===== TOAST NOTIFICATIONS ===== */
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 300px;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 2px solid var(--accent-blue);
+      border-radius: 40px;
+      padding: 12px 20px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: var(--font-mono);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+      cursor: pointer;
+    }
+    .toast.success { border-color: var(--accent-green); }
+    .toast.error { border-color: var(--accent-red); }
+    .toast.warning { border-color: var(--accent-yellow); }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(100%); }
+    }
+
+    /* ===== MODAL DE CONFIRMACIÓN ===== */
+    #confirmOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      z-index: 30000;
+    }
+    #confirmOverlay.active { display: block; }
+    #confirmModal {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-card);
+      border: 3px solid var(--accent-blue);
+      border-radius: 32px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      z-index: 30001;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+      text-align: center;
+    }
+    #confirmModal.active { display: block; }
+    #confirmModal h3 { color: var(--accent-blue); margin-bottom: 20px; }
+    #confirmModal p { color: var(--text-secondary); margin-bottom: 30px; }
+    #confirmModal .confirm-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    #confirmModal button {
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      min-width: 100px;
+    }
+    #confirmModal .confirm-yes {
+      background: var(--accent-red);
+      color: var(--bg-primary);
+    }
+    #confirmModal .confirm-no {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    /* ===== LOADING OVERLAY ===== */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 40000;
+      align-items: center;
+      justify-content: center;
+    }
+    #loadingOverlay.active { display: flex; }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--bg-secondary);
+      border-top-color: var(--accent-blue);
+      border-radius: 50%;
+      animation: spinner 0.8s linear infinite;
+    }
+    @keyframes spinner {
+      to { transform: rotate(360deg); }
+    }
+
     /* ===== ERRORES ===== */
     .error-message {
       color: var(--accent-red); font-size: 12px; margin-top: -10px; margin-bottom: 10px;
@@ -1316,7 +1428,6 @@
       margin: -10px 0 0 -10px; border: 2px solid var(--accent-blue); border-top-color: transparent;
       border-radius: 50%; animation: spinner 0.8s linear infinite;
     }
-    @keyframes spinner { to { transform: rotate(360deg); } }
     .btn-success { background: var(--accent-green) !important; color: var(--bg-primary) !important; }
     .btn-error { background: var(--accent-red) !important; color: var(--text-primary) !important; }
 
@@ -1330,12 +1441,12 @@
       border-radius: 40px;
     }
 
-    /* CAMBIO 8: Espaciado del título CONFIGURACIÓN_ */
+    /* Espaciado del título CONFIGURACIÓN_ */
     #cuestionarioEntreno h3 {
       margin: 30px 0 20px;
     }
 
-    /* ===== MODAL DE BIENVENIDA (CAMBIO 4) ===== */
+    /* Modal de bienvenida */
     #welcomeOverlay {
       display: none;
       position: fixed;
@@ -1405,7 +1516,26 @@
   </style>
 </head>
 <body>
-  <!-- CAMBIO 4: Banner de expiración premium -->
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- Confirm modal -->
+  <div id="confirmOverlay"></div>
+  <div id="confirmModal">
+    <h3 id="confirmTitle">CONFIRMAR</h3>
+    <p id="confirmMessage">¿Estás seguro?</p>
+    <div class="confirm-buttons">
+      <button class="confirm-yes" id="confirmYes">SÍ</button>
+      <button class="confirm-no" id="confirmNo">NO</button>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Banner de expiración premium -->
   <div id="premium-expiry-banner">
     <span id="expiry-message"></span>
     <button onclick="window.contactarAdmin()">CONTACTAR</button>
@@ -1442,7 +1572,7 @@
     <button onclick="window.cerrarPremiumModal()">CERRAR</button>
   </div>
 
-  <!-- CAMBIO 4: Overlay y modal de bienvenida -->
+  <!-- Modal de bienvenida -->
   <div id="welcomeOverlay"></div>
   <div id="welcomeModal">
     <h2>✨ BIENVENIDO A RI5</h2>
@@ -1488,7 +1618,7 @@
     <div class="card admin-card">
       <div class="app-header">
         <h1>RI5·ADMIN</h1>
-        <button class="theme-toggle" onclick="window.toggleTheme()" id="themeToggleAdmin">🌓</button>
+        <button class="theme-toggle" onclick="window.toggleTheme()" id="themeToggleAdmin" aria-label="Cambiar tema">🌓</button>
       </div>
       <p style="color: var(--accent-green); margin:20px 0; text-align:center;" id="adminWelcome"></p>
       <div class="tabs-container">
@@ -1499,7 +1629,6 @@
         <div id="admin-tab-usuarios" class="tab-content active">
           <div class="admin-stats" id="adminStats"></div>
           <button class="admin-btn admin-export-btn" onclick="window.exportarUsuariosCSV()" style="width:100%; margin:10px 0;">📥 EXPORTAR USUARIOS CSV</button>
-          <!-- CAMBIO 7: Botón VER PREMIUM -->
           <button class="admin-btn" onclick="window.abrirModalUsuarios('premium')" style="width:100%; margin:10px 0;">👑 VER PREMIUM</button>
           <button class="admin-btn" onclick="window.renovarExpirados()" style="width:100%;">🔄 RENOVAR EXPIRADOS</button>
         </div>
@@ -1517,7 +1646,7 @@
               <div class="nuevo-mensaje" style="margin-bottom:20px;">
                 <select id="adminSelectorUsuarios" style="margin-bottom:10px;"></select>
                 <textarea id="adminMensaje" placeholder="> ESCRIBE TU MENSAJE..."></textarea>
-                <button class="send-message-btn" onclick="window.enviarMensajeAdmin()" style="margin-top:10px;">📤 ENVIAR MENSAJE</button>
+                <button class="send-message-btn" onclick="window.enviarMensajeAdmin()">📤 ENVIAR MENSAJE</button>
               </div>
               <div id="listaMensajesEnviadosAdmin"></div>
             </div>
@@ -1547,22 +1676,22 @@
   <div class="wrapper" id="mainContent" style="display:none;">
     <div class="card">
       <div class="app-header">
-        <h1 id="ri5Title" onclick="window.showPremiumBenefits()">RI5</h1>
-        <button class="theme-toggle" onclick="window.toggleTheme()" id="themeToggle">🌓</button>
+        <h1 id="ri5Title" onclick="window.showPremiumBenefits()" role="button" tabindex="0" aria-label="Ver beneficios premium">RI5</h1>
+        <button class="theme-toggle" onclick="window.toggleTheme()" id="themeToggle" aria-label="Cambiar tema">🌓</button>
       </div>
       <p style="color: var(--text-secondary); margin:20px 0; text-align:center;" id="userWelcome"></p>
       <div id="calculoCounter" class="calculo-limit-msg" style="display:none;"></div>
       
       <div class="tabs-container">
-        <div class="tabs-header">
-          <button class="tab-button active" onclick="window.switchTab('entreno')">ENTRENO</button>
-          <button class="tab-button" onclick="window.switchTab('plan')">PLAN</button>
-          <button class="tab-button" onclick="window.switchTab('historial')">HISTORIAL</button>
-          <button class="tab-button" onclick="window.switchTab('soporte')" id="soporteTabButton">SOPORTE</button>
+        <div class="tabs-header" role="tablist">
+          <button class="tab-button active" onclick="window.switchTab('entreno')" role="tab" aria-selected="true">ENTRENO</button>
+          <button class="tab-button" onclick="window.switchTab('plan')" role="tab" aria-selected="false">PLAN</button>
+          <button class="tab-button" onclick="window.switchTab('historial')" role="tab" aria-selected="false">HISTORIAL</button>
+          <button class="tab-button" onclick="window.switchTab('soporte')" id="soporteTabButton" role="tab" aria-selected="false">SOPORTE</button>
         </div>
 
         <!-- TAB ENTRENO -->
-        <div id="tab-entreno" class="tab-content active">
+        <div id="tab-entreno" class="tab-content active" role="tabpanel">
           <h2>> ZONAS DE ENTRENO_</h2>
           <input id="name" placeholder="> NOMBRE_" readonly disabled><div class="error-message" id="nameError"></div>
           <input id="age" type="number" min="14" max="85" placeholder="> EDAD_"><div class="error-message" id="ageError"></div>
@@ -1573,7 +1702,7 @@
         </div>
 
         <!-- TAB PLAN -->
-        <div id="tab-plan" class="tab-content">
+        <div id="tab-plan" class="tab-content" role="tabpanel">
           <h2>> CREADOR DE PLANES_</h2>
           <button class="action-button" style="border-color: var(--accent-purple); color: var(--accent-purple); margin-bottom: 20px;" onclick="window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank')">🏆 PLANES A MEDIDA</button>
           
@@ -1596,7 +1725,7 @@
               <option value="maraton" selected>MARATÓN</option>
             </select>
 
-            <!-- CAMBIO 1: Mensaje informativo para larga distancia -->
+            <!-- Mensaje informativo para larga distancia -->
             <div id="info-mensaje-distancia" class="calculo-limit-msg" style="display:none; margin-top:10px;">⚠️ Las distancias de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.</div>
 
             <select id="duracionPlan" onchange="window.validarOpcionesPlan()">
@@ -1661,7 +1790,7 @@
         </div>
 
         <!-- TAB HISTORIAL -->
-        <div id="tab-historial" class="tab-content">
+        <div id="tab-historial" class="tab-content" role="tabpanel">
           <h2>> HISTORIAL_</h2>
           <div class="historial-controls">
             <label for="historialLimit">Mostrar:</label>
@@ -1675,7 +1804,7 @@
         </div>
 
         <!-- TAB SOPORTE -->
-        <div id="tab-soporte" class="tab-content">
+        <div id="tab-soporte" class="tab-content" role="tabpanel">
           <h2>> SOPORTE_</h2>
           <div class="soporte-section">
             <div class="soporte-tabs">
@@ -1725,13 +1854,55 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.database();
 
-      // ==================== MÓDULO UTILS ====================
+      // ==================== UTILS (con toasts y loading) ====================
       const Utils = {
         parseTime(t) { t = t.trim(); if(!t) return NaN; const m = t.match(/^(\d{1,3}):?(\d{0,2})$/); if(!m) return NaN; const min = parseInt(m[1]), seg = m[2]?parseInt(m[2]):0; if(seg>59||min>120||min<10) return NaN; return min + seg/60; },
         formatR(r) { if(!isFinite(r)||r<=0) return "--:--"; let m = Math.floor(r), s = Math.round((r-m)*60); if(s===60){ m++; s=0; } return m+":"+(s<10?'0':'')+s; },
-        showLoading(btn) { btn.classList.add('loading'); btn.disabled=true; },
-        hideLoading(btn) { btn.classList.remove('loading'); btn.disabled=false; },
-        showTemporaryMessage(btn, msg, ok=true) { const orig = btn.innerText; btn.innerText = msg; btn.classList.add(ok?'btn-success':'btn-error'); setTimeout(()=>{ btn.innerText=orig; btn.classList.remove('btn-success','btn-error'); },2000); },
+        showLoading() { document.getElementById('loadingOverlay').classList.add('active'); },
+        hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); },
+        showToast(message, type = 'info', duration = 3000) {
+          const container = document.getElementById('toast-container');
+          const toast = document.createElement('div');
+          toast.className = `toast ${type}`;
+          toast.textContent = message;
+          toast.setAttribute('role', 'alert');
+          toast.onclick = () => toast.remove();
+          container.appendChild(toast);
+          setTimeout(() => toast.remove(), duration);
+        },
+        confirm(title, message) {
+          return new Promise((resolve) => {
+            const overlay = document.getElementById('confirmOverlay');
+            const modal = document.getElementById('confirmModal');
+            const titleEl = document.getElementById('confirmTitle');
+            const msgEl = document.getElementById('confirmMessage');
+            const yesBtn = document.getElementById('confirmYes');
+            const noBtn = document.getElementById('confirmNo');
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+            overlay.classList.add('active');
+            modal.classList.add('active');
+
+            const onYes = () => {
+              overlay.classList.remove('active');
+              modal.classList.remove('active');
+              yesBtn.removeEventListener('click', onYes);
+              noBtn.removeEventListener('click', onNo);
+              resolve(true);
+            };
+            const onNo = () => {
+              overlay.classList.remove('active');
+              modal.classList.remove('active');
+              yesBtn.removeEventListener('click', onYes);
+              noBtn.removeEventListener('click', onNo);
+              resolve(false);
+            };
+
+            yesBtn.addEventListener('click', onYes);
+            noBtn.addEventListener('click', onNo);
+          });
+        },
         hashPassword(str) { return btoa(str + "_RI5_SALT"); },
         vibrate(pattern) {
           if (window.navigator && window.navigator.vibrate) {
@@ -1761,28 +1932,116 @@
         }
       };
 
-      // ==================== MÓDULO STORAGE ====================
+      // ==================== MÓDULO STORAGE (con manejo de errores) ====================
       const Storage = {
-        getUsers() { return db.ref('users').once('value').then(s => s.val()||{}); },
-        saveUsers(u) { return db.ref('users').set(u); },
-        getHistorial(u) { if(!u) return Promise.resolve([]); return db.ref('users/'+u+'/historial').once('value').then(s => s.val()||[]); },
-        saveHistorial(u,h) { if(!u) return Promise.reject(); return db.ref('users/'+u+'/historial').set(h); },
-        getUltimoPlan(u) { if(!u) return Promise.resolve(null); return db.ref('users/'+u+'/ultimoPlan').once('value').then(s => s.val()||null); },
-        setUltimoPlan(u,p) { if(!u) return Promise.reject(); return db.ref('users/'+u+'/ultimoPlan').set(p); },
-        removeUltimoPlan(u) { if(!u) return Promise.reject(); return db.ref('users/'+u+'/ultimoPlan').remove(); },
-        getUltimoCalculo(u) { if(!u) return Promise.resolve(null); return db.ref('users/'+u+'/ultimoCalculo').once('value').then(s => s.val()||null); },
-        setUltimoCalculo(u,c) { if(!u) return Promise.reject(); return db.ref('users/'+u+'/ultimoCalculo').set(c); },
-        getMensajes() { return db.ref('mensajes').once('value').then(s => s.val()||{}); },
-        saveMensajes(m) { return db.ref('mensajes').set(m); },
-        getMensajesUsuario(u) { return this.getMensajes().then(t => t[u]||[]); },
-        marcarLeido(u,i) { return this.getMensajes().then(t=>{ if(t[u]&&t[u][i]){ t[u][i].leido=true; return this.saveMensajes(t); } }); },
-        borrarMensajeUsuario(u,i) { return this.getMensajes().then(t=>{ if(t[u]&&t[u][i]){ t[u].splice(i,1); if(t[u].length===0) delete t[u]; return this.saveMensajes(t); } }); },
-        enviarMensajeUsuario(us,txt) { return this.getMensajes().then(t=>{ const k="admin_"+us; if(!t[k]) t[k]=[]; t[k].push({fecha:new Date().toLocaleString(),texto:txt,leido:false,esUsuario:true}); return this.saveMensajes(t); }); },
-        enviarMensajeAdminAUsuario(us,txt) { return this.getMensajes().then(t=>{ if(!t[us]) t[us]=[]; t[us].push({fecha:new Date().toLocaleString(),texto:txt,leido:false,esAdmin:true}); return this.saveMensajes(t); }); },
-        getMensajesEnviadosUsuario(u) { return this.getMensajes().then(t=> t["admin_"+u]||[]); },
-        getMensajesRecibidosAdmin() { return this.getMensajes().then(t=>{ const r=[]; Object.keys(t).forEach(k=>{ if(k.startsWith('admin_')){ const u=k.replace('admin_',''); t[k].forEach((msg,idx)=> r.push({usuario:u,mensaje:msg,idx,key:k})); } }); return r; }); },
-        getMensajesEnviadosAdmin() { return this.getMensajes().then(t=>{ const e=[]; Object.keys(t).forEach(k=>{ if(!k.startsWith('admin_')){ t[k].forEach((msg,idx)=> { if(msg.esAdmin) e.push({usuario:k,mensaje:msg,idx,key:k}); }); } }); return e; }); },
-        borrarMensaje(k,i) { return this.getMensajes().then(t=>{ if(t[k]&&t[k][i]){ t[k].splice(i,1); if(t[k].length===0) delete t[k]; return this.saveMensajes(t); } }); }
+        async getUsers() { 
+          try { return (await db.ref('users').once('value')).val() || {}; } 
+          catch(e) { Utils.showToast('Error al cargar usuarios', 'error'); return {}; }
+        },
+        async saveUsers(u) { 
+          try { await db.ref('users').set(u); } 
+          catch(e) { Utils.showToast('Error al guardar usuarios', 'error'); throw e; }
+        },
+        async getHistorial(u) { 
+          if(!u) return []; 
+          try { return (await db.ref('users/'+u+'/historial').once('value')).val() || []; } 
+          catch(e) { Utils.showToast('Error al cargar historial', 'error'); return []; }
+        },
+        async saveHistorial(u,h) { 
+          if(!u) return; 
+          try { await db.ref('users/'+u+'/historial').set(h); } 
+          catch(e) { Utils.showToast('Error al guardar historial', 'error'); throw e; }
+        },
+        async getUltimoPlan(u) { 
+          if(!u) return null; 
+          try { return (await db.ref('users/'+u+'/ultimoPlan').once('value')).val() || null; } 
+          catch(e) { Utils.showToast('Error al cargar plan', 'error'); return null; }
+        },
+        async setUltimoPlan(u,p) { 
+          if(!u) return; 
+          try { await db.ref('users/'+u+'/ultimoPlan').set(p); } 
+          catch(e) { Utils.showToast('Error al guardar plan', 'error'); throw e; }
+        },
+        async removeUltimoPlan(u) { 
+          if(!u) return; 
+          try { await db.ref('users/'+u+'/ultimoPlan').remove(); } 
+          catch(e) { Utils.showToast('Error al eliminar plan', 'error'); throw e; }
+        },
+        async getUltimoCalculo(u) { 
+          if(!u) return null; 
+          try { return (await db.ref('users/'+u+'/ultimoCalculo').once('value')).val() || null; } 
+          catch(e) { Utils.showToast('Error al cargar cálculo', 'error'); return null; }
+        },
+        async setUltimoCalculo(u,c) { 
+          if(!u) return; 
+          try { await db.ref('users/'+u+'/ultimoCalculo').set(c); } 
+          catch(e) { Utils.showToast('Error al guardar cálculo', 'error'); throw e; }
+        },
+        async getMensajes() { 
+          try { return (await db.ref('mensajes').once('value')).val() || {}; } 
+          catch(e) { Utils.showToast('Error al cargar mensajes', 'error'); return {}; }
+        },
+        async saveMensajes(m) { 
+          try { await db.ref('mensajes').set(m); } 
+          catch(e) { Utils.showToast('Error al guardar mensajes', 'error'); throw e; }
+        },
+        // Escucha en tiempo real para mensajes de usuario
+        listenMensajesUsuario(u, callback) {
+          const ref = db.ref('mensajes/' + u);
+          const listener = ref.on('value', (snapshot) => {
+            callback(snapshot.val() || []);
+          }, (error) => {
+            Utils.showToast('Error en tiempo real', 'error');
+          });
+          return () => ref.off('value', listener);
+        },
+        listenMensajesEnviadosUsuario(u, callback) {
+          const ref = db.ref('mensajes/admin_' + u);
+          const listener = ref.on('value', (snapshot) => {
+            callback(snapshot.val() || []);
+          }, (error) => {
+            Utils.showToast('Error en tiempo real', 'error');
+          });
+          return () => ref.off('value', listener);
+        },
+        listenMensajesAdminRecibidos(callback) {
+          const ref = db.ref('mensajes');
+          const listener = ref.on('value', (snapshot) => {
+            const todos = snapshot.val() || {};
+            const recibidos = [];
+            Object.keys(todos).forEach(k=>{
+              if(k.startsWith('admin_')){
+                const u = k.replace('admin_','');
+                todos[k].forEach((msg,idx)=> recibidos.push({usuario:u, mensaje:msg, idx, key:k}));
+              }
+            });
+            callback(recibidos);
+          }, (error) => {
+            Utils.showToast('Error en tiempo real', 'error');
+          });
+          return () => ref.off('value', listener);
+        },
+        listenMensajesAdminEnviados(callback) {
+          const ref = db.ref('mensajes');
+          const listener = ref.on('value', (snapshot) => {
+            const todos = snapshot.val() || {};
+            const enviados = [];
+            Object.keys(todos).forEach(k=>{
+              if(!k.startsWith('admin_')){
+                todos[k].forEach((msg,idx)=> { if(msg.esAdmin) enviados.push({usuario:k, mensaje:msg, idx, key:k}); });
+              }
+            });
+            callback(enviados);
+          }, (error) => {
+            Utils.showToast('Error en tiempo real', 'error');
+          });
+          return () => ref.off('value', listener);
+        },
+        async enviarMensajeUsuario(us,txt) { return this.getMensajes().then(t=>{ const k="admin_"+us; if(!t[k]) t[k]=[]; t[k].push({fecha:new Date().toLocaleString(),texto:txt,leido:false,esUsuario:true}); return this.saveMensajes(t); }); },
+        async enviarMensajeAdminAUsuario(us,txt) { return this.getMensajes().then(t=>{ if(!t[us]) t[us]=[]; t[us].push({fecha:new Date().toLocaleString(),texto:txt,leido:false,esAdmin:true}); return this.saveMensajes(t); }); },
+        async marcarLeido(u,i) { return this.getMensajes().then(t=>{ if(t[u]&&t[u][i]){ t[u][i].leido=true; return this.saveMensajes(t); } }); },
+        async borrarMensajeUsuario(u,i) { return this.getMensajes().then(t=>{ if(t[u]&&t[u][i]){ t[u].splice(i,1); if(t[u].length===0) delete t[u]; return this.saveMensajes(t); } }); },
+        async borrarMensaje(k,i) { return this.getMensajes().then(t=>{ if(t[k]&&t[k][i]){ t[k].splice(i,1); if(t[k].length===0) delete t[k]; return this.saveMensajes(t); } }); }
       };
 
       // ==================== ESTADO GLOBAL ====================
@@ -1799,6 +2058,7 @@
         calculosMes: 0,
         mesActual: '',
         usuariosVistos: JSON.parse(localStorage.getItem('usuariosVistos')||'[]'),
+        mensajeListeners: [],
         setLastCalc(d) { this.lastName=d.name; this.lastAge=d.age; this.lastFC=d.fcMax; this.lastUL=d.ul; this.lastZones=d.zones; this.lastPred=d.pred; this.lastRitmoBase=d.ritmoBase; this.zonasCalculadas=true; },
         clearLastCalc() { this.zonasCalculadas=false; this.lastName=""; this.lastAge=0; this.lastFC=0; this.lastUL=0; this.lastZones=[]; this.lastPred=[]; this.lastRitmoBase=0; },
         setCurrentUser(u, premium=false, expiryDate=null, calculosMes=0, mesActual='') {
@@ -1874,7 +2134,7 @@
           }
           
           if(this.calculosMes >= 2) {
-            alert('❌ Has alcanzado el límite de 2 cálculos mensuales. Hazte premium para cálculos ilimitados.');
+            Utils.showToast('❌ Has alcanzado el límite de 2 cálculos mensuales. Hazte premium para cálculos ilimitados.', 'error');
             return false;
           }
           
@@ -1900,8 +2160,15 @@
           if(!u||!p) { err.innerText="> COMPLETA TODOS LOS CAMPOS_"; err.classList.add('visible'); return; }
           if(u.length<3) { err.innerText="> MÍNIMO 3 CARACTERES_"; err.classList.add('visible'); return; }
           if(p.length<4) { err.innerText="> MÍNIMO 4 CARACTERES_"; err.classList.add('visible'); return; }
+          // Validación de caracteres permitidos
+          if(!/^[a-zA-Z0-9_]+$/.test(u)) {
+            err.innerText="> SOLO LETRAS, NÚMEROS Y GUION BAJO_";
+            err.classList.add('visible');
+            return;
+          }
+          Utils.showLoading();
           const users = await Storage.getUsers();
-          if(users[u]) { err.innerText="> EL USUARIO YA EXISTE_"; err.classList.add('visible'); return; }
+          if(users[u]) { err.innerText="> EL USUARIO YA EXISTE_"; err.classList.add('visible'); Utils.hideLoading(); return; }
           const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
@@ -1917,13 +2184,14 @@
           await Storage.saveUsers(users);
           await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
           AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
+          Utils.hideLoading();
+          Utils.showToast('✅ Registro exitoso', 'success');
           document.getElementById("loginPage").style.opacity="0";
           setTimeout(()=>{
             document.getElementById("loginPage").style.display="none";
             document.getElementById("mainContent").style.display="flex";
             document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
             UI.changeDailyTip(); UI.startConsejoAutoChange();
-            // CAMBIO 4: Mostrar modal de bienvenida si no se ha visto
             if (!users[u].welcomeSeen) {
               UI.mostrarWelcomeModal(u);
             }
@@ -1933,11 +2201,12 @@
           const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
           if(!u||!p) { err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; err.classList.add('visible'); return; }
           if(u==='admin' && p==='091118110485120385') { Auth.mostrarAdminPanel(); return; }
+          Utils.showLoading();
           const users = await Storage.getUsers();
           const user = users[u];
-          if(!user || user.password !== Utils.hashPassword(p)) { err.innerText="> INCORRECTO_"; err.classList.add('visible'); return; }
+          if(!user || user.password !== Utils.hashPassword(p)) { err.innerText="> INCORRECTO_"; err.classList.add('visible'); Utils.hideLoading(); return; }
           const now = new Date(), expiry = new Date(user.expires);
-          if(now>expiry){ if(user.premium) alert("> Tu período premium ha expirado."); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); return; } }
+          if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); Utils.hideLoading(); return; } }
           
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
@@ -1956,15 +2225,16 @@
           const msgs = await Storage.getMensajesUsuario(u);
           AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
           UI.actualizarBadgeMensajes();
+          Utils.hideLoading();
+          Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
           document.getElementById("loginPage").style.opacity="0";
           setTimeout(()=>{
             document.getElementById("loginPage").style.display="none";
             document.getElementById("mainContent").style.display="flex";
             document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
             UI.changeDailyTip(); UI.startConsejoAutoChange();
-            UI.cargarMensajesRecibidos(); UI.cargarMensajesEnviados();
+            UI.setupMensajesListeners(); // Configurar escucha en tiempo real
             Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
-            // CAMBIO 4: Mostrar modal de bienvenida si no se ha visto
             if (!user.welcomeSeen) {
               UI.mostrarWelcomeModal(u);
             }
@@ -1974,19 +2244,20 @@
           const u = document.getElementById('regUsername').value.trim();
           const p = document.getElementById('regPassword').value.trim();
           if(!u || !p) {
-            alert('> PARA ELIMINAR LA CUENTA, INTRODUCE USUARIO Y CONTRASEÑA EN EL FORMULARIO DE REGISTRO_');
+            Utils.showToast('> PARA ELIMINAR LA CUENTA, INTRODUCE USUARIO Y CONTRASEÑA EN EL FORMULARIO DE REGISTRO_', 'error');
             return;
           }
           if(u === 'admin') {
-            alert('> NO SE PUEDE ELIMINAR LA CUENTA ADMIN_');
+            Utils.showToast('> NO SE PUEDE ELIMINAR LA CUENTA ADMIN_', 'error');
             return;
           }
-          if(!confirm(`> ¿ESTÁS SEGURO DE ELIMINAR LA CUENTA "${u}"? ESTA ACCIÓN ES IRREVERSIBLE_`)) return;
+          const confirmed = await Utils.confirm('ELIMINAR CUENTA', `¿ESTÁS SEGURO DE ELIMINAR LA CUENTA "${u}"? ESTA ACCIÓN ES IRREVERSIBLE.`);
+          if(!confirmed) return;
           
           const users = await Storage.getUsers();
           const user = users[u];
           if(!user || user.password !== Utils.hashPassword(p)) {
-            alert('> CONTRASEÑA INCORRECTA_');
+            Utils.showToast('> CONTRASEÑA INCORRECTA_', 'error');
             return;
           }
           
@@ -1999,12 +2270,27 @@
             document.getElementById("loginPage").style.display="flex";
           }
           
-          alert(`✅ CUENTA "${u}" ELIMINADA`);
+          Utils.showToast(`✅ CUENTA "${u}" ELIMINADA`, 'success');
           document.getElementById('regUsername').value = '';
           document.getElementById('regPassword').value = '';
         },
         mostrarAdminPanel() { document.getElementById("loginPage").style.display="none"; document.getElementById("mainContent").style.display="none"; document.getElementById("adminPage").style.display="flex"; Admin.actualizarAdminPanel(); },
-        logoutUser() { if(!confirm("> ¿CERRAR SESIÓN?_")) return; AppState.setCurrentUser(null); document.getElementById("mainContent").style.display="none"; document.getElementById("loginPage").style.display="flex"; document.getElementById("loginUsername").value=''; document.getElementById("loginPassword").value=''; document.getElementById("results").innerHTML=''; document.getElementById("calendarioEntreno").style.display="none"; AppState.clearLastCalc(); },
+        logoutUser() { 
+          Utils.confirm('CERRAR SESIÓN', '> ¿CERRAR SESIÓN?_').then(ok => {
+            if(!ok) return;
+            // Cancelar listeners
+            AppState.mensajeListeners.forEach(unsub => unsub());
+            AppState.mensajeListeners = [];
+            AppState.setCurrentUser(null); 
+            document.getElementById("mainContent").style.display="none"; 
+            document.getElementById("loginPage").style.display="flex"; 
+            document.getElementById("loginUsername").value=''; 
+            document.getElementById("loginPassword").value=''; 
+            document.getElementById("results").innerHTML=''; 
+            document.getElementById("calendarioEntreno").style.display="none"; 
+            AppState.clearLastCalc();
+          });
+        },
         logoutAdmin() { document.getElementById("adminPage").style.display="none"; document.getElementById("loginPage").style.display="flex"; },
         async checkSavedSession() {
           const s = localStorage.getItem('ri5_current_user'); if(!s) return false;
@@ -2041,14 +2327,14 @@
           document.getElementById("loginPage").style.display="none";
           document.getElementById("mainContent").style.display="flex";
           document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
-          if(now>expiry && user.premium) setTimeout(()=>alert("> Tu período premium ha expirado."),500);
+          if(now>expiry && user.premium) setTimeout(()=>Utils.showToast('> Tu período premium ha expirado.', 'warning'),500);
           const nameField = document.getElementById('name');
           if(nameField) nameField.value = s;
           UI.changeDailyTip(); UI.startConsejoAutoChange();
           AppState.actualizarInterfazPremium();
           AppState.verificarExpiracionPremium();
           const calc = await Storage.getUltimoCalculo(s); if(calc){ AppState.setLastCalc(calc); UI.mostrarResultadosGuardados(calc); }
-          // No mostramos modal de bienvenida aquí porque ya se mostró en registro o login anterior
+          UI.setupMensajesListeners(); // Escucha en tiempo real
           return true;
         },
         showPremiumBenefits() { 
@@ -2060,7 +2346,6 @@
         document.getElementById('premiumOverlay').classList.remove('active');
         document.getElementById('premiumModal').classList.remove('active');
       };
-
       window.contactarAdmin = function() {
         window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank');
       };
@@ -2068,6 +2353,8 @@
       // ==================== MÓDULO ADMIN ====================
       const Admin = {
         adminSeenUsers: JSON.parse(localStorage.getItem('admin_seen_users') || '[]'),
+        mensajesRecibidosUnsub: null,
+        mensajesEnviadosUnsub: null,
         async actualizarAdminPanel() {
           const users = await Storage.getUsers();
           const ahora = new Date(), total = Object.keys(users).length;
@@ -2084,8 +2371,36 @@
             <span class="stat-badge" onclick="window.abrirModalUsuarios('nuevos')" style="background: var(--new-user-bg); border-color: var(--new-user-border);">🆕 NUEVOS <span class="number" style="color: var(--accent-red);">${newUsersCount}</span></span>
           `;
           document.getElementById("adminWelcome").innerText = `> ADMIN · ${ahora.toLocaleString()}`;
-          this.cargarMensajesAdmin();
+          this.setupMensajesListeners();
           this.cargarSelectorUsuarios();
+        },
+        setupMensajesListeners() {
+          if (this.mensajesRecibidosUnsub) this.mensajesRecibidosUnsub();
+          if (this.mensajesEnviadosUnsub) this.mensajesEnviadosUnsub();
+          this.mensajesRecibidosUnsub = Storage.listenMensajesAdminRecibidos((recibidos) => {
+            this.renderMensajesRecibidos(recibidos);
+          });
+          this.mensajesEnviadosUnsub = Storage.listenMensajesAdminEnviados((enviados) => {
+            this.renderMensajesEnviados(enviados);
+          });
+        },
+        renderMensajesRecibidos(recibidos) {
+          let htmlRec='', noLeidosRecibidos=0;
+          recibidos.forEach(item=>{
+            if(!item.mensaje.leido) noLeidosRecibidos++;
+            htmlRec+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📨 ${item.mensaje.fecha} · ${item.usuario}</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido">${item.mensaje.texto}</div></div>`;
+          });
+          document.getElementById('listaMensajesRecibidosAdmin').innerHTML = htmlRec || '<p>📭 NO HAY MENSAJES</p>';
+          AppState.mensajesNoLeidosAdmin = noLeidosRecibidos;
+          this.actualizarBadgeAdminSoporte();
+        },
+        renderMensajesEnviados(enviados) {
+          let htmlEnv='';
+          enviados.forEach(item=>{
+            const claseNoLeido = !item.mensaje.leido ? 'no-leido-usuario' : '';
+            htmlEnv+=`<div class="mensaje-item ${claseNoLeido}"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${item.mensaje.fecha} · <strong style="color:var(--accent-green);">👤 ${item.usuario}</strong></span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido"><div style="margin-bottom:8px;color:var(--accent-green);"><strong>Para: ${item.usuario}</strong></div>${item.mensaje.texto}</div></div>`;
+          });
+          document.getElementById('listaMensajesEnviadosAdmin').innerHTML = htmlEnv || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
         },
         async abrirModalUsuarios(filtro='total') {
           const users = await Storage.getUsers();
@@ -2170,47 +2485,29 @@
         },
         async extenderUsuario(u,m) {
           const users = await Storage.getUsers();
-          if(users[u]){ const e=new Date(users[u].expires); e.setMonth(e.getMonth()+m); users[u].expires=e.toISOString(); await Storage.saveUsers(users); this.actualizarAdminPanel(); alert(`✅ ${u} extendido ${m} mes`); this.abrirModalUsuarios(); }
+          if(users[u]){ const e=new Date(users[u].expires); e.setMonth(e.getMonth()+m); users[u].expires=e.toISOString(); await Storage.saveUsers(users); this.actualizarAdminPanel(); Utils.showToast(`✅ ${u} extendido ${m} mes`, 'success'); this.abrirModalUsuarios(); }
         },
         async togglePremium(u) {
           const users = await Storage.getUsers();
-          if(users[u]){ users[u].premium = !users[u].premium; await Storage.saveUsers(users); this.actualizarAdminPanel(); alert(`✅ Premium de ${u} cambiado`); this.abrirModalUsuarios(); }
+          if(users[u]){ users[u].premium = !users[u].premium; await Storage.saveUsers(users); this.actualizarAdminPanel(); Utils.showToast(`✅ Premium de ${u} cambiado`, 'success'); this.abrirModalUsuarios(); }
         },
         async eliminarUsuario(u) {
-          if(!confirm(`> ¿ELIMINAR "${u}"?`)) return;
+          const confirmed = await Utils.confirm('ELIMINAR USUARIO', `> ¿ELIMINAR "${u}"?`);
+          if(!confirmed) return;
           const users = await Storage.getUsers();
           delete users[u]; await Storage.saveUsers(users);
           if(AppState.currentUser===u) AppState.setCurrentUser(null);
-          this.actualizarAdminPanel(); alert(`✅ ${u} eliminado`); this.abrirModalUsuarios();
+          this.actualizarAdminPanel(); Utils.showToast(`✅ ${u} eliminado`, 'success'); this.abrirModalUsuarios();
         },
         exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
         async renovarExpirados() {
-          if(!confirm("> ¿RENOVAR TODOS LOS EXPIRADOS POR 1 MES?")) return;
+          const confirmed = await Utils.confirm('RENOVAR EXPIRADOS', "> ¿RENOVAR TODOS LOS EXPIRADOS POR 1 MES?");
+          if(!confirmed) return;
           const users = await Storage.getUsers(), ahora=new Date();
           Object.entries(users).forEach(([u,d])=>{ if(new Date(d.expires)<=ahora){ const e=new Date(d.expires); e.setMonth(e.getMonth()+1); users[u].expires=e.toISOString(); } });
-          await Storage.saveUsers(users); this.actualizarAdminPanel(); alert("✅ EXPIRADOS RENOVADOS");
+          await Storage.saveUsers(users); this.actualizarAdminPanel(); Utils.showToast("✅ EXPIRADOS RENOVADOS", 'success');
         },
-        async enviarMensajeAUsuario(usuario) { const txt=prompt(`> MENSAJE PARA ${usuario}:`); if(!txt) return; await Storage.enviarMensajeAdminAUsuario(usuario,txt); alert("✅ ENVIADO"); this.cargarMensajesAdmin(); },
-        async cargarMensajesAdmin() {
-          const recibidos = await Storage.getMensajesRecibidosAdmin();
-          let htmlRec='', noLeidosRecibidos=0;
-          recibidos.forEach(item=>{
-            if(!item.mensaje.leido) noLeidosRecibidos++;
-            htmlRec+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📨 ${item.mensaje.fecha} · ${item.usuario}</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido">${item.mensaje.texto}</div></div>`;
-          });
-          document.getElementById('listaMensajesRecibidosAdmin').innerHTML = htmlRec || '<p>📭 NO HAY MENSAJES</p>';
-          
-          const enviados = await Storage.getMensajesEnviadosAdmin();
-          let htmlEnv='';
-          enviados.forEach(item=>{
-            const claseNoLeido = !item.mensaje.leido ? 'no-leido-usuario' : '';
-            htmlEnv+=`<div class="mensaje-item ${claseNoLeido}"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${item.mensaje.fecha} · <strong style="color:var(--accent-green);">👤 ${item.usuario}</strong></span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido"><div style="margin-bottom:8px;color:var(--accent-green);"><strong>Para: ${item.usuario}</strong></div>${item.mensaje.texto}</div></div>`;
-          });
-          document.getElementById('listaMensajesEnviadosAdmin').innerHTML = htmlEnv || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
-          
-          AppState.mensajesNoLeidosAdmin = noLeidosRecibidos;
-          this.actualizarBadgeAdminSoporte();
-        },
+        async enviarMensajeAUsuario(usuario) { const txt=prompt(`> MENSAJE PARA ${usuario}:`); if(!txt) return; await Storage.enviarMensajeAdminAUsuario(usuario,txt); Utils.showToast("✅ ENVIADO", 'success'); },
         async cargarSelectorUsuarios() {
           const users = await Storage.getUsers();
           const select = document.getElementById('adminSelectorUsuarios');
@@ -2224,20 +2521,19 @@
           const select = document.getElementById('adminSelectorUsuarios');
           const destino = select.value;
           const texto = document.getElementById('adminMensaje').value.trim();
-          if(!texto) return alert('> ESCRIBE UN MENSAJE');
+          if(!texto) return Utils.showToast('> ESCRIBE UN MENSAJE', 'error');
           
           if(destino === 'todos') {
             const users = await Storage.getUsers();
             for(let usuario of Object.keys(users)) {
               await Storage.enviarMensajeAdminAUsuario(usuario, texto);
             }
-            alert('✅ MENSAJE ENVIADO A TODOS LOS USUARIOS');
+            Utils.showToast('✅ MENSAJE ENVIADO A TODOS LOS USUARIOS', 'success');
           } else {
             await Storage.enviarMensajeAdminAUsuario(destino, texto);
-            alert(`✅ MENSAJE ENVIADO A ${destino}`);
+            Utils.showToast(`✅ MENSAJE ENVIADO A ${destino}`, 'success');
           }
           document.getElementById('adminMensaje').value = '';
-          this.cargarMensajesAdmin();
         },
         actualizarBadgeAdminSoporte() { const t=document.getElementById('adminSoporteTab'); if(AppState.mensajesNoLeidosAdmin>0) t.classList.add('soporte-unread'); else t.classList.remove('soporte-unread'); },
         cambiarSoporteTab(tab) { document.querySelectorAll('#admin-tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); document.querySelectorAll('#admin-tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); if(tab==='recibidos'){ document.querySelectorAll('#admin-tab-soporte .soporte-tab')[0].classList.add('active'); document.getElementById('admin-soporte-recibidos').classList.add('active'); }else{ document.querySelectorAll('#admin-tab-soporte .soporte-tab')[1].classList.add('active'); document.getElementById('admin-soporte-enviados').classList.add('active'); } }
@@ -2257,7 +2553,7 @@
         document.querySelectorAll('#adminPage .tab-button').forEach(b=>b.classList.remove('active'));
         document.querySelectorAll('#adminPage .tab-content').forEach(c=>c.classList.remove('active'));
         if(tab==='usuarios'){ document.querySelectorAll('#adminPage .tab-button')[0].classList.add('active'); document.getElementById('admin-tab-usuarios').classList.add('active'); }
-        else { document.querySelectorAll('#adminPage .tab-button')[1].classList.add('active'); document.getElementById('admin-tab-soporte').classList.add('active'); Admin.cargarMensajesAdmin(); Admin.cargarSelectorUsuarios(); }
+        else { document.querySelectorAll('#adminPage .tab-button')[1].classList.add('active'); document.getElementById('admin-tab-soporte').classList.add('active'); Admin.cargarSelectorUsuarios(); }
       };
       window.cambiarAdminSoporteTab = (tab)=>Admin.cambiarSoporteTab(tab);
       window.eliminarMiCuenta = Auth.eliminarMiCuenta.bind(Auth);
@@ -2274,11 +2570,11 @@
           }
           
           const b=document.getElementById("calcBtn"); 
-          Utils.showLoading(b); 
+          Utils.showLoading(); 
           setTimeout(()=>{ 
             this.calculate(); 
-            Utils.hideLoading(b); 
-            Utils.showTemporaryMessage(b,"✓ CALCULADO",true); 
+            Utils.hideLoading(); 
+            Utils.showToast("✓ CALCULADO", 'success'); 
             document.getElementById('results').scrollIntoView({behavior:'smooth'});
             Utils.vibrate(50);
             Utils.playSound('success');
@@ -2287,7 +2583,7 @@
         calculate() {
           const n=AppState.currentUser;
           const a=parseInt(document.getElementById("age").value), t=Utils.parseTime(document.getElementById("time").value);
-          if(!n||!a||isNaN(t)) return alert("> COMPLETA TODOS LOS CAMPOS CORRECTAMENTE_");
+          if(!n||!a||isNaN(t)) { Utils.showToast("> COMPLETA TODOS LOS CAMPOS CORRECTAMENTE_", 'error'); return; }
           const r=t/6, fc=220-a, ul=Math.round(fc*0.92*1.03);
           const pred=[{dist:2,color:"var(--accent-blue)",ritmo:r*0.98},{dist:6,color:"var(--accent-green)",ritmo:r},{dist:10,color:"var(--accent-yellow)",ritmo:r*1.05},{dist:21,color:"var(--accent-red)",ritmo:r*1.12},{dist:42,color:"var(--accent-purple)",ritmo:r*1.20}];
           const zones=[
@@ -2362,16 +2658,16 @@
           if(document.getElementById('tab-historial').classList.contains('active')) UI.cargarHistorial();
         },
         copyResults() {
-          if(!AppState.lastName) return alert("> CALCULA ZONAS PRIMERO_");
+          if(!AppState.lastName) return Utils.showToast("> CALCULA ZONAS PRIMERO_", 'error');
           let txt = "🔹 RI5 - ZONAS DE ENTRENO 🔹\n\n";
           txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n⏱️ RITMO 6km: ${Utils.formatR(AppState.lastRitmoBase)} min/km\n\n📊 PREDICCIONES:\n`;
           AppState.lastPred.forEach(p=>txt+=`   ${p.dist} km → ${Utils.formatR(p.ritmo)} min/km\n`);
           txt+=`\n🎯 ZONAS:\n`;
           AppState.lastZones.forEach(z=>{ const min=Math.round(AppState.lastUL*z[2]), max=Math.round(AppState.lastUL*z[3]); txt+=`   ${z[0]} ${z[1]}: ${min}-${max} lpm · ${z[6]}\n`; });
-          navigator.clipboard.writeText(txt).then(()=>{ const btn=document.querySelector('.btn-copy'); if(btn) Utils.showTemporaryMessage(btn,"✅ COPIADO",true); }).catch(()=>alert("> NO SE PUDO COPIAR."));
+          navigator.clipboard.writeText(txt).then(()=>{ Utils.showToast("✅ COPIADO", 'success'); }).catch(()=>Utils.showToast("> NO SE PUDO COPIAR.", 'error'));
         },
         shareResults() {
-          if(!AppState.lastName) return alert("> CALCULA ZONAS PRIMERO_");
+          if(!AppState.lastName) return Utils.showToast("> CALCULA ZONAS PRIMERO_", 'error');
           let txt = "🏃‍♂️ MIS ZONAS DE ENTRENAMIENTO RI5 🏃‍♀️\n\n";
           txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n`;
           txt += `❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n`;
@@ -2386,12 +2682,12 @@
               url: window.location.href,
             }).catch(() => {
               navigator.clipboard.writeText(txt).then(() => {
-                alert("✅ RESULTADOS COPIADOS AL PORTAPAPELES");
+                Utils.showToast("✅ RESULTADOS COPIADOS", 'success');
               });
             });
           } else {
             navigator.clipboard.writeText(txt).then(() => {
-              alert("✅ RESULTADOS COPIADOS AL PORTAPAPELES · AHORA PUEDES COMPARTIRLOS");
+              Utils.showToast("✅ RESULTADOS COPIADOS · AHORA PUEDES COMPARTIRLOS", 'success');
             });
           }
           Utils.vibrate(30);
@@ -2487,32 +2783,81 @@
         },
         toggleHistorialDetalle(el){ el.classList.toggle('abierto'); },
         async borrarEntradaHistorial(i){
-          if(!AppState.currentUser||!confirm("> ¿ELIMINAR ESTA ENTRADA?_")) return;
-          let hist=await Storage.getHistorial(AppState.currentUser); hist.splice(i,1); await Storage.saveHistorial(AppState.currentUser,hist); this.cargarHistorial(); alert("✅ ELIMINADA");
+          if(!AppState.currentUser) return;
+          const confirmed = await Utils.confirm('ELIMINAR ENTRADA', "> ¿ELIMINAR ESTA ENTRADA?_");
+          if(!confirmed) return;
+          let hist=await Storage.getHistorial(AppState.currentUser); hist.splice(i,1); await Storage.saveHistorial(AppState.currentUser,hist); this.cargarHistorial(); Utils.showToast("✅ ELIMINADA", 'success');
         },
         async borrarHistorial(){
-          if(!AppState.currentUser||!confirm("> ¿ELIMINAR TODO EL HISTORIAL?_")) return;
-          await Storage.saveHistorial(AppState.currentUser,[]); this.cargarHistorial(); alert("✅ HISTORIAL LIMPIO");
-        },
-        async cargarMensajesRecibidos(){
           if(!AppState.currentUser) return;
-          const msgs=await Storage.getMensajesUsuario(AppState.currentUser);
-          let html=''; msgs.forEach((m,i)=>{
+          const confirmed = await Utils.confirm('LIMPIAR HISTORIAL', "> ¿ELIMINAR TODO EL HISTORIAL?_");
+          if(!confirmed) return;
+          await Storage.saveHistorial(AppState.currentUser,[]); this.cargarHistorial(); Utils.showToast("✅ HISTORIAL LIMPIO", 'success');
+        },
+        // Escucha en tiempo real para mensajes
+        setupMensajesListeners() {
+          if (!AppState.currentUser) return;
+          // Cancelar listeners anteriores
+          AppState.mensajeListeners.forEach(unsub => unsub());
+          AppState.mensajeListeners = [];
+          // Recibidos
+          const unsubRec = Storage.listenMensajesUsuario(AppState.currentUser, (msgs) => {
+            AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
+            this.renderMensajesRecibidos(msgs);
+          });
+          AppState.mensajeListeners.push(unsubRec);
+          // Enviados
+          const unsubEnv = Storage.listenMensajesEnviadosUsuario(AppState.currentUser, (msgs) => {
+            this.renderMensajesEnviados(msgs);
+          });
+          AppState.mensajeListeners.push(unsubEnv);
+        },
+        renderMensajesRecibidos(msgs) {
+          let html=''; 
+          msgs.forEach((m,i)=>{
             const nuevo=!m.leido?'nuevo':'';
             html+=`<div class="mensaje-item ${nuevo}" data-indice="${i}"><div class="mensaje-header" onclick="window.toggleMensajeRecibido(this,${i})"><span>📨 ${m.fecha} · Admin</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeUsuario(${i})">🗑️</button></div><div class="mensaje-contenido">${m.texto}</div></div>`;
           });
           document.getElementById('listaMensajesRecibidos').innerHTML = html || '<p>📭 NO HAY MENSAJES</p>';
           this.actualizarBadgeMensajes();
         },
-        async borrarMensajeUsuario(i){ if(!AppState.currentUser||!confirm("> ¿ELIMINAR?")) return; await Storage.borrarMensajeUsuario(AppState.currentUser,i); this.cargarMensajesRecibidos(); alert("✅ ELIMINADO"); },
-        async cargarMensajesEnviados(){
-          if(!AppState.currentUser) return;
-          const msgs=await Storage.getMensajesEnviadosUsuario(AppState.currentUser);
-          let html=''; msgs.forEach(m=>{ html+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${m.fecha} · Tú</span><span class="flecha">▼</span></div><div class="mensaje-contenido">${m.texto}</div></div>`; });
+        renderMensajesEnviados(msgs) {
+          let html=''; 
+          msgs.forEach(m=>{ 
+            html+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${m.fecha} · Tú</span><span class="flecha">▼</span></div><div class="mensaje-contenido">${m.texto}</div></div>`; 
+          });
           document.getElementById('listaMensajesEnviados').innerHTML = html || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
         },
-        async toggleMensajeRecibido(h,i){ const it=h.closest('.mensaje-item'); it.classList.toggle('abierto'); if(it.classList.contains('nuevo')&&it.classList.contains('abierto')){ it.classList.remove('nuevo'); if(AppState.currentUser){ await Storage.marcarLeido(AppState.currentUser,i); const msgs=await Storage.getMensajesUsuario(AppState.currentUser); AppState.mensajesNoLeidos=msgs.filter(m=>!m.leido).length; this.actualizarBadgeMensajes(); } } },
-        async enviarMensajeUsuario(){ if(!AppState.currentUser) return; const t=document.getElementById('mensajeUsuario').value.trim(); if(!t) return alert('> ESCRIBE UN MENSAJE_'); await Storage.enviarMensajeUsuario(AppState.currentUser,t); document.getElementById('mensajeUsuario').value=''; this.cargarMensajesEnviados(); alert('✅ ENVIADO'); },
+        async cargarMensajesRecibidos(){ /* Ya no es necesario, se usa listener */ },
+        async cargarMensajesEnviados(){ /* Ya no es necesario */ },
+        async borrarMensajeUsuario(i){ 
+          if(!AppState.currentUser) return;
+          const confirmed = await Utils.confirm('ELIMINAR MENSAJE', "> ¿ELIMINAR?");
+          if(!confirmed) return; 
+          await Storage.borrarMensajeUsuario(AppState.currentUser,i); 
+          Utils.showToast("✅ ELIMINADO", 'success'); 
+        },
+        async enviarMensajeUsuario(){ 
+          if(!AppState.currentUser) return; 
+          const t=document.getElementById('mensajeUsuario').value.trim(); 
+          if(!t) return Utils.showToast('> ESCRIBE UN MENSAJE_', 'error'); 
+          await Storage.enviarMensajeUsuario(AppState.currentUser,t); 
+          document.getElementById('mensajeUsuario').value=''; 
+          Utils.showToast('✅ ENVIADO', 'success'); 
+        },
+        async toggleMensajeRecibido(h,i){ 
+          const it=h.closest('.mensaje-item'); 
+          it.classList.toggle('abierto'); 
+          if(it.classList.contains('nuevo')&&it.classList.contains('abierto')){ 
+            it.classList.remove('nuevo'); 
+            if(AppState.currentUser){ 
+              await Storage.marcarLeido(AppState.currentUser,i); 
+              const msgs=await Storage.getMensajesUsuario(AppState.currentUser); 
+              AppState.mensajesNoLeidos=msgs.filter(m=>!m.leido).length; 
+              this.actualizarBadgeMensajes(); 
+            } 
+          } 
+        },
         cambiarSoporteTab(tab){ document.querySelectorAll('#tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); document.querySelectorAll('#tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); if(tab==='recibidos'){ document.querySelectorAll('#tab-soporte .soporte-tab')[0].classList.add('active'); document.getElementById('soporte-recibidos').classList.add('active'); }else{ document.querySelectorAll('#tab-soporte .soporte-tab')[1].classList.add('active'); document.getElementById('soporte-enviados').classList.add('active'); } },
         actualizarBadgeMensajes(){ const t=document.getElementById('soporteTabButton'); if(AppState.mensajesNoLeidos>0) t.classList.add('soporte-unread'); else t.classList.remove('soporte-unread'); },
         cerrarModalSesion(){ 
@@ -2531,14 +2876,12 @@
             fechaInput.value = `${año}-${mes}-${dia}`;
           }
         },
-        // CAMBIO 4: Mostrar modal de bienvenida
         async mostrarWelcomeModal(u) {
           document.getElementById('welcomeOverlay').style.display = 'block';
           document.getElementById('welcomeModal').style.display = 'block';
         }
       };
 
-      // CAMBIO 4: Función global para cerrar el modal de bienvenida y marcar como visto
       window.cerrarWelcomeModal = async function() {
         document.getElementById('welcomeOverlay').style.display = 'none';
         document.getElementById('welcomeModal').style.display = 'none';
@@ -2565,7 +2908,7 @@
 
       // ==================== MÓDULO PLAN GENERATOR ====================
       const PlanGenerator = {
-        // MATRIZ COMPLETA DE ENTRENAMIENTOS (runner y trail)
+        // MATRIZ COMPLETA DE ENTRENAMIENTOS (runner y trail) - INCLUIDA
         ENTRENAMIENTOS_DB: {
           runner: {
             "2k": {
@@ -3763,9 +4106,9 @@
         },
 
         toggleCuestionario() { 
-          if(!AppState.zonasCalculadas) return alert("> CALCULA ZONAS PRIMERO_"); 
+          if(!AppState.zonasCalculadas) { Utils.showToast("> CALCULA ZONAS PRIMERO_", 'error'); return; }
           if(!AppState.isPremium) {
-            alert("> SOLO USUARIOS PREMIUM PUEDEN CREAR PLANES_");
+            Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN CREAR PLANES_", 'error');
             return;
           }
           const q=document.getElementById("cuestionarioEntreno"); 
@@ -3773,13 +4116,13 @@
         },
         async guardarPlanActual() { if(!AppState.currentUser||!AppState.planGeneradoActual) return; await Storage.setUltimoPlan(AppState.currentUser, AppState.planGeneradoActual); },
         async mostrarUltimoPlanGuardado() { 
-          if(!AppState.currentUser) return alert("> NO HAY USUARIO_"); 
+          if(!AppState.currentUser) { Utils.showToast("> NO HAY USUARIO_", 'error'); return; }
           if(!AppState.isPremium) {
-            alert("> SOLO USUARIOS PREMIUM PUEDEN VER PLANES_");
+            Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN VER PLANES_", 'error');
             return;
           }
           const stored = await Storage.getUltimoPlan(AppState.currentUser); 
-          if(!stored) return alert("> NO HAY PLAN GUARDADO_"); 
+          if(!stored) { Utils.showToast("> NO HAY PLAN GUARDADO_", 'error'); return; }
           AppState.ultimoPlanParams = stored; 
           document.getElementById("modalidad").value = stored.modalidad; 
           document.getElementById("distObjetivo").value = stored.distancia; 
@@ -3796,9 +4139,11 @@
           this.generarCalendarioEntreno(); 
         },
         async borrarPlanGuardado() { 
-          if(!AppState.currentUser||!confirm("> ¿ELIMINAR PLAN GUARDADO?_")) return; 
+          if(!AppState.currentUser) return;
+          const confirmed = await Utils.confirm('ELIMINAR PLAN', "> ¿ELIMINAR PLAN GUARDADO?_");
+          if(!confirmed) return;
           await Storage.removeUltimoPlan(AppState.currentUser); 
-          alert("✅ PLAN ELIMINADO"); 
+          Utils.showToast("✅ PLAN ELIMINADO", 'success');
         },
         getRitmoPorZona(z) { if(!AppState.lastRitmoBase) return "Calcula zonas primero"; const f={'Z1':1.35,'Z2':1.25,'Z3':1.15,'Z4':1.05,'Z5':0.95,'Z6':0.85}; if(z.includes('-')){ const [a,b]=z.split('-'); return `${Utils.formatR(AppState.lastRitmoBase*(f[a]||1.15))} – ${Utils.formatR(AppState.lastRitmoBase*(f[b]||1.05))} min/km`; } return Utils.formatR(AppState.lastRitmoBase*(f[z]||1.15))+" min/km"; },
         
@@ -3827,9 +4172,9 @@
         },
 
         generarCalendarioEntreno() {
-          if(!AppState.zonasCalculadas) return alert("> PRIMERO CALCULA TUS ZONAS_");
+          if(!AppState.zonasCalculadas) { Utils.showToast("> PRIMERO CALCULA TUS ZONAS_", 'error'); return; }
           if(!AppState.isPremium) {
-            alert("> SOLO USUARIOS PREMIUM PUEDEN GENERAR PLANES_");
+            Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN GENERAR PLANES_", 'error');
             return;
           }
           
@@ -3839,13 +4184,13 @@
           
           if (distancia === 'medio' || distancia === 'maraton') {
             if (!(duracion === '3' && experiencia === 'si')) {
-              alert("❌ Los planes de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.");
+              Utils.showToast("❌ Los planes de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.", 'error');
               return;
             }
           }
           
           const btn = document.querySelector('[onclick="window.generarCalendarioEntreno()"]');
-          if(btn) Utils.showLoading(btn);
+          Utils.showLoading();
           setTimeout(()=>{
             try{
               const modalidad = document.getElementById("modalidad").value;
@@ -3855,15 +4200,15 @@
               const obj = document.getElementById("objetivoPrincipal").value;
               const diaLargo = parseInt(document.getElementById("diaLargo").value);
               const fechaInicio = document.getElementById("fechaInicio").value;
-              if(!fechaInicio) return alert("> SELECCIONA UNA FECHA DE INICIO_");
+              if(!fechaInicio) { Utils.showToast("> SELECCIONA UNA FECHA DE INICIO_", 'error'); Utils.hideLoading(); return; }
               
               const diasEntreno = [];
               for(let i=1;i<=7;i++){ const cb=document.getElementById(`dia${i}`); if(cb&&cb.checked) diasEntreno.push(i); }
-              if(diasEntreno.length===0) return alert("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_");
+              if(diasEntreno.length===0) { Utils.showToast("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_", 'error'); Utils.hideLoading(); return; }
               if(!diasEntreno.includes(diaLargo)){
                 if(confirm("> El día de tirada larga no está seleccionado. ¿Añadirlo automáticamente?")){
                   diasEntreno.push(diaLargo); document.getElementById(`dia${diaLargo}`).checked = true;
-                } else return;
+                } else { Utils.hideLoading(); return; }
               }
               diasEntreno.sort((a,b)=>a-b);
               const fecha = new Date(fechaInicio+"T00:00:00");
@@ -3880,8 +4225,30 @@
               tipoPorDia[diaLargo] = 'largo';
               
               const otrosDias = diasEntreno.filter(d=>d!==diaLargo);
+              // Mejor distribución: evitar tipos repetidos en días consecutivos
               const posiblesTipos = ['series', 'tempo', 'rodaje'];
-              otrosDias.forEach((dia,index)=> tipoPorDia[dia] = posiblesTipos[index%posiblesTipos.length]);
+              // Mezclamos para que no siempre sea el mismo orden
+              const mezcla = [...posiblesTipos];
+              for (let i = mezcla.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [mezcla[i], mezcla[j]] = [mezcla[j], mezcla[i]];
+              }
+              otrosDias.forEach((dia,index)=> {
+                // Personalización según objetivo
+                let tipoSeleccionado = mezcla[index % mezcla.length];
+                if (obj === 'competir') {
+                  // Más series y tempo
+                  if (tipoSeleccionado === 'rodaje' && Math.random() > 0.5) {
+                    tipoSeleccionado = 'series';
+                  }
+                } else if (obj === 'acabar') {
+                  // Más rodajes
+                  if (tipoSeleccionado !== 'rodaje' && Math.random() > 0.7) {
+                    tipoSeleccionado = 'rodaje';
+                  }
+                }
+                tipoPorDia[dia] = tipoSeleccionado;
+              });
 
               const ultimosUsados = { rodaje: [], series: [], tempo: [], largo: [] };
               const MAX_HISTORIAL = 2;
@@ -3976,11 +4343,12 @@
               document.getElementById("cuestionarioEntreno").style.display = "none";
               setTimeout(()=>document.getElementById("calendarioEntreno").scrollIntoView({ behavior:'smooth', block:'center' }),100);
               this.guardarPlanActual();
-              if(btn) Utils.hideLoading(btn);
+              Utils.hideLoading();
               
               Utils.vibrate(50);
               Utils.playSound('success');
-            } catch(e){ console.error(e); alert("> ERROR GENERANDO PLAN_"); if(btn) Utils.hideLoading(btn); }
+              Utils.showToast('✅ Plan generado', 'success');
+            } catch(e){ console.error(e); Utils.showToast("> ERROR GENERANDO PLAN_", 'error'); Utils.hideLoading(); }
           },300);
         }
       };
@@ -4002,7 +4370,7 @@
           });
         },
         instalarPWA() {
-          if(!AppState.deferredPrompt){ alert('Para instalar: menú del navegador → "Añadir a pantalla de inicio"'); return; }
+          if(!AppState.deferredPrompt){ Utils.showToast('Para instalar: menú del navegador → "Añadir a pantalla de inicio"', 'info'); return; }
           AppState.deferredPrompt.prompt();
           AppState.deferredPrompt.userChoice.then(c=>{ if(c.outcome==='accepted') localStorage.setItem('pwa_installed','true'); AppState.deferredPrompt=null; document.getElementById('pwa-banner').style.display='none'; });
         },
