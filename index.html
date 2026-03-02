@@ -23,44 +23,45 @@
 
     :root {
       /* Modo claro (por defecto) - BANG & OLUFSEN */
-      --bg-primary: #F5F2EB;
-      --bg-secondary: #E8E2D5;
-      --bg-card: #FFFFFF;
-      --text-primary: #2C2C2C;
-      --text-secondary: #2E2E2E; /* Contraste máximo sin llegar a negro puro */
-      --accent-red: #C46D5E;
-      --accent-green: #7D8F69;
-      --accent-blue: #5A6572;
-      --accent-yellow: #D4A373;
-      --accent-purple: #B76E3C;
-      --border-color: #D6D2C5;
+      --bg-primary: #F5F2EB;        /* Gris cálido muy claro */
+      --bg-secondary: #E8E2D5;       /* Gris arena */
+      --bg-card: #FFFFFF;            /* Blanco roto */
+      --text-primary: #2C2C2C;       /* Gris antracita (contraste excelente) */
+      --text-secondary: #3A3A3A;     /* Mejorado: más oscuro para mayor contraste (antes #4A4A4A) */
+      --accent-red: #C46D5E;         /* Terracota */
+      --accent-green: #7D8F69;       /* Verde oliva suave */
+      --accent-blue: #5A6572;        /* Gris pizarra */
+      --accent-yellow: #D4A373;      /* Ámbar cálido (acento principal) */
+      --accent-purple: #B76E3C;      /* Cobre suave (acento secundario) */
+      --border-color: #D6D2C5;       /* Gris muy claro */
       --glow-color: rgba(212, 163, 115, 0.15);
       --font-mono: 'Courier New', monospace;
       --font-dot: 'Courier New', 'Dot Matrix', monospace;
       --dot-color: rgba(107, 107, 107, 0.05);
-      --gold: #C4A77D;
+      --gold: #C4A77D;               /* Latón (premium) */
       --new-user-bg: rgba(125, 143, 105, 0.2);
       --new-user-border: #7D8F69;
       --stat-bg: #E8E2D5;
       --stat-number: #2C2C2C;
     }
 
+    /* Modo noche - BOWERS & WILKINS (cuando el sistema está en oscuro) */
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg-primary: #1C1C1E;
-        --bg-secondary: #2C2C2E;
-        --bg-card: #3A3A3C;
-        --text-primary: #F5F5F7;
-        --text-secondary: #E0E0E0; /* Muy claro para máximo contraste */
-        --accent-red: #8B3A3A;
-        --accent-green: #2E6B4C;
-        --accent-blue: #4A5B6E;
-        --accent-yellow: #CC954D;
-        --accent-purple: #B87333;
-        --border-color: #4A4A4E;
+        --bg-primary: #1C1C1E;        /* Negro carbón */
+        --bg-secondary: #2C2C2E;       /* Grafito */
+        --bg-card: #3A3A3C;            /* Gris muy oscuro */
+        --text-primary: #F5F5F7;       /* Blanco crema (contraste excelente) */
+        --text-secondary: #B0B0B0;     /* Mejorado: más claro para legibilidad (antes #8E8E93) */
+        --accent-red: #8B3A3A;         /* Burdeos */
+        --accent-green: #2E6B4C;       /* Verde bosque */
+        --accent-blue: #4A5B6E;        /* Azul medianoche */
+        --accent-yellow: #CC954D;      /* Ámbar oscuro */
+        --accent-purple: #B87333;      /* Cobre cálido (acento principal noche) */
+        --border-color: #4A4A4E;       /* Gris pizarra */
         --glow-color: rgba(184, 115, 51, 0.2);
         --dot-color: rgba(142, 142, 147, 0.05);
-        --gold: #B59A6B;
+        --gold: #B59A6B;               /* Latón antiguo */
         --new-user-bg: rgba(46, 107, 76, 0.2);
         --new-user-border: #2E6B4C;
         --stat-bg: #2C2C2E;
@@ -68,12 +69,13 @@
       }
     }
 
+    /* Clases para modo manual (sobrescriben preferencias del sistema) */
     body.manual-light {
       --bg-primary: #F5F2EB !important;
       --bg-secondary: #E8E2D5 !important;
       --bg-card: #FFFFFF !important;
       --text-primary: #2C2C2C !important;
-      --text-secondary: #2E2E2E !important;
+      --text-secondary: #3A3A3A !important;
       --accent-red: #C46D5E !important;
       --accent-green: #7D8F69 !important;
       --accent-blue: #5A6572 !important;
@@ -87,7 +89,7 @@
       --bg-secondary: #2C2C2E !important;
       --bg-card: #3A3A3C !important;
       --text-primary: #F5F5F7 !important;
-      --text-secondary: #E0E0E0 !important;
+      --text-secondary: #B0B0B0 !important;
       --accent-red: #8B3A3A !important;
       --accent-green: #2E6B4C !important;
       --accent-blue: #4A5B6E !important;
@@ -1483,67 +1485,6 @@
     }
     #welcomeModal button:hover { box-shadow: 0 0 20px var(--accent-blue); }
 
-    /* ===== HISTORIAL DE PLANES (nuevo) ===== */
-    .planes-historial {
-      margin: 30px 0;
-      padding: 20px;
-      background: var(--bg-secondary);
-      border-radius: 24px;
-    }
-    .planes-historial h3 {
-      color: var(--accent-blue);
-      margin-bottom: 20px;
-    }
-    .plan-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 15px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .plan-card:hover {
-      border-color: var(--accent-yellow);
-      transform: translateX(5px);
-    }
-    .plan-card .plan-info {
-      flex: 1;
-    }
-    .plan-card .plan-fecha {
-      color: var(--accent-green);
-      font-size: 12px;
-      margin-bottom: 4px;
-    }
-    .plan-card .plan-resumen {
-      color: var(--text-primary);
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .plan-card .plan-detalle {
-      color: var(--text-secondary);
-      font-size: 12px;
-    }
-    .plan-card .delete-plan {
-      background: transparent;
-      border: 1px solid var(--accent-red);
-      border-radius: 40px;
-      color: var(--accent-red);
-      padding: 6px 12px;
-      font-size: 12px;
-      cursor: pointer;
-      width: auto;
-      margin: 0;
-    }
-    .plan-card .delete-plan:hover {
-      background: var(--accent-red);
-      color: var(--bg-primary);
-    }
-
     @media (max-width: 480px) {
       .card { padding: 20px; }
       .tabs-header { flex-wrap: wrap; height: auto; }
@@ -1570,11 +1511,6 @@
       .theme-toggle {
         order: 3;
         margin: 0 auto;
-      }
-      .plan-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
       }
     }
   </style>
@@ -1649,17 +1585,6 @@
     <button onclick="window.cerrarWelcomeModal()">ENTENDIDO</button>
   </div>
 
-  <!-- Modal de recuperación de contraseña -->
-  <div id="resetOverlay"></div>
-  <div id="resetModal">
-    <h2>🔐 RECUPERAR CONTRASEÑA</h2>
-    <p>Introduce tu correo electrónico. Recibirás un enlace para restablecer tu contraseña.</p>
-    <input type="email" id="resetEmail" placeholder="> CORREO ELECTRÓNICO_">
-    <div class="error-message" id="resetError"></div>
-    <button class="button-main" onclick="window.enviarResetPassword()">[ ENVIAR ENLACE ]</button>
-    <button class="delete-account-btn" onclick="window.cerrarResetModal()">CANCELAR</button>
-  </div>
-
   <!-- LOGIN PAGE -->
   <div class="wrapper" id="loginPage">
     <div class="card">
@@ -1674,13 +1599,9 @@
         <input type="password" id="loginPassword" placeholder="> CONTRASEÑA_">
         <div class="error-message" id="loginError"></div>
         <button class="button-main" onclick="window.loginUser()">[ ACCEDER ]</button>
-        <p style="text-align:center; margin-top:10px;">
-          <a href="#" onclick="window.abrirResetModal(); return false;" style="color: var(--accent-blue); text-decoration: none; font-size: 12px;">🔐 ¿Olvidaste tu contraseña?</a>
-        </p>
       </div>
       <div id="registerForm" class="auth-form">
         <input type="text" id="regUsername" placeholder="> NUEVO USUARIO_">
-        <input type="email" id="regEmail" placeholder="> CORREO ELECTRÓNICO_">
         <input type="password" id="regPassword" placeholder="> NUEVA CONTRASEÑA_">
         <div class="error-message" id="registerError"></div>
         <button class="button-main" onclick="window.registerUser()">[ REGISTRARSE ]</button>
@@ -1853,12 +1774,6 @@
             <button class="action-button btn-delete" onclick="window.toggleCuestionario()">[ CANCELAR ]</button>
           </div>
 
-          <!-- HISTORIAL DE PLANES (nuevo) -->
-          <div id="planesHistorial" class="planes-historial" style="display:none;">
-            <h3>📋 HISTORIAL DE PLANES</h3>
-            <div id="planesHistorialContainer"></div>
-          </div>
-
           <div id="calendarioEntreno" style="display:none;">
             <h3>> TU PLAN_</h3>
             <div class="nota-plan">
@@ -1922,7 +1837,6 @@
 
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <script>
@@ -1939,9 +1853,8 @@
       };
       firebase.initializeApp(firebaseConfig);
       const db = firebase.database();
-      const auth = firebase.auth();
 
-      // ==================== UTILS ====================
+      // ==================== UTILS (con toasts y loading) ====================
       const Utils = {
         parseTime(t) { t = t.trim(); if(!t) return NaN; const m = t.match(/^(\d{1,3}):?(\d{0,2})$/); if(!m) return NaN; const min = parseInt(m[1]), seg = m[2]?parseInt(m[2]):0; if(seg>59||min>120||min<10) return NaN; return min + seg/60; },
         formatR(r) { if(!isFinite(r)||r<=0) return "--:--"; let m = Math.floor(r), s = Math.round((r-m)*60); if(s===60){ m++; s=0; } return m+":"+(s<10?'0':'')+s; },
@@ -1991,9 +1904,6 @@
           });
         },
         hashPassword(str) { return btoa(str + "_RI5_SALT"); },
-        isValidEmail(email) {
-          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        },
         vibrate(pattern) {
           if (window.navigator && window.navigator.vibrate) {
             window.navigator.vibrate(pattern);
@@ -2022,7 +1932,7 @@
         }
       };
 
-      // ==================== MÓDULO STORAGE ====================
+      // ==================== MÓDULO STORAGE (con manejo de errores) ====================
       const Storage = {
         async getUsers() { 
           try { return (await db.ref('users').once('value')).val() || {}; } 
@@ -2041,16 +1951,6 @@
           if(!u) return; 
           try { await db.ref('users/'+u+'/historial').set(h); } 
           catch(e) { Utils.showToast('Error al guardar historial', 'error'); throw e; }
-        },
-        async getHistorialPlanes(u) {
-          if(!u) return [];
-          try { return (await db.ref('users/'+u+'/historialPlanes').once('value')).val() || []; }
-          catch(e) { Utils.showToast('Error al cargar historial de planes', 'error'); return []; }
-        },
-        async saveHistorialPlanes(u, planes) {
-          if(!u) return;
-          try { await db.ref('users/'+u+'/historialPlanes').set(planes); }
-          catch(e) { Utils.showToast('Error al guardar historial de planes', 'error'); throw e; }
         },
         async getUltimoPlan(u) { 
           if(!u) return null; 
@@ -2256,68 +2156,46 @@
       const Auth = {
         switchAuthTab(tab) { document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active')); document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active')); if(tab==='login'){ document.querySelector('.auth-tab').classList.add('active'); document.getElementById('loginForm').classList.add('active'); }else{ document.querySelectorAll('.auth-tab')[1].classList.add('active'); document.getElementById('registerForm').classList.add('active'); } },
         async registerUser() {
-          const u = document.getElementById('regUsername').value.trim();
-          const email = document.getElementById('regEmail').value.trim();
-          const p = document.getElementById('regPassword').value.trim();
-          const err = document.getElementById('registerError');
-          if(!u || !email || !p) { err.innerText="> COMPLETA TODOS LOS CAMPOS_"; err.classList.add('visible'); return; }
+          const u = document.getElementById('regUsername').value.trim(), p = document.getElementById('regPassword').value.trim(), err = document.getElementById('registerError');
+          if(!u||!p) { err.innerText="> COMPLETA TODOS LOS CAMPOS_"; err.classList.add('visible'); return; }
           if(u.length<3) { err.innerText="> MÍNIMO 3 CARACTERES_"; err.classList.add('visible'); return; }
           if(p.length<4) { err.innerText="> MÍNIMO 4 CARACTERES_"; err.classList.add('visible'); return; }
-          if(!Utils.isValidEmail(email)) { err.innerText="> CORREO ELECTRÓNICO NO VÁLIDO_"; err.classList.add('visible'); return; }
+          // Validación de caracteres permitidos
           if(!/^[a-zA-Z0-9_]+$/.test(u)) {
             err.innerText="> SOLO LETRAS, NÚMEROS Y GUION BAJO_";
             err.classList.add('visible');
             return;
           }
           Utils.showLoading();
-          try {
-            // Crear usuario en Firebase Auth
-            const userCredential = await auth.createUserWithEmailAndPassword(email, p);
-            // Guardar datos adicionales en Realtime Database
-            const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
-            const ahora = new Date();
-            const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
-            const users = await Storage.getUsers();
-            if(users[u]) {
-              err.innerText="> EL USUARIO YA EXISTE_";
-              err.classList.add('visible');
-              Utils.hideLoading();
-              return;
+          const users = await Storage.getUsers();
+          if(users[u]) { err.innerText="> EL USUARIO YA EXISTE_"; err.classList.add('visible'); Utils.hideLoading(); return; }
+          const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
+          const ahora = new Date();
+          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          users[u] = { 
+            password: Utils.hashPassword(p), 
+            created: new Date().toISOString(), 
+            expires: expiry.toISOString(), 
+            premium: true,
+            calculosMes: 0,
+            mesActual: mesActual,
+            welcomeSeen: false
+          };
+          await Storage.saveUsers(users);
+          await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
+          AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
+          Utils.hideLoading();
+          Utils.showToast('✅ Registro exitoso', 'success');
+          document.getElementById("loginPage").style.opacity="0";
+          setTimeout(()=>{
+            document.getElementById("loginPage").style.display="none";
+            document.getElementById("mainContent").style.display="flex";
+            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
+            UI.changeDailyTip(); UI.startConsejoAutoChange();
+            if (!users[u].welcomeSeen) {
+              UI.mostrarWelcomeModal(u);
             }
-            users[u] = { 
-              password: Utils.hashPassword(p), 
-              email: email,
-              created: new Date().toISOString(), 
-              expires: expiry.toISOString(), 
-              premium: true,
-              calculosMes: 0,
-              mesActual: mesActual,
-              welcomeSeen: false
-            };
-            await Storage.saveUsers(users);
-            await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
-            AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
-            Utils.hideLoading();
-            Utils.showToast('✅ Registro exitoso', 'success');
-            document.getElementById("loginPage").style.opacity="0";
-            setTimeout(()=>{
-              document.getElementById("loginPage").style.display="none";
-              document.getElementById("mainContent").style.display="flex";
-              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
-              UI.changeDailyTip(); UI.startConsejoAutoChange();
-              if (!users[u].welcomeSeen) {
-                UI.mostrarWelcomeModal(u);
-              }
-            },300);
-          } catch (error) {
-            Utils.hideLoading();
-            if (error.code === 'auth/email-already-in-use') {
-              err.innerText="> EL CORREO YA ESTÁ REGISTRADO_";
-            } else {
-              err.innerText="> ERROR EN EL REGISTRO: " + error.message;
-            }
-            err.classList.add('visible');
-          }
+          },300);
         },
         async loginUser() {
           const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
@@ -2326,20 +2204,7 @@
           Utils.showLoading();
           const users = await Storage.getUsers();
           const user = users[u];
-          if(!user || user.password !== Utils.hashPassword(p)) { 
-            err.innerText="> INCORRECTO_"; 
-            err.classList.add('visible'); 
-            Utils.hideLoading(); 
-            return; 
-          }
-          // Intentar login con email (si existe) para mantener la sesión de Auth
-          if (user.email) {
-            try {
-              await auth.signInWithEmailAndPassword(user.email, p);
-            } catch (e) {
-              // Ignorar, solo importa la sesión en RTDB
-            }
-          }
+          if(!user || user.password !== Utils.hashPassword(p)) { err.innerText="> INCORRECTO_"; err.classList.add('visible'); Utils.hideLoading(); return; }
           const now = new Date(), expiry = new Date(user.expires);
           if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); Utils.hideLoading(); return; } }
           
@@ -2368,7 +2233,7 @@
             document.getElementById("mainContent").style.display="flex";
             document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
             UI.changeDailyTip(); UI.startConsejoAutoChange();
-            UI.setupMensajesListeners();
+            UI.setupMensajesListeners(); // Configurar escucha en tiempo real
             Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
             if (!user.welcomeSeen) {
               UI.mostrarWelcomeModal(u);
@@ -2407,7 +2272,6 @@
           
           Utils.showToast(`✅ CUENTA "${u}" ELIMINADA`, 'success');
           document.getElementById('regUsername').value = '';
-          document.getElementById('regEmail').value = '';
           document.getElementById('regPassword').value = '';
         },
         mostrarAdminPanel() { document.getElementById("loginPage").style.display="none"; document.getElementById("mainContent").style.display="none"; document.getElementById("adminPage").style.display="flex"; Admin.actualizarAdminPanel(); },
@@ -2470,7 +2334,7 @@
           AppState.actualizarInterfazPremium();
           AppState.verificarExpiracionPremium();
           const calc = await Storage.getUltimoCalculo(s); if(calc){ AppState.setLastCalc(calc); UI.mostrarResultadosGuardados(calc); }
-          UI.setupMensajesListeners();
+          UI.setupMensajesListeners(); // Escucha en tiempo real
           return true;
         },
         showPremiumBenefits() { 
@@ -2485,48 +2349,6 @@
       window.contactarAdmin = function() {
         window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank');
       };
-
-      // ==================== MÓDULO RECUPERACIÓN DE CONTRASEÑA ====================
-      const ResetPassword = {
-        abrirModal() {
-          document.getElementById('resetOverlay').style.display = 'block';
-          document.getElementById('resetModal').style.display = 'block';
-          document.getElementById('resetEmail').value = '';
-          document.getElementById('resetError').classList.remove('visible');
-        },
-        cerrarModal() {
-          document.getElementById('resetOverlay').style.display = 'none';
-          document.getElementById('resetModal').style.display = 'none';
-        },
-        async enviar() {
-          const email = document.getElementById('resetEmail').value.trim();
-          const err = document.getElementById('resetError');
-          if (!email) {
-            err.innerText = "> INTRODUCE UN CORREO_";
-            err.classList.add('visible');
-            return;
-          }
-          if (!Utils.isValidEmail(email)) {
-            err.innerText = "> CORREO NO VÁLIDO_";
-            err.classList.add('visible');
-            return;
-          }
-          Utils.showLoading();
-          try {
-            await auth.sendPasswordResetEmail(email);
-            Utils.hideLoading();
-            Utils.showToast('✅ Si el email está registrado, recibirás un enlace', 'success');
-            ResetPassword.cerrarModal();
-          } catch (error) {
-            Utils.hideLoading();
-            // Por seguridad, no revelamos si el email existe o no
-            Utils.showToast('❌ No se pudo enviar el correo. Verifica tu conexión.', 'error');
-          }
-        }
-      };
-      window.abrirResetModal = ResetPassword.abrirModal;
-      window.cerrarResetModal = ResetPassword.cerrarModal;
-      window.enviarResetPassword = ResetPassword.enviar;
 
       // ==================== MÓDULO ADMIN ====================
       const Admin = {
@@ -2641,7 +2463,6 @@
                     <span>${premium}</span>
                     <span>${estado}</span>
                     <span>📊 Cálculos mes: ${calculos}/2</span>
-                    <span>📧 Email: ${d.email || 'No registrado'}</span>
                   </div>
                   <div class="modal-user-actions">
                     <button onclick="event.stopPropagation(); window.extenderUsuario('${u}',1)">+1 MES</button>
@@ -2678,7 +2499,7 @@
           if(AppState.currentUser===u) AppState.setCurrentUser(null);
           this.actualizarAdminPanel(); Utils.showToast(`✅ ${u} eliminado`, 'success'); this.abrirModalUsuarios();
         },
-        exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes,Email\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0},${d.email||''}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
+        exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
         async renovarExpirados() {
           const confirmed = await Utils.confirm('RENOVAR EXPIRADOS', "> ¿RENOVAR TODOS LOS EXPIRADOS POR 1 MES?");
           if(!confirmed) return;
@@ -2938,7 +2759,6 @@
           for(let b of btns) if(b.textContent.includes(tab==='entreno'?'ENTRENO':tab==='plan'?'PLAN':tab==='historial'?'HISTORIAL':'SOPORTE')){ b.classList.add('active'); break; }
           document.getElementById(`tab-${tab}`).classList.add('active');
           if(tab==='historial') this.cargarHistorial();
-          if(tab==='plan') this.cargarHistorialPlanes();
           if(tab==='soporte'){ this.cargarMensajesRecibidos(); this.cargarMensajesEnviados(); }
         },
         async cargarHistorial() {
@@ -2974,85 +2794,6 @@
           if(!confirmed) return;
           await Storage.saveHistorial(AppState.currentUser,[]); this.cargarHistorial(); Utils.showToast("✅ HISTORIAL LIMPIO", 'success');
         },
-        // Historial de planes
-        async cargarHistorialPlanes() {
-          const container = document.getElementById('planesHistorialContainer');
-          const section = document.getElementById('planesHistorial');
-          if (!AppState.currentUser || !AppState.isPremium) {
-            section.style.display = 'none';
-            return;
-          }
-          const planes = await Storage.getHistorialPlanes(AppState.currentUser);
-          if (planes.length === 0) {
-            section.style.display = 'none';
-            return;
-          }
-          section.style.display = 'block';
-          let html = '';
-          planes.slice(0, 3).forEach((plan, index) => {
-            const fecha = new Date(plan.fecha).toLocaleDateString();
-            html += `
-              <div class="plan-card" data-index="${index}">
-                <div class="plan-info" onclick="window.cargarPlanDesdeHistorial(${index})">
-                  <div class="plan-fecha">📅 ${fecha}</div>
-                  <div class="plan-resumen">${plan.resumen}</div>
-                  <div class="plan-detalle">${plan.detalle}</div>
-                </div>
-                <button class="delete-plan" onclick="event.stopPropagation(); window.eliminarPlanHistorial(${index})">🗑️</button>
-              </div>
-            `;
-          });
-          container.innerHTML = html;
-        },
-        async guardarPlanEnHistorial(planParams) {
-          if (!AppState.currentUser || !AppState.isPremium) return;
-          const ahora = new Date();
-          const mapaDist = { "2k":"2 km", "5k":"5 km", "10k":"10 km", "medio":"MEDIA", "maraton":"MARATÓN" };
-          const resumen = `${mapaDist[planParams.distancia]} · ${planParams.diasPorSemana} días · ${planParams.nivel}`;
-          const detalle = `${planParams.modalidad === 'runner' ? 'Asfalto' : 'Montaña'} · ${planParams.objetivo} · Inicio: ${new Date(planParams.fechaInicio).toLocaleDateString()}`;
-          const nuevoPlan = {
-            fecha: ahora.toISOString(),
-            resumen: resumen,
-            detalle: detalle,
-            params: planParams
-          };
-          let historial = await Storage.getHistorialPlanes(AppState.currentUser);
-          historial.unshift(nuevoPlan);
-          if (historial.length > 3) historial.pop();
-          await Storage.saveHistorialPlanes(AppState.currentUser, historial);
-          this.cargarHistorialPlanes();
-        },
-        async cargarPlanDesdeHistorial(index) {
-          if (!AppState.currentUser) return;
-          const historial = await Storage.getHistorialPlanes(AppState.currentUser);
-          const plan = historial[index];
-          if (!plan) return;
-          const p = plan.params;
-          document.getElementById("modalidad").value = p.modalidad;
-          document.getElementById("distObjetivo").value = p.distancia;
-          document.getElementById("duracionPlan").value = p.macrociclo / 4;
-          const diasGuardados = p.diasEntreno;
-          for(let i=1;i<=7;i++){ const cb=document.getElementById(`dia${i}`); if(cb) cb.checked = diasGuardados.includes(i); }
-          document.getElementById("nivel").value = p.nivel;
-          document.getElementById("experienciaDistancia").value = p.experiencia;
-          document.getElementById("objetivoPrincipal").value = p.objetivo;
-          document.getElementById("diaLargo").value = p.diaLargo;
-          document.getElementById("fechaInicio").value = p.fechaInicio;
-          document.getElementById("cuestionarioEntreno").style.display = "none";
-          document.getElementById("calendarioEntreno").style.display = "block";
-          AppState.ultimoPlanParams = p;
-          PlanGenerator.generarCalendarioEntreno();
-        },
-        async eliminarPlanHistorial(index) {
-          if (!AppState.currentUser) return;
-          const confirmed = await Utils.confirm('ELIMINAR PLAN', '¿Eliminar este plan del historial?');
-          if (!confirmed) return;
-          let historial = await Storage.getHistorialPlanes(AppState.currentUser);
-          historial.splice(index, 1);
-          await Storage.saveHistorialPlanes(AppState.currentUser, historial);
-          this.cargarHistorialPlanes();
-          Utils.showToast('✅ Plan eliminado del historial', 'success');
-        },
         // Escucha en tiempo real para mensajes
         setupMensajesListeners() {
           if (!AppState.currentUser) return;
@@ -3087,6 +2828,8 @@
           });
           document.getElementById('listaMensajesEnviados').innerHTML = html || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
         },
+        async cargarMensajesRecibidos(){ /* Ya no es necesario, se usa listener */ },
+        async cargarMensajesEnviados(){ /* Ya no es necesario */ },
         async borrarMensajeUsuario(i){ 
           if(!AppState.currentUser) return;
           const confirmed = await Utils.confirm('ELIMINAR MENSAJE', "> ¿ELIMINAR?");
@@ -3162,8 +2905,6 @@
       window.cerrarModalSesion = UI.cerrarModalSesion.bind(UI);
       window.cerrarPlan = UI.cerrarPlan.bind(UI);
       window.shareResults = Training.shareResults.bind(Training);
-      window.cargarPlanDesdeHistorial = UI.cargarPlanDesdeHistorial.bind(UI);
-      window.eliminarPlanHistorial = UI.eliminarPlanHistorial.bind(UI);
 
       // ==================== MÓDULO PLAN GENERATOR ====================
       const PlanGenerator = {
@@ -4372,10 +4113,6 @@
           }
           const q=document.getElementById("cuestionarioEntreno"); 
           q.style.display=q.style.display==="block"?"none":"block"; 
-          // Desplazamiento suave hacia el formulario si se abre
-          if (q.style.display === "block") {
-            setTimeout(() => q.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-          }
         },
         async guardarPlanActual() { if(!AppState.currentUser||!AppState.planGeneradoActual) return; await Storage.setUltimoPlan(AppState.currentUser, AppState.planGeneradoActual); },
         async mostrarUltimoPlanGuardado() { 
@@ -4606,8 +4343,6 @@
               document.getElementById("cuestionarioEntreno").style.display = "none";
               setTimeout(()=>document.getElementById("calendarioEntreno").scrollIntoView({ behavior:'smooth', block:'center' }),100);
               this.guardarPlanActual();
-              // Guardar en historial de planes
-              UI.guardarPlanEnHistorial(AppState.planGeneradoActual);
               Utils.hideLoading();
               
               Utils.vibrate(50);
