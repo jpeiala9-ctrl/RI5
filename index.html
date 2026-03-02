@@ -412,6 +412,31 @@
     }
     input.error { border-color: var(--accent-red); }
 
+    /* ===== CAMPO DE CONTRASEÑA CON OJO ===== */
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .password-wrapper input {
+      margin-bottom: 0;
+      padding-right: 50px;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 20px;
+      user-select: none;
+      z-index: 2;
+    }
+    .password-toggle:hover {
+      color: var(--accent-blue);
+    }
+
     .fecha-inicio-container {
       text-align: center;
       margin: 20px 0 10px;
@@ -1544,7 +1569,8 @@
     #emailUpdateModal.active { display: block; }
     #emailUpdateModal h2 { color: var(--accent-blue); margin-bottom: 20px; }
     #emailUpdateModal p { margin: 10px 0; color: var(--text-secondary); }
-    #emailUpdateModal input { margin-bottom: 20px; }
+    #emailUpdateModal .password-wrapper { margin-bottom: 20px; }
+    #emailUpdateModal input { margin-bottom: 0; }
     #emailUpdateModal button {
       margin-top: 10px;
       background: var(--accent-blue);
@@ -1556,6 +1582,11 @@
       cursor: pointer;
     }
     #emailUpdateModal button:hover { box-shadow: 0 0 20px var(--accent-blue); }
+    #emailUpdateModal .cancel-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
     #emailUpdateModal .error-message { margin-bottom: 10px; }
 
     /* Modal de recuperación de contraseña */
@@ -1781,7 +1812,7 @@
     <input type="email" id="emailUpdateInput" placeholder="> CORREO ELECTRÓNICO_">
     <div class="error-message" id="emailUpdateError"></div>
     <button onclick="window.guardarEmailActualizacion()">[ GUARDAR ]</button>
-    <button class="cancel-btn" onclick="window.cerrarEmailUpdateModal()">AHORA NO</button>
+    <button class="cancel-btn" onclick="window.cerrarEmailUpdateModal()">CANCELAR</button>
   </div>
 
   <!-- Modal de recuperación de contraseña -->
@@ -1807,17 +1838,23 @@
       </div>
       <div id="loginForm" class="auth-form active">
         <input type="text" id="loginUsername" placeholder="> USUARIO_">
-        <input type="password" id="loginPassword" placeholder="> CONTRASEÑA_">
+        <div class="password-wrapper">
+          <input type="password" id="loginPassword" placeholder="> CONTRASEÑA_">
+          <span class="password-toggle" onclick="window.togglePassword('loginPassword', this)">👁️</span>
+        </div>
         <div class="error-message" id="loginError"></div>
-        <button class="button-main" onclick="window.loginUser()">[ ACCEDER ]</button>
+        <button class="button-main" id="loginBtn" onclick="window.loginUser()">[ ACCEDER ]</button>
         <button class="action-button" style="margin-top:10px; border-color: var(--accent-blue); color: var(--accent-blue);" onclick="window.abrirResetModal()">🔐 RECORDAR CONTRASEÑA</button>
       </div>
       <div id="registerForm" class="auth-form">
-        <input type="text" id="regUsername" placeholder="> NUEVO USUARIO_">
-        <input type="email" id="regEmail" placeholder="> CORREO ELECTRÓNICO_">
-        <input type="password" id="regPassword" placeholder="> NUEVA CONTRASEÑA_">
+        <input type="text" id="regUsername" placeholder="> NUEVO USUARIO_" oninput="window.validarRegistroEnTiempoReal()">
+        <input type="email" id="regEmail" placeholder="> CORREO ELECTRÓNICO_" oninput="window.validarRegistroEnTiempoReal()">
+        <div class="password-wrapper">
+          <input type="password" id="regPassword" placeholder="> NUEVA CONTRASEÑA_" oninput="window.validarRegistroEnTiempoReal()">
+          <span class="password-toggle" onclick="window.togglePassword('regPassword', this)">👁️</span>
+        </div>
         <div class="error-message" id="registerError"></div>
-        <button class="button-main" onclick="window.registerUser()">[ REGISTRARSE ]</button>
+        <button class="button-main" id="registerBtn" onclick="window.registerUser()">[ REGISTRARSE ]</button>
         <button class="delete-account-btn" onclick="window.eliminarMiCuenta()">🗑️ ELIMINAR MI CUENTA</button>
       </div>
       <div id="dailyTip" class="curiosity" onclick="window.changeDailyTip()">
@@ -2074,6 +2111,9 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.database();
       const auth = firebase.auth();
+      
+      // Persistencia local
+      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
       // ==================== UTILS ====================
       const Utils = {
@@ -2308,8 +2348,8 @@
         zonasCalculadas: false, lastName: "", lastAge: 0, lastFC: 0, lastUL: 0,
         lastZones: [], lastPred: [], lastRitmoBase: 0,
         ultimoPlanParams: null, planGeneradoActual: null,
-        planActualId: null, // ID único del plan actual (timestamp)
-        sesionesRealizadas: {}, // Estado de checkboxes para el plan actual
+        planActualId: null,
+        sesionesRealizadas: {},
         camposTocados: { name: false, age: false, time: false },
         currentUser: null, currentSesionDetalle: null, deferredPrompt: null,
         mensajesNoLeidos: 0,
@@ -2413,6 +2453,40 @@
         }
       };
 
+      // ==================== FUNCIÓN PARA MOSTRAR/OCULTAR CONTRASEÑA ====================
+      window.togglePassword = function(inputId, element) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          element.textContent = '👁️‍🗨️';
+        } else {
+          input.type = 'password';
+          element.textContent = '👁️';
+        }
+      };
+
+      // ==================== VALIDACIÓN EN TIEMPO REAL REGISTRO ====================
+      window.validarRegistroEnTiempoReal = function() {
+        const u = document.getElementById('regUsername').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const p = document.getElementById('regPassword').value.trim();
+        const err = document.getElementById('registerError');
+        let mensaje = '';
+        if (u && (u.length < 3 || !/^[a-zA-Z0-9_]+$/.test(u))) {
+          mensaje = '> Usuario: mínimo 3 caracteres, solo letras, números y _';
+        } else if (email && !Utils.isValidEmail(email)) {
+          mensaje = '> Correo electrónico no válido';
+        } else if (p && p.length < 4) {
+          mensaje = '> Contraseña: mínimo 4 caracteres';
+        }
+        if (mensaje) {
+          err.innerText = mensaje;
+          err.classList.add('visible');
+        } else {
+          err.classList.remove('visible');
+        }
+      };
+
       // ==================== MÓDULO AUTENTICACIÓN ====================
       const Auth = {
         switchAuthTab(tab) { document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active')); document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active')); if(tab==='login'){ document.querySelector('.auth-tab').classList.add('active'); document.getElementById('loginForm').classList.add('active'); }else{ document.querySelectorAll('.auth-tab')[1].classList.add('active'); document.getElementById('registerForm').classList.add('active'); } },
@@ -2421,6 +2495,7 @@
           const email = document.getElementById('regEmail').value.trim();
           const p = document.getElementById('regPassword').value.trim();
           const err = document.getElementById('registerError');
+          const btn = document.getElementById('registerBtn');
           if(!u || !email || !p) { err.innerText="> COMPLETA TODOS LOS CAMPOS_"; err.classList.add('visible'); return; }
           if(u.length<3) { err.innerText="> MÍNIMO 3 CARACTERES_"; err.classList.add('visible'); return; }
           if(p.length<4) { err.innerText="> MÍNIMO 4 CARACTERES_"; err.classList.add('visible'); return; }
@@ -2430,6 +2505,7 @@
             err.classList.add('visible');
             return;
           }
+          btn.disabled = true;
           Utils.showLoading();
           try {
             const userCredential = await auth.createUserWithEmailAndPassword(email, p);
@@ -2441,6 +2517,7 @@
               err.innerText="> EL USUARIO YA EXISTE_";
               err.classList.add('visible');
               Utils.hideLoading();
+              btn.disabled = false;
               return;
             }
             users[u] = { 
@@ -2462,7 +2539,7 @@
             setTimeout(()=>{
               document.getElementById("loginPage").style.display="none";
               document.getElementById("mainContent").style.display="flex";
-              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
+              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${email}) · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
               UI.changeDailyTip(); UI.startConsejoAutoChange();
               if (!users[u].welcomeSeen) {
                 UI.mostrarWelcomeModal(u);
@@ -2470,6 +2547,7 @@
             },300);
           } catch (error) {
             Utils.hideLoading();
+            btn.disabled = false;
             if (error.code === 'auth/email-already-in-use') {
               err.innerText="> EL CORREO YA ESTÁ REGISTRADO_";
             } else {
@@ -2480,31 +2558,34 @@
         },
         async loginUser() {
           const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
+          const btn = document.getElementById('loginBtn');
           if(!u||!p) { err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; err.classList.add('visible'); return; }
           if(u==='admin' && p==='091118110485120385') { Auth.mostrarAdminPanel(); return; }
+          btn.disabled = true;
           Utils.showLoading();
           const users = await Storage.getUsers();
           const user = users[u];
           if(!user || user.password !== Utils.hashPassword(p)) { 
             err.innerText="> INCORRECTO_"; 
             err.classList.add('visible'); 
-            Utils.hideLoading(); 
+            Utils.hideLoading();
+            btn.disabled = false;
             return; 
           }
           // Si el usuario no tiene email, mostrar modal para actualizar
           if (!user.email) {
             Utils.hideLoading();
+            btn.disabled = false;
             UI.mostrarModalActualizarEmail(u, p);
             return;
           }
-          // Intentar login con email
           try {
             await auth.signInWithEmailAndPassword(user.email, p);
           } catch (e) {
             // Ignorar, solo importa la sesión en RTDB
           }
           const now = new Date(), expiry = new Date(user.expires);
-          if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); Utils.hideLoading(); return; } }
+          if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); Utils.hideLoading(); btn.disabled = false; return; } }
           
           const ahora = new Date();
           const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
@@ -2524,12 +2605,13 @@
           AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
           UI.actualizarBadgeMensajes();
           Utils.hideLoading();
+          btn.disabled = false;
           Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
           document.getElementById("loginPage").style.opacity="0";
           setTimeout(()=>{
             document.getElementById("loginPage").style.display="none";
             document.getElementById("mainContent").style.display="flex";
-            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
             UI.changeDailyTip(); UI.startConsejoAutoChange();
             UI.setupMensajesListeners();
             Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
@@ -2624,7 +2706,7 @@
           
           document.getElementById("loginPage").style.display="none";
           document.getElementById("mainContent").style.display="flex";
-          document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+          document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
           if(now>expiry && user.premium) setTimeout(()=>Utils.showToast('> Tu período premium ha expirado.', 'warning'),500);
           const nameField = document.getElementById('name');
           if(nameField) nameField.value = s;
@@ -2681,7 +2763,6 @@
           const user = users[username];
           if (!user || user.email !== email) {
             Utils.hideLoading();
-            // Por seguridad, mensaje genérico
             Utils.showToast('Si los datos son correctos, recibirás un enlace', 'info');
             ResetPassword.cerrarModal();
             return;
@@ -2716,9 +2797,6 @@
         cerrarModal() {
           document.getElementById('emailUpdateOverlay').style.display = 'none';
           document.getElementById('emailUpdateModal').style.display = 'none';
-          // Si cierra sin guardar, redirigir al login
-          document.getElementById("mainContent").style.display = "none";
-          document.getElementById("loginPage").style.display = "flex";
         },
         async guardar() {
           const email = document.getElementById('emailUpdateInput').value.trim();
@@ -2735,22 +2813,28 @@
           }
           Utils.showLoading();
           try {
-            // Actualizar en Firebase Auth
-            await auth.signInWithEmailAndPassword(email, this.password);
-            // Actualizar en RTDB
+            // Crear la cuenta en Firebase Auth con el email y la contraseña actual
+            const userCredential = await auth.createUserWithEmailAndPassword(email, this.password);
+            // Actualizar el email en Realtime Database
             const users = await Storage.getUsers();
             if (users[this.usuario]) {
               users[this.usuario].email = email;
               await Storage.saveUsers(users);
             }
             Utils.hideLoading();
-            Utils.showToast('✅ Correo guardado', 'success');
+            Utils.showToast('✅ Correo guardado. Ya puedes iniciar sesión.', 'success');
             EmailUpdate.cerrarModal();
-            // Continuar login
-            Auth.loginUser(); // Vuelve a intentar login (ahora con email)
+            // Iniciar sesión automáticamente con el nuevo email
+            await auth.signInWithEmailAndPassword(email, this.password);
+            // Recargar la página para que todo fluya
+            window.location.reload();
           } catch (error) {
             Utils.hideLoading();
-            err.innerText = "> ERROR AL GUARDAR: " + error.message;
+            if (error.code === 'auth/email-already-in-use') {
+              err.innerText = "> ESTE CORREO YA ESTÁ REGISTRADO POR OTRO USUARIO_";
+            } else {
+              err.innerText = "> ERROR AL GUARDAR: " + error.message;
+            }
             err.classList.add('visible');
           }
         }
@@ -2820,11 +2904,12 @@
           let tituloTexto = '👥 TODOS LOS USUARIOS';
           if(filtro === 'activos') tituloTexto = '✅ USUARIOS ACTIVOS';
           if(filtro === 'expirados') tituloTexto = '⏳ USUARIOS EXPIRADOS';
-          if(filtro === 'nuevos') tituloTexto = '🆕 USUARIOS NUEVOS (7 DÍAS)';
+          if(filtro === 'nuevos') tituloTexto = '🆕 USUARIOS NUEVOS (NO VISTOS)';
           if(filtro === 'premium') tituloTexto = '👑 USUARIOS PREMIUM';
           titulo.innerText = tituloTexto;
           
           const ahora = new Date();
+          // Marcar como vistos los usuarios de ≤7 días
           Object.keys(users).forEach(u => {
             const created = new Date(users[u].created);
             const daysDiff = (ahora - created) / (1000*3600*24);
@@ -2834,9 +2919,14 @@
           });
           localStorage.setItem('admin_seen_users', JSON.stringify(this.adminSeenUsers));
           
-          this.renderizarListaUsuarios(users, listEl, '', filtro);
+          // Si el filtro es 'nuevos', aplicar subfiltro de no vistos
+          let filtroReal = filtro;
+          if (filtro === 'nuevos') {
+            filtroReal = 'nuevos_no_vistos';
+          }
+          this.renderizarListaUsuarios(users, listEl, '', filtroReal);
           modal.classList.add('active');
-          document.getElementById('modalBuscarUsuario').oninput = (e)=>this.filtrarUsuariosModal(e.target.value, filtro);
+          document.getElementById('modalBuscarUsuario').oninput = (e)=>this.filtrarUsuariosModal(e.target.value, filtroReal);
         },
         renderizarListaUsuarios(users, container, filtro='', tipoFiltro='total') {
           const ahora = new Date();
@@ -2845,10 +2935,10 @@
             .filter(([u,d])=>{
               if(tipoFiltro === 'activos') return new Date(d.expires) > ahora;
               if(tipoFiltro === 'expirados') return new Date(d.expires) <= ahora;
-              if(tipoFiltro === 'nuevos') {
+              if(tipoFiltro === 'nuevos_no_vistos') {
                 const created = new Date(d.created);
                 const daysDiff = (ahora - created) / (1000*3600*24);
-                return daysDiff <= 7;
+                return daysDiff <= 7 && !this.adminSeenUsers.includes(u);
               }
               if(tipoFiltro === 'premium') return d.premium === true;
               return true;
@@ -3258,7 +3348,6 @@
             }
           }
           await Storage.saveHistorialPlanes(AppState.currentUser, historial);
-          // Guardar plan completo
           await Storage.savePlanCompleto(AppState.currentUser, planId, planCompleto);
           this.cargarHistorialPlanes();
         },
@@ -3272,13 +3361,11 @@
               Utils.hideLoading();
               return;
             }
-            // Restaurar el plan
             AppState.planGeneradoActual = planCompleto.params;
             AppState.planActualId = planId;
             AppState.sesionesRealizadas = planCompleto.realizadas || {};
             document.getElementById("calendarioEntreno").style.display = "block";
             document.getElementById("cuestionarioEntreno").style.display = "none";
-            // Reconstruir grid
             const grid = document.getElementById("calendarioGrid");
             grid.innerHTML = "";
             const fragment = document.createDocumentFragment();
@@ -3318,7 +3405,6 @@
           this.cargarHistorialPlanes();
           Utils.showToast('✅ Plan eliminado', 'success');
         },
-        // Mostrar detalle de sesión con checkbox
         mostrarDetalleSesion(celda) {
           const modal = document.getElementById("detalleSesion"), overlay = document.getElementById("modalOverlay"), wrapper = document.getElementById("modalColorWrapper");
           wrapper.className = "modal-content"; wrapper.classList.add(celda.dataset.colorClass);
@@ -3362,7 +3448,6 @@
           document.getElementById("descripcionSesion").innerHTML = cont;
           modal.classList.add("visible"); overlay.classList.add("visible");
         },
-        // Escucha en tiempo real para mensajes
         setupMensajesListeners() {
           if (!AppState.currentUser) return;
           AppState.mensajeListeners.forEach(unsub => unsub());
@@ -4681,7 +4766,6 @@
           }
           const q=document.getElementById("cuestionarioEntreno"); 
           q.style.display=q.style.display==="block"?"none":"block"; 
-          // Desplazamiento suave hacia el formulario si se abre
           if (q.style.display === "block") {
             setTimeout(() => q.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
           }
@@ -4797,24 +4881,19 @@
               tipoPorDia[diaLargo] = 'largo';
               
               const otrosDias = diasEntreno.filter(d=>d!==diaLargo);
-              // Mejor distribución: evitar tipos repetidos en días consecutivos
               const posiblesTipos = ['series', 'tempo', 'rodaje'];
-              // Mezclamos para que no siempre sea el mismo orden
               const mezcla = [...posiblesTipos];
               for (let i = mezcla.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [mezcla[i], mezcla[j]] = [mezcla[j], mezcla[i]];
               }
               otrosDias.forEach((dia,index)=> {
-                // Personalización según objetivo
                 let tipoSeleccionado = mezcla[index % mezcla.length];
                 if (obj === 'competir') {
-                  // Más series y tempo
                   if (tipoSeleccionado === 'rodaje' && Math.random() > 0.5) {
                     tipoSeleccionado = 'series';
                   }
                 } else if (obj === 'acabar') {
-                  // Más rodajes
                   if (tipoSeleccionado !== 'rodaje' && Math.random() > 0.7) {
                     tipoSeleccionado = 'rodaje';
                   }
@@ -4826,7 +4905,7 @@
               const MAX_HISTORIAL = 2;
               const usados = { rodaje: 0, series: 0, tempo: 0, largo: 0 };
               const fragment = document.createDocumentFragment();
-              const sesiones = []; // Para guardar el plan completo
+              const sesiones = [];
 
               for(let dia=1; dia<=totalDias; dia++){
                 const semana = Math.floor((dia-1)/7);
@@ -4880,7 +4959,6 @@
                 sesiones.push({ color, breve, detalle, semana: semana+1 });
               }
 
-              // Construir grid y guardar
               sesiones.forEach((sesion, idx) => {
                 const div = document.createElement("div");
                 div.className = `calendario-dia ${sesion.color}`;
@@ -4913,7 +4991,6 @@
               document.getElementById("cuestionarioEntreno").style.display = "none";
               setTimeout(()=>document.getElementById("calendarioEntreno").scrollIntoView({ behavior:'smooth', block:'center' }),100);
               this.guardarPlanActual();
-              // Guardar en historial de planes
               UI.guardarPlanEnHistorial(planCompleto.params, planCompleto);
               Utils.hideLoading();
               
