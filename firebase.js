@@ -9,8 +9,16 @@ const firebaseConfig = {
   appId: "1:889154598385:web:1d4e7dad605a42c1c60050"
 };
 
+// Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
+
+// Obtener referencias
 const db = firebase.database();
 const auth = firebase.auth();
 
+// Configurar persistencia
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+// Para depuración
+console.log('✅ Firebase inicializado correctamente');
+console.log('Auth disponible:', typeof auth);
