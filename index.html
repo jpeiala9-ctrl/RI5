@@ -22,7 +22,6 @@
     }
 
     :root {
-      /* Modo noche (por defecto) - Inspirado en Bowers & Wilkins */
       --bg-primary: #1C1C1E;
       --bg-secondary: #2C2C2E;
       --bg-card: #3A3A3C;
@@ -537,7 +536,6 @@
       color: var(--text-secondary);
       font-size: 14px;
       text-align: center;
-      /* Eliminado border-left */
     }
     .zone-card.active .long {
       max-height: 500px;
@@ -2052,7 +2050,7 @@
             </select>
 
             <!-- Mensaje unificado para larga distancia -->
-            <div id="info-mensaje-distancia" class="calculo-limit-msg warning-message" style="display:none; margin-top:10px;">⚠️ Las distancias de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.</div>
+            <div id="info-mensaje-distancia" class="calculo-limit-msg warning-message" style="display:none; margin-top:10px;">⚠️ Las distancias de Media Maratón y Maratón requieren 3 meses con experiencia o 12 meses (sin requisito de experiencia).</div>
 
             <select id="duracionPlan" onchange="window.validarOpcionesPlan()">
               <option value="1">1 MES</option>
@@ -2441,7 +2439,7 @@
         calculosMes: 0,
         mesActual: '',
         mensajeListeners: [],
-        trimestreActual: 0, // 0-3 para planes anuales
+        trimestreActual: 0,
         setLastCalc(d) { this.lastName=d.name; this.lastAge=d.age; this.lastFC=d.fcMax; this.lastUL=d.ul; this.lastZones=d.zones; this.lastPred=d.pred; this.lastRitmoBase=d.ritmoBase; this.zonasCalculadas=true; },
         clearLastCalc() { this.zonasCalculadas=false; this.lastName=""; this.lastAge=0; this.lastFC=0; this.lastUL=0; this.lastZones=[]; this.lastPred=[]; this.lastRitmoBase=0; },
         setCurrentUser(u, premium=false, expiryDate=null, calculosMes=0, mesActual='') {
@@ -2643,8 +2641,14 @@
         },
         async loginUser() {
           const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
+          const btn = document.getElementById('loginBtn');
           if(!u||!p) { err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; err.classList.add('visible'); return; }
           if(u==='admin' && p==='091118110485120385') { Auth.mostrarAdminPanel(); return; }
+          
+          // Deshabilitar botón y mostrar estado de carga
+          btn.disabled = true;
+          const originalText = btn.textContent;
+          btn.textContent = 'CARGANDO...';
           
           try {
             const users = await Storage.getUsers();
@@ -2652,9 +2656,13 @@
             if(!user || user.password !== Utils.hashPassword(p)) { 
               err.innerText="> USUARIO O CONTRASEÑA INCORRECTOS_"; 
               err.classList.add('visible'); 
+              btn.disabled = false;
+              btn.textContent = originalText;
               return; 
             }
             if (!user.email) {
+              btn.disabled = false;
+              btn.textContent = originalText;
               UI.mostrarModalActualizarEmail(u, p);
               return;
             }
@@ -2669,6 +2677,8 @@
               else { 
                 err.innerText="> ACCESO EXPIRADO_"; 
                 err.classList.add('visible'); 
+                btn.disabled = false;
+                btn.textContent = originalText;
                 return; 
               } 
             }
@@ -2691,6 +2701,10 @@
             AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
             UI.actualizarBadgeMensajes();
             
+            // Restaurar botón (aunque ya no se usará porque cambiamos de página)
+            btn.disabled = false;
+            btn.textContent = originalText;
+            
             Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
             document.getElementById("loginPage").style.opacity="0";
             setTimeout(()=>{
@@ -2703,12 +2717,14 @@
               if (!user.welcomeSeen) {
                 UI.mostrarWelcomeModal(u);
               }
-              // Restaurar estado guardado
               UI.restaurarEstado();
             },300);
           } catch (error) {
+            console.error('Error en login:', error);
             err.innerText="> ERROR DE CONEXIÓN_";
             err.classList.add('visible');
+            btn.disabled = false;
+            btn.textContent = originalText;
           }
         },
         async eliminarMiCuenta() {
@@ -2767,7 +2783,6 @@
             document.getElementById("results").innerHTML=''; 
             document.getElementById("calendarioEntreno").style.display="none"; 
             AppState.clearLastCalc();
-            // Limpiar sessionStorage al salir
             sessionStorage.removeItem('ri5_estado');
           });
         },
@@ -2820,7 +2835,6 @@
           AppState.verificarExpiracionPremium();
           const calc = await Storage.getUltimoCalculo(s); if(calc){ AppState.setLastCalc(calc); UI.mostrarResultadosGuardados(calc); }
           UI.setupMensajesListeners();
-          // Restaurar estado después de cargar la sesión
           setTimeout(() => UI.restaurarEstado(), 500);
           return true;
         },
@@ -3378,7 +3392,6 @@
           if(tab==='historial') this.cargarHistorial();
           if(tab==='plan') this.cargarHistorialPlanes();
           if(tab==='soporte'){ this.cargarMensajesRecibidos(); this.cargarMensajesEnviados(); }
-          // Guardar estado
           this.guardarEstado();
         },
         async cargarHistorial() {
@@ -3486,7 +3499,6 @@
             document.getElementById("cuestionarioEntreno").style.display = "none";
             this.mostrarCalendario(planCompleto.sesiones);
             document.getElementById("resumenObjetivo").innerText = planCompleto.resumen;
-            // Guardar estado
             this.guardarEstado();
           } catch (e) {
             Utils.showToast('Error al cargar el plan', 'error');
@@ -3496,12 +3508,13 @@
           const grid = document.getElementById("calendarioGrid");
           grid.innerHTML = "";
           const totalSemanas = sesiones.length / 7;
-          const inicio = AppState.trimestreActual * 7 * 12; // 12 semanas por trimestre
-          const fin = Math.min(inicio + 7 * 12, sesiones.length);
-          const sesionesTrimestre = sesiones.slice(inicio, fin);
+          const esAnual = sesiones.length > 7 * 12; // más de 12 semanas
+          const inicio = esAnual ? AppState.trimestreActual * 7 * 12 : 0;
+          const fin = esAnual ? Math.min(inicio + 7 * 12, sesiones.length) : sesiones.length;
+          const sesionesVisibles = sesiones.slice(inicio, fin);
           
           const fragment = document.createDocumentFragment();
-          sesionesTrimestre.forEach((sesion, idx) => {
+          sesionesVisibles.forEach((sesion, idx) => {
             const diaGlobal = inicio + idx;
             const div = document.createElement("div");
             div.className = `calendario-dia ${sesion.color}`;
@@ -3523,7 +3536,7 @@
           
           // Actualizar navegación si es plan anual
           const nav = document.getElementById('calendarioNavegacion');
-          if (sesiones.length > 7 * 12) { // más de 12 semanas
+          if (esAnual) {
             nav.style.display = 'flex';
             document.getElementById('calendarioPagina').innerText = `TRIMESTRE ${AppState.trimestreActual+1}/4`;
             document.getElementById('calendarioAnterior').disabled = AppState.trimestreActual === 0;
@@ -3661,10 +3674,10 @@
         },
         cerrarPlan(){ 
           document.getElementById("calendarioEntreno").style.display="none"; 
+          document.getElementById("cuestionarioEntreno").style.display="block";
           AppState.planGeneradoActual=null;
           AppState.planActualId = null;
           AppState.sesionesRealizadas = {};
-          document.getElementById("cuestionarioEntreno").style.display = "block";
           this.guardarEstado();
         },
         initDiasCheckboxes(){ const c=document.getElementById('diasSemanaContainer'); const dias=['L','M','X','J','V','S','D']; let h=''; for(let i=0;i<7;i++){ const n=i+1; h+=`<div class="dia-checkbox"><input type="checkbox" id="dia${n}" value="${n}" ${n===4||n===6?'checked':''}><label for="dia${n}">${dias[i]}</label></div>`; } c.innerHTML=h; },
@@ -3701,13 +3714,11 @@
           if (!estadoStr) return;
           try {
             const estado = JSON.parse(estadoStr);
-            // Activar pestaña
             if (estado.activeTab) {
               const tabMap = { 'entreno': 'entreno', 'plan': 'plan', 'historial': 'historial', 'soporte': 'soporte' };
               const tab = tabMap[estado.activeTab] || 'entreno';
               this.switchTab(tab);
             }
-            // Restaurar plan si es visible
             if (estado.planVisible && estado.planId) {
               AppState.trimestreActual = estado.trimestre || 0;
               this.cargarPlanDesdeHistorial(estado.planId);
@@ -4986,7 +4997,7 @@
           if(!confirmed) return;
           await Storage.removeUltimoPlan(AppState.currentUser);
           document.getElementById("calendarioEntreno").style.display = "none";
-          document.getElementById("cuestionarioEntreno").style.display = "block"; // Mostrar configuración
+          document.getElementById("cuestionarioEntreno").style.display = "block";
           AppState.planGeneradoActual = null;
           AppState.planActualId = null;
           AppState.sesionesRealizadas = {};
@@ -5008,7 +5019,9 @@
           
           for (let i = 0; i < opciones.length; i++) {
             if (opciones[i].value === 'medio' || opciones[i].value === 'maraton') {
-              if (duracion === '3' && experiencia === 'si') {
+              if (duracion === '12') {
+                opciones[i].disabled = false;
+              } else if (duracion === '3' && experiencia === 'si') {
                 opciones[i].disabled = false;
               } else {
                 opciones[i].disabled = true;
@@ -5038,8 +5051,8 @@
           const experiencia = document.getElementById("experienciaDistancia").value;
           
           if (distancia === 'medio' || distancia === 'maraton') {
-            if (!(duracion === 3 && experiencia === 'si')) {
-              Utils.showToast("❌ Los planes de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.", 'error');
+            if (!(duracion === 12 || (duracion === 3 && experiencia === 'si'))) {
+              Utils.showToast("❌ Los planes de Media Maratón y Maratón solo están disponibles con 12 meses (cualquier experiencia) o con 3 meses y experiencia previa.", 'error');
               return;
             }
           }
@@ -5073,7 +5086,6 @@
               const totalDias = macrociclo * 7;
               const sesiones = [];
 
-              // Lógica de periodización según duración
               const esAnual = meses === 12;
               const fases = esAnual ? ['base', 'construccion', 'pico', 'descanso'] : ['unica'];
               
@@ -5083,7 +5095,6 @@
                 let color = "sesion-descanso", breve = "D", detalle = null;
 
                 if(diasEntreno.includes(diaSem)){
-                  // Determinar fase según semana
                   let fase = 'unica';
                   if (esAnual) {
                     const semanasTotales = totalDias/7;
@@ -5094,12 +5105,10 @@
                     else fase = 'descanso';
                   }
                   
-                  // Asignar tipo de sesión según día y fase
                   let tipo = 'rodaje';
                   if (diaSem === diaLargo) {
                     tipo = 'largo';
                   } else {
-                    // Distribuir series y tempo según la fase
                     const indice = diasEntreno.indexOf(diaSem);
                     if (fase === 'base') {
                       if (indice % 2 === 0) tipo = 'rodaje';
@@ -5112,18 +5121,16 @@
                       if (indice % 2 === 0) tipo = 'series';
                       else tipo = 'tempo';
                     } else if (fase === 'descanso') {
-                      tipo = 'rodaje'; // más suave
+                      tipo = 'rodaje';
                     }
                   }
                   
-                  // Ajustar por objetivo
                   if (obj === 'competir') {
                     if (tipo === 'rodaje' && Math.random() > 0.7) tipo = 'series';
                   } else if (obj === 'acabar') {
                     if (tipo !== 'rodaje' && Math.random() > 0.7) tipo = 'rodaje';
                   }
 
-                  // Factor de descarga cada 4 semanas
                   const esDescarga = (semana+1) % 4 === 0;
                   let factorPersonal = 1.0;
                   if(AppState.lastRitmoBase){
@@ -5132,7 +5139,6 @@
                   }
                   if(esDescarga) factorPersonal *= 0.8;
 
-                  // Seleccionar entrenamiento de la base de datos
                   let opts = [];
                   if(tipo==='largo') opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.largo || [];
                   else if(tipo==='series') opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.series || [];
@@ -5155,7 +5161,6 @@
                 sesiones.push({ color, breve, detalle, semana: semana+1 });
               }
 
-              // Guardar plan
               const planId = Date.now().toString();
               const planCompleto = {
                 params: { modalidad, distancia, macrociclo, diasPorSemana: diasEntreno.length, nivel, experiencia: exp, objetivo: obj, diaLargo, fechaInicio, diasEntreno },
