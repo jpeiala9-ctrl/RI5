@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>RI5 · EDITION</title>
   
-  <!-- MANIFEST: nombre corto "RI5" para el acceso directo -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RI5%22%2C%22short_name%22%3A%22RI5%22%2C%22description%22%3A%22Entrenamiento%20runner%20con%20zonas%2C%20planes%20y%20soporte%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23F5F2EB%22%2C%22theme_color%22%3A%22%23D4A373%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23F5F2EB%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%232C2C2C%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+  <!-- MANIFEST -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RI5%20EDITION%22%2C%22short_name%22%3A%22RI5%22%2C%22description%22%3A%22Entrenamiento%20runner%20con%20zonas%2C%20planes%20y%20soporte%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23F5F2EB%22%2C%22theme_color%22%3A%22%23D4A373%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23F5F2EB%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%232C2C2C%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,36 +22,57 @@
     }
 
     :root {
-      --bg-primary: #1C1C1E;
-      --bg-secondary: #2C2C2E;
-      --bg-card: #3A3A3C;
-      --text-primary: #F5F5F7;
-      --text-secondary: #E0E0E0;
-      --accent-red: #8B3A3A;
-      --accent-green: #2E6B4C;
-      --accent-blue: #4A5B6E;
-      --accent-yellow: #CC954D;
-      --accent-purple: #B87333;
-      --border-color: #4A4A4E;
-      --glow-color: rgba(184, 115, 51, 0.2);
-      --dot-color: rgba(142, 142, 147, 0.05);
-      --gold: #B59A6B;
-      --new-user-bg: rgba(46, 107, 76, 0.2);
-      --new-user-border: #2E6B4C;
-      --stat-bg: #2C2C2E;
-      --stat-number: #F5F5F7;
-      --pending-bg: #E6B800;
-      --pending-text: #1C1C1E;
-      --logout-red: #FF4136;
-      --warning-red: #FF4136;
+      --bg-primary: #F5F2EB;
+      --bg-secondary: #E8E2D5;
+      --bg-card: #FFFFFF;
+      --text-primary: #2C2C2C;
+      --text-secondary: #2E2E2E;
+      --accent-red: #C46D5E;
+      --accent-green: #7D8F69;
+      --accent-blue: #5A6572;
+      --accent-yellow: #D4A373;
+      --accent-purple: #B76E3C;
+      --border-color: #D6D2C5;
+      --glow-color: rgba(212, 163, 115, 0.15);
+      --font-mono: 'Courier New', monospace;
+      --font-dot: 'Courier New', 'Dot Matrix', monospace;
+      --dot-color: rgba(107, 107, 107, 0.05);
+      --gold: #C4A77D;
+      --new-user-bg: rgba(125, 143, 105, 0.2);
+      --new-user-border: #7D8F69;
+      --stat-bg: #E8E2D5;
+      --stat-number: #2C2C2C;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1C1C1E;
+        --bg-secondary: #2C2C2E;
+        --bg-card: #3A3A3C;
+        --text-primary: #F5F5F7;
+        --text-secondary: #E0E0E0;
+        --accent-red: #8B3A3A;
+        --accent-green: #2E6B4C;
+        --accent-blue: #4A5B6E;
+        --accent-yellow: #CC954D;
+        --accent-purple: #B87333;
+        --border-color: #4A4A4E;
+        --glow-color: rgba(184, 115, 51, 0.2);
+        --dot-color: rgba(142, 142, 147, 0.05);
+        --gold: #B59A6B;
+        --new-user-bg: rgba(46, 107, 76, 0.2);
+        --new-user-border: #2E6B4C;
+        --stat-bg: #2C2C2E;
+        --stat-number: #F5F5F7;
+      }
     }
 
     body.manual-light {
-      --bg-primary: #F5F5F7 !important;
+      --bg-primary: #F5F2EB !important;
       --bg-secondary: #E8E2D5 !important;
       --bg-card: #FFFFFF !important;
-      --text-primary: #1C1C1E !important;
-      --text-secondary: #2C2C2E !important;
+      --text-primary: #2C2C2C !important;
+      --text-secondary: #2E2E2E !important;
       --accent-red: #C46D5E !important;
       --accent-green: #7D8F69 !important;
       --accent-blue: #5A6572 !important;
@@ -59,12 +80,20 @@
       --accent-purple: #B76E3C !important;
       --border-color: #D6D2C5 !important;
       --gold: #C4A77D !important;
-      --stat-bg: #E8E2D5 !important;
-      --stat-number: #1C1C1E !important;
-      --pending-bg: #E6B800 !important;
-      --pending-text: #1C1C1E !important;
-      --logout-red: #C0392B !important;
-      --warning-red: #C0392B !important;
+    }
+    body.manual-dark {
+      --bg-primary: #1C1C1E !important;
+      --bg-secondary: #2C2C2E !important;
+      --bg-card: #3A3A3C !important;
+      --text-primary: #F5F5F7 !important;
+      --text-secondary: #E0E0E0 !important;
+      --accent-red: #8B3A3A !important;
+      --accent-green: #2E6B4C !important;
+      --accent-blue: #4A5B6E !important;
+      --accent-yellow: #CC954D !important;
+      --accent-purple: #B87333 !important;
+      --border-color: #4A4A4E !important;
+      --gold: #B59A6B !important;
     }
 
     body {
@@ -226,9 +255,9 @@
 
     .logout-button {
       background: transparent;
-      border: 1px solid var(--logout-red);
+      border: 1px solid var(--accent-red);
       border-radius: 40px;
-      color: var(--logout-red);
+      color: var(--accent-red);
       font-size: 14px;
       padding: 12px 24px;
       cursor: pointer;
@@ -239,7 +268,7 @@
       margin: 0 auto;
     }
     .logout-button:hover {
-      background: var(--logout-red);
+      background: var(--accent-red);
       color: var(--bg-primary);
     }
 
@@ -383,44 +412,6 @@
     }
     input.error { border-color: var(--accent-red); }
 
-    /* ===== CAMPO DE CONTRASEÑA CON TEXTO MINIMALISTA ===== */
-    .password-wrapper {
-      position: relative;
-      width: 100%;
-      margin-bottom: 16px;
-    }
-    .password-wrapper input {
-      margin-bottom: 0;
-      padding-right: 70px;
-      line-height: 1.5;
-    }
-    .password-toggle {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: var(--text-secondary);
-      font-size: 14px;
-      user-select: none;
-      z-index: 2;
-      text-transform: lowercase;
-      letter-spacing: 1px;
-      background: var(--bg-secondary);
-      padding: 4px 8px;
-      border-radius: 20px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: auto;
-      line-height: 1;
-    }
-    .password-toggle:hover {
-      color: var(--accent-blue);
-      border-color: var(--accent-blue);
-    }
-
     .fecha-inicio-container {
       text-align: center;
       margin: 20px 0 10px;
@@ -454,7 +445,6 @@
       margin: 20px auto !important;
       display: block;
       text-align: center;
-      transition: all 0.3s ease;
     }
     .button-main::before {
       content: "";
@@ -466,11 +456,7 @@
     }
     .button-main:hover::before { left: 100%; }
     .button-main:hover { box-shadow: 0 0 25px rgba(90, 101, 114, 0.4); }
-    .button-main:disabled { 
-      opacity: 0.5; 
-      cursor: not-allowed; 
-      pointer-events: none;
-    }
+    .button-main:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
     /* ===== CURIOSIDAD ===== */
     .curiosity {
@@ -535,10 +521,12 @@
       margin-top: 0;
       color: var(--text-secondary);
       font-size: 14px;
-      text-align: center;
+      padding-left: 10px;
+      border-left: 2px solid var(--border-color);
+      text-align: center; /* CENTRADO */
     }
     .zone-card.active .long {
-      max-height: 500px;
+      max-height: 300px;
       margin-top: 16px;
     }
     
@@ -666,34 +654,6 @@
     .sesion-series { border-color: var(--accent-green); background: rgba(125, 143, 105, 0.1); }
     .sesion-tempo { border-color: var(--accent-yellow); background: rgba(212, 163, 115, 0.1); }
     .sesion-largo { border-color: var(--accent-red); background: rgba(196, 109, 94, 0.1); }
-
-    /* Navegación del calendario anual */
-    .calendario-navegacion {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-      width: 100%;
-    }
-    .calendario-navegacion button {
-      width: auto;
-      padding: 8px 16px;
-      background: transparent;
-      border: 1px solid var(--accent-blue);
-      color: var(--accent-blue);
-      border-radius: 40px;
-      cursor: pointer;
-      font-size: 14px;
-      margin: 0;
-    }
-    .calendario-navegacion button:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-    .calendario-navegacion span {
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
 
     /* ===== BOTONES DE ACCIÓN ===== */
     .action-button {
@@ -1009,41 +969,26 @@
       font-weight: bold;
       font-size: 20px;
     }
-    .stat-badge.pending {
-      background: var(--pending-bg);
-      color: var(--pending-text);
-      border-color: var(--pending-bg);
-    }
-    .stat-badge.pending .number {
-      color: var(--pending-text);
-    }
-
-    /* ===== MODALES (solo visibles con clase active) ===== */
-    #modalUsuarios, #modalPendientes, #confirmModal, #premiumModal, #welcomeModal, #emailUpdateModal, #resetModal {
-      display: none;
-    }
-    #modalUsuarios.active, #modalPendientes.active, #confirmModal.active, #premiumModal.active, #welcomeModal.active, #emailUpdateModal.active, #resetModal.active {
-      display: block;
-    }
 
     /* Modal de usuarios */
-    #modalUsuarios, #modalPendientes {
+    #modalUsuarios {
+      display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 20000;
       align-items: center;
       justify-content: center;
     }
-    #modalUsuarios.active, #modalPendientes.active {
+    #modalUsuarios.active {
       display: flex;
     }
-    #modalUsuarios .modal-overlay, #modalPendientes .modal-overlay {
+    #modalUsuarios .modal-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(8px);
     }
-    #modalUsuarios .modal-content, #modalPendientes .modal-content {
+    #modalUsuarios .modal-content {
       position: relative;
       z-index: 20001;
       background: var(--bg-card);
@@ -1057,11 +1002,11 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.9);
       margin: auto;
     }
-    #modalUsuarios .modal-content h2, #modalPendientes .modal-content h2 {
+    #modalUsuarios .modal-content h2 {
       margin-bottom: 20px;
       color: var(--accent-blue);
     }
-    #modalUsuarios .modal-close, #modalPendientes .modal-close {
+    #modalUsuarios .modal-close {
       position: absolute;
       top: 20px;
       right: 20px;
@@ -1073,7 +1018,7 @@
       width: auto;
       padding: 0;
     }
-    #modalUsuarios .modal-close:hover, #modalPendientes .modal-close:hover {
+    #modalUsuarios .modal-close:hover {
       color: var(--accent-red);
     }
     #modalUsuarios .modal-search {
@@ -1145,28 +1090,6 @@
       width: auto;
     }
 
-    .usuario-pendiente {
-      background: var(--pending-bg);
-      color: var(--pending-text);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      margin-bottom: 10px;
-      overflow: hidden;
-    }
-    .usuario-pendiente .usuario-header {
-      background: var(--pending-bg);
-      color: var(--pending-text);
-    }
-    .btn-enterado {
-      background: var(--accent-green);
-      color: var(--bg-primary);
-      border: none;
-    }
-    .btn-enterado:hover {
-      background: var(--accent-green);
-      filter: brightness(1.1);
-    }
-
     /* ===== SELECCIÓN DE DÍAS ===== */
     .dias-semana-label {
       text-align: center;
@@ -1225,6 +1148,7 @@
     }
     #premiumOverlay.active { display: block; }
     #premiumModal {
+      display: none;
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -1237,6 +1161,7 @@
       z-index: 20001;
       box-shadow: 0 20px 40px rgba(0,0,0,0.9);
     }
+    #premiumModal.active { display: block; }
     #premiumModal h2 { color: var(--gold); margin-bottom: 20px; }
     #premiumModal p { margin: 10px 0; color: var(--text-secondary); }
     #premiumModal button {
@@ -1437,6 +1362,7 @@
     }
     #confirmOverlay.active { display: block; }
     #confirmModal {
+      display: none;
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -1450,6 +1376,7 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.9);
       text-align: center;
     }
+    #confirmModal.active { display: block; }
     #confirmModal h3 { color: var(--accent-blue); margin-bottom: 20px; }
     #confirmModal p { color: var(--text-secondary); margin-bottom: 30px; }
     #confirmModal .confirm-buttons {
@@ -1475,7 +1402,7 @@
       border: 1px solid var(--border-color);
     }
 
-    /* ===== LOADING OVERLAY (ya no se usa, pero se mantiene por si acaso) ===== */
+    /* ===== LOADING OVERLAY ===== */
     #loadingOverlay {
       display: none;
       position: fixed;
@@ -1546,12 +1473,6 @@
       border-radius: 40px;
     }
 
-    /* Mensaje de advertencia unificado (color rojo) */
-    .warning-message {
-      color: var(--warning-red);
-      border-color: var(--warning-red);
-    }
-
     /* Espaciado del título CONFIGURACIÓN_ */
     #cuestionarioEntreno h3 {
       margin: 30px 0 20px;
@@ -1568,6 +1489,7 @@
     }
     #welcomeOverlay.active { display: block; }
     #welcomeModal {
+      display: none;
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -1580,6 +1502,7 @@
       z-index: 20001;
       box-shadow: 0 20px 40px rgba(0,0,0,0.9);
     }
+    #welcomeModal.active { display: block; }
     #welcomeModal h2 { color: var(--accent-blue); margin-bottom: 20px; }
     #welcomeModal p { margin: 10px 0; color: var(--text-secondary); }
     #welcomeModal button {
@@ -1605,6 +1528,7 @@
     }
     #emailUpdateOverlay.active { display: block; }
     #emailUpdateModal {
+      display: none;
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -1620,8 +1544,7 @@
     #emailUpdateModal.active { display: block; }
     #emailUpdateModal h2 { color: var(--accent-blue); margin-bottom: 20px; }
     #emailUpdateModal p { margin: 10px 0; color: var(--text-secondary); }
-    #emailUpdateModal .password-wrapper { margin-bottom: 20px; }
-    #emailUpdateModal input { margin-bottom: 0; }
+    #emailUpdateModal input { margin-bottom: 20px; }
     #emailUpdateModal button {
       margin-top: 10px;
       background: var(--accent-blue);
@@ -1633,11 +1556,6 @@
       cursor: pointer;
     }
     #emailUpdateModal button:hover { box-shadow: 0 0 20px var(--accent-blue); }
-    #emailUpdateModal .cancel-btn {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-    }
     #emailUpdateModal .error-message { margin-bottom: 10px; }
 
     /* Modal de recuperación de contraseña */
@@ -1651,6 +1569,7 @@
     }
     #resetOverlay.active { display: block; }
     #resetModal {
+      display: none;
       position: fixed;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
@@ -1745,20 +1664,6 @@
       color: var(--bg-primary);
     }
 
-    /* Ajustes de coherencia visual en login */
-    #loginPage .auth-form input,
-    #loginPage .auth-form .password-wrapper,
-    #loginPage .auth-form button {
-      margin-bottom: 20px;
-    }
-    #loginPage .auth-form .error-message {
-      margin-top: -15px;
-      margin-bottom: 15px;
-    }
-    #loginPage .curiosity {
-      margin-top: 40px;
-    }
-
     @media (max-width: 480px) {
       .card { padding: 20px; }
       .tabs-header { flex-wrap: wrap; height: auto; }
@@ -1809,7 +1714,7 @@
     </div>
   </div>
 
-  <!-- Loading overlay (ya no se usa, pero se mantiene por compatibilidad) -->
+  <!-- Loading overlay -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
   </div>
@@ -1876,7 +1781,7 @@
     <input type="email" id="emailUpdateInput" placeholder="> CORREO ELECTRÓNICO_">
     <div class="error-message" id="emailUpdateError"></div>
     <button onclick="window.guardarEmailActualizacion()">[ GUARDAR ]</button>
-    <button class="cancel-btn" onclick="window.cerrarEmailUpdateModal()">CANCELAR</button>
+    <button class="cancel-btn" onclick="window.cerrarEmailUpdateModal()">AHORA NO</button>
   </div>
 
   <!-- Modal de recuperación de contraseña -->
@@ -1902,23 +1807,17 @@
       </div>
       <div id="loginForm" class="auth-form active">
         <input type="text" id="loginUsername" placeholder="> USUARIO_">
-        <div class="password-wrapper">
-          <input type="password" id="loginPassword" placeholder="> CONTRASEÑA_">
-          <span class="password-toggle" onclick="window.togglePassword('loginPassword', this)">ver</span>
-        </div>
+        <input type="password" id="loginPassword" placeholder="> CONTRASEÑA_">
         <div class="error-message" id="loginError"></div>
-        <button class="button-main" id="loginBtn" onclick="window.loginUser()">[ ACCEDER ]</button>
+        <button class="button-main" onclick="window.loginUser()">[ ACCEDER ]</button>
         <button class="action-button" style="margin-top:10px; border-color: var(--accent-blue); color: var(--accent-blue);" onclick="window.abrirResetModal()">🔐 RECORDAR CONTRASEÑA</button>
       </div>
       <div id="registerForm" class="auth-form">
-        <input type="text" id="regUsername" placeholder="> NUEVO USUARIO_" oninput="window.validarRegistroEnTiempoReal()">
-        <input type="email" id="regEmail" placeholder="> CORREO ELECTRÓNICO_" oninput="window.validarRegistroEnTiempoReal()">
-        <div class="password-wrapper">
-          <input type="password" id="regPassword" placeholder="> NUEVA CONTRASEÑA_" oninput="window.validarRegistroEnTiempoReal()">
-          <span class="password-toggle" onclick="window.togglePassword('regPassword', this)">ver</span>
-        </div>
+        <input type="text" id="regUsername" placeholder="> NUEVO USUARIO_">
+        <input type="email" id="regEmail" placeholder="> CORREO ELECTRÓNICO_">
+        <input type="password" id="regPassword" placeholder="> NUEVA CONTRASEÑA_">
         <div class="error-message" id="registerError"></div>
-        <button class="button-main" id="registerBtn" onclick="window.registerUser()">[ REGISTRARSE ]</button>
+        <button class="button-main" onclick="window.registerUser()">[ REGISTRARSE ]</button>
         <button class="delete-account-btn" onclick="window.eliminarMiCuenta()">🗑️ ELIMINAR MI CUENTA</button>
       </div>
       <div id="dailyTip" class="curiosity" onclick="window.changeDailyTip()">
@@ -1973,7 +1872,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE USUARIOS PARA ADMIN (general) -->
+  <!-- MODAL DE USUARIOS PARA ADMIN -->
   <div id="modalUsuarios">
     <div class="modal-overlay" onclick="if(event.target===this) document.getElementById('modalUsuarios').classList.remove('active')"></div>
     <div class="modal-content">
@@ -1983,16 +1882,6 @@
         <input type="text" id="modalBuscarUsuario" placeholder="🔍 Buscar por nombre...">
       </div>
       <div class="modal-user-list" id="modalUserList"></div>
-    </div>
-  </div>
-
-  <!-- MODAL DE USUARIOS PENDIENTES (nuevo sistema) -->
-  <div id="modalPendientes">
-    <div class="modal-overlay" onclick="if(event.target===this) document.getElementById('modalPendientes').classList.remove('active')"></div>
-    <div class="modal-content">
-      <button class="modal-close" onclick="document.getElementById('modalPendientes').classList.remove('active')">✕</button>
-      <h2>🆕 USUARIOS PENDIENTES</h2>
-      <div id="listaPendientes"></div>
     </div>
   </div>
 
@@ -2049,13 +1938,12 @@
               <option value="maraton" selected>MARATÓN</option>
             </select>
 
-            <!-- Mensaje unificado para larga distancia -->
-            <div id="info-mensaje-distancia" class="calculo-limit-msg warning-message" style="display:none; margin-top:10px;">⚠️ Las distancias de Media Maratón y Maratón requieren 3 meses con experiencia o 12 meses (sin requisito de experiencia).</div>
+            <!-- Mensaje informativo para larga distancia -->
+            <div id="info-mensaje-distancia" class="calculo-limit-msg" style="display:none; margin-top:10px;">⚠️ Las distancias de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.</div>
 
             <select id="duracionPlan" onchange="window.validarOpcionesPlan()">
               <option value="1">1 MES</option>
               <option value="3">3 MESES</option>
-              <option value="12">12 MESES (anual)</option>
             </select>
 
             <div class="dias-semana-label">📅 DÍAS QUE ENTRENAS A LA SEMANA</div>
@@ -2116,12 +2004,6 @@
             <div class="calendar-grid-container">
               <div class="calendar-header"><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div><div>DOM</div></div>
               <div id="calendarioGrid"></div>
-            </div>
-            <!-- Navegación para planes anuales -->
-            <div id="calendarioNavegacion" class="calendario-navegacion" style="display: none;">
-              <button id="calendarioAnterior" onclick="window.cambiarTrimestre(-1)">◀ ANTERIOR</button>
-              <span id="calendarioPagina">TRIMESTRE 1/4</span>
-              <button id="calendarioSiguiente" onclick="window.cambiarTrimestre(1)">SIGUIENTE ▶</button>
             </div>
           </div>
         </div>
@@ -2189,19 +2071,9 @@
         messagingSenderId: "889154598385",
         appId: "1:889154598385:web:1d4e7dad605a42c1c60050"
       };
-      
-      // Inicializar Firebase
-      try {
-        firebase.initializeApp(firebaseConfig);
-        console.log('Firebase inicializado correctamente');
-      } catch (e) {
-        console.error('Error al inicializar Firebase:', e);
-      }
-      
+      firebase.initializeApp(firebaseConfig);
       const db = firebase.database();
       const auth = firebase.auth();
-      
-      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
       // ==================== UTILS ====================
       const Utils = {
@@ -2281,24 +2153,6 @@
           gainNode.connect(window.audioContext.destination);
           osc.start();
           osc.stop(window.audioContext.currentTime + 0.2);
-        },
-        // Verificar conexión a Firebase
-        checkFirebaseConnection() {
-          return new Promise((resolve) => {
-            const connectedRef = db.ref('.info/connected');
-            const timeout = setTimeout(() => {
-              connectedRef.off();
-              resolve(false);
-            }, 5000);
-            
-            connectedRef.once('value', (snap) => {
-              clearTimeout(timeout);
-              resolve(snap.val() === true);
-            }).catch(() => {
-              clearTimeout(timeout);
-              resolve(false);
-            });
-          });
         }
       };
 
@@ -2306,89 +2160,89 @@
       const Storage = {
         async getUsers() { 
           try { return (await db.ref('users').once('value')).val() || {}; } 
-          catch(e) { console.error('Error al cargar usuarios:', e); return {}; }
+          catch(e) { Utils.showToast('Error al cargar usuarios', 'error'); return {}; }
         },
         async saveUsers(u) { 
           try { await db.ref('users').set(u); } 
-          catch(e) { console.error('Error al guardar usuarios:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar usuarios', 'error'); throw e; }
         },
         async getHistorial(u) { 
           if(!u) return []; 
           try { return (await db.ref('users/'+u+'/historial').once('value')).val() || []; } 
-          catch(e) { console.error('Error al cargar historial:', e); return []; }
+          catch(e) { Utils.showToast('Error al cargar historial', 'error'); return []; }
         },
         async saveHistorial(u,h) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/historial').set(h); } 
-          catch(e) { console.error('Error al guardar historial:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar historial', 'error'); throw e; }
         },
         async getHistorialPlanes(u) {
           if(!u) return [];
           try { return (await db.ref('users/'+u+'/historialPlanes').once('value')).val() || []; }
-          catch(e) { console.error('Error al cargar historial de planes:', e); return []; }
+          catch(e) { Utils.showToast('Error al cargar historial de planes', 'error'); return []; }
         },
         async saveHistorialPlanes(u, planes) {
           if(!u) return;
           try { await db.ref('users/'+u+'/historialPlanes').set(planes); }
-          catch(e) { console.error('Error al guardar historial de planes:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar historial de planes', 'error'); throw e; }
         },
         async getUltimoPlan(u) { 
           if(!u) return null; 
           try { return (await db.ref('users/'+u+'/ultimoPlan').once('value')).val() || null; } 
-          catch(e) { console.error('Error al cargar plan:', e); return null; }
+          catch(e) { Utils.showToast('Error al cargar plan', 'error'); return null; }
         },
         async setUltimoPlan(u,p) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/ultimoPlan').set(p); } 
-          catch(e) { console.error('Error al guardar plan:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar plan', 'error'); throw e; }
         },
         async removeUltimoPlan(u) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/ultimoPlan').remove(); } 
-          catch(e) { console.error('Error al eliminar plan:', e); throw e; }
+          catch(e) { Utils.showToast('Error al eliminar plan', 'error'); throw e; }
         },
         async getUltimoCalculo(u) { 
           if(!u) return null; 
           try { return (await db.ref('users/'+u+'/ultimoCalculo').once('value')).val() || null; } 
-          catch(e) { console.error('Error al cargar cálculo:', e); return null; }
+          catch(e) { Utils.showToast('Error al cargar cálculo', 'error'); return null; }
         },
         async setUltimoCalculo(u,c) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/ultimoCalculo').set(c); } 
-          catch(e) { console.error('Error al guardar cálculo:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar cálculo', 'error'); throw e; }
         },
         async getPlanCompleto(u, planId) {
           if(!u) return null;
           try { return (await db.ref('users/'+u+'/planesCompletos/'+planId).once('value')).val() || null; }
-          catch(e) { console.error('Error al cargar plan completo:', e); return null; }
+          catch(e) { Utils.showToast('Error al cargar plan completo', 'error'); return null; }
         },
         async savePlanCompleto(u, planId, planData) {
           if(!u) return;
           try { await db.ref('users/'+u+'/planesCompletos/'+planId).set(planData); }
-          catch(e) { console.error('Error al guardar plan completo:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar plan completo', 'error'); throw e; }
         },
         async deletePlanCompleto(u, planId) {
           if(!u) return;
           try { await db.ref('users/'+u+'/planesCompletos/'+planId).remove(); }
-          catch(e) { console.error('Error al eliminar plan completo:', e); throw e; }
+          catch(e) { Utils.showToast('Error al eliminar plan completo', 'error'); throw e; }
         },
         async marcarSesionRealizada(u, planId, diaIndex, realizado) {
           if(!u) return;
           try { await db.ref('users/'+u+'/sesionesRealizadas/'+planId+'/'+diaIndex).set(realizado); }
-          catch(e) { console.error('Error al guardar estado de sesión:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar estado de sesión', 'error'); throw e; }
         },
         async getSesionesRealizadas(u, planId) {
           if(!u) return {};
           try { return (await db.ref('users/'+u+'/sesionesRealizadas/'+planId).once('value')).val() || {}; }
-          catch(e) { console.error('Error al cargar sesiones realizadas:', e); return {}; }
+          catch(e) { Utils.showToast('Error al cargar sesiones realizadas', 'error'); return {}; }
         },
         async getMensajes() { 
           try { return (await db.ref('mensajes').once('value')).val() || {}; } 
-          catch(e) { console.error('Error al cargar mensajes:', e); return {}; }
+          catch(e) { Utils.showToast('Error al cargar mensajes', 'error'); return {}; }
         },
         async saveMensajes(m) { 
           try { await db.ref('mensajes').set(m); } 
-          catch(e) { console.error('Error al guardar mensajes:', e); throw e; }
+          catch(e) { Utils.showToast('Error al guardar mensajes', 'error'); throw e; }
         },
         // Escucha en tiempo real para mensajes de usuario
         listenMensajesUsuario(u, callback) {
@@ -2396,7 +2250,7 @@
           const listener = ref.on('value', (snapshot) => {
             callback(snapshot.val() || []);
           }, (error) => {
-            console.error('Error en tiempo real:', error);
+            Utils.showToast('Error en tiempo real', 'error');
           });
           return () => ref.off('value', listener);
         },
@@ -2405,7 +2259,7 @@
           const listener = ref.on('value', (snapshot) => {
             callback(snapshot.val() || []);
           }, (error) => {
-            console.error('Error en tiempo real:', error);
+            Utils.showToast('Error en tiempo real', 'error');
           });
           return () => ref.off('value', listener);
         },
@@ -2422,7 +2276,7 @@
             });
             callback(recibidos);
           }, (error) => {
-            console.error('Error en tiempo real:', error);
+            Utils.showToast('Error en tiempo real', 'error');
           });
           return () => ref.off('value', listener);
         },
@@ -2438,7 +2292,7 @@
             });
             callback(enviados);
           }, (error) => {
-            console.error('Error en tiempo real:', error);
+            Utils.showToast('Error en tiempo real', 'error');
           });
           return () => ref.off('value', listener);
         },
@@ -2454,8 +2308,8 @@
         zonasCalculadas: false, lastName: "", lastAge: 0, lastFC: 0, lastUL: 0,
         lastZones: [], lastPred: [], lastRitmoBase: 0,
         ultimoPlanParams: null, planGeneradoActual: null,
-        planActualId: null,
-        sesionesRealizadas: {},
+        planActualId: null, // ID único del plan actual (timestamp)
+        sesionesRealizadas: {}, // Estado de checkboxes para el plan actual
         camposTocados: { name: false, age: false, time: false },
         currentUser: null, currentSesionDetalle: null, deferredPrompt: null,
         mensajesNoLeidos: 0,
@@ -2464,8 +2318,8 @@
         premiumExpiryDate: null,
         calculosMes: 0,
         mesActual: '',
+        usuariosVistos: JSON.parse(localStorage.getItem('usuariosVistos')||'[]'),
         mensajeListeners: [],
-        trimestreActual: 0,
         setLastCalc(d) { this.lastName=d.name; this.lastAge=d.age; this.lastFC=d.fcMax; this.lastUL=d.ul; this.lastZones=d.zones; this.lastPred=d.pred; this.lastRitmoBase=d.ritmoBase; this.zonasCalculadas=true; },
         clearLastCalc() { this.zonasCalculadas=false; this.lastName=""; this.lastAge=0; this.lastFC=0; this.lastUL=0; this.lastZones=[]; this.lastPred=[]; this.lastRitmoBase=0; },
         setCurrentUser(u, premium=false, expiryDate=null, calculosMes=0, mesActual='') {
@@ -2559,40 +2413,6 @@
         }
       };
 
-      // ==================== FUNCIÓN PARA MOSTRAR/OCULTAR CONTRASEÑA ====================
-      window.togglePassword = function(inputId, element) {
-        const input = document.getElementById(inputId);
-        if (input.type === 'password') {
-          input.type = 'text';
-          element.textContent = 'ocultar';
-        } else {
-          input.type = 'password';
-          element.textContent = 'ver';
-        }
-      };
-
-      // ==================== VALIDACIÓN EN TIEMPO REAL REGISTRO ====================
-      window.validarRegistroEnTiempoReal = function() {
-        const u = document.getElementById('regUsername').value.trim();
-        const email = document.getElementById('regEmail').value.trim();
-        const p = document.getElementById('regPassword').value.trim();
-        const err = document.getElementById('registerError');
-        let mensaje = '';
-        if (u && (u.length < 3 || !/^[a-zA-Z0-9_]+$/.test(u))) {
-          mensaje = '> Usuario: mínimo 3 caracteres, solo letras, números y _';
-        } else if (email && !Utils.isValidEmail(email)) {
-          mensaje = '> Correo electrónico no válido';
-        } else if (p && p.length < 4) {
-          mensaje = '> Contraseña: mínimo 4 caracteres';
-        }
-        if (mensaje) {
-          err.innerText = mensaje;
-          err.classList.add('visible');
-        } else {
-          err.classList.remove('visible');
-        }
-      };
-
       // ==================== MÓDULO AUTENTICACIÓN ====================
       const Auth = {
         switchAuthTab(tab) { document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active')); document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active')); if(tab==='login'){ document.querySelector('.auth-tab').classList.add('active'); document.getElementById('loginForm').classList.add('active'); }else{ document.querySelectorAll('.auth-tab')[1].classList.add('active'); document.getElementById('registerForm').classList.add('active'); } },
@@ -2601,7 +2421,6 @@
           const email = document.getElementById('regEmail').value.trim();
           const p = document.getElementById('regPassword').value.trim();
           const err = document.getElementById('registerError');
-          const btn = document.getElementById('registerBtn');
           if(!u || !email || !p) { err.innerText="> COMPLETA TODOS LOS CAMPOS_"; err.classList.add('visible'); return; }
           if(u.length<3) { err.innerText="> MÍNIMO 3 CARACTERES_"; err.classList.add('visible'); return; }
           if(p.length<4) { err.innerText="> MÍNIMO 4 CARACTERES_"; err.classList.add('visible'); return; }
@@ -2611,12 +2430,7 @@
             err.classList.add('visible');
             return;
           }
-          
-          // Deshabilitar botón
-          btn.disabled = true;
-          const originalText = btn.textContent;
-          btn.textContent = 'REGISTRANDO...';
-          
+          Utils.showLoading();
           try {
             const userCredential = await auth.createUserWithEmailAndPassword(email, p);
             const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
@@ -2626,8 +2440,7 @@
             if(users[u]) {
               err.innerText="> EL USUARIO YA EXISTE_";
               err.classList.add('visible');
-              btn.disabled = false;
-              btn.textContent = originalText;
+              Utils.hideLoading();
               return;
             }
             users[u] = { 
@@ -2638,144 +2451,92 @@
               premium: true,
               calculosMes: 0,
               mesActual: mesActual,
-              welcomeSeen: false,
-              adminNotified: false
+              welcomeSeen: false
             };
             await Storage.saveUsers(users);
             await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
             AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
+            Utils.hideLoading();
             Utils.showToast('✅ Registro exitoso', 'success');
-            
-            // Restaurar botón (aunque ya no se verá)
-            btn.disabled = false;
-            btn.textContent = originalText;
-            
             document.getElementById("loginPage").style.opacity="0";
             setTimeout(()=>{
               document.getElementById("loginPage").style.display="none";
               document.getElementById("mainContent").style.display="flex";
-              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${email}) · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
+              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
               UI.changeDailyTip(); UI.startConsejoAutoChange();
               if (!users[u].welcomeSeen) {
                 UI.mostrarWelcomeModal(u);
               }
             },300);
           } catch (error) {
-            btn.disabled = false;
-            btn.textContent = originalText;
+            Utils.hideLoading();
             if (error.code === 'auth/email-already-in-use') {
               err.innerText="> EL CORREO YA ESTÁ REGISTRADO_";
-            } else if (error.code === 'auth/network-request-failed') {
-              err.innerText="> ERROR DE CONEXIÓN. COMPRUEBA TU RED_";
             } else {
-              err.innerText="> ERROR EN EL REGISTRO: " + (error.message || 'Desconocido');
+              err.innerText="> ERROR EN EL REGISTRO: " + error.message;
             }
             err.classList.add('visible');
           }
         },
         async loginUser() {
-          const u = document.getElementById('loginUsername').value.trim();
-          const p = document.getElementById('loginPassword').value.trim();
-          const err = document.getElementById('loginError');
-          
-          // Validación básica
-          if(!u || !p) { 
-            err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; 
+          const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
+          if(!u||!p) { err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; err.classList.add('visible'); return; }
+          if(u==='admin' && p==='091118110485120385') { Auth.mostrarAdminPanel(); return; }
+          Utils.showLoading();
+          const users = await Storage.getUsers();
+          const user = users[u];
+          if(!user || user.password !== Utils.hashPassword(p)) { 
+            err.innerText="> INCORRECTO_"; 
             err.classList.add('visible'); 
+            Utils.hideLoading(); 
             return; 
           }
-          
-          // Admin especial
-          if(u === 'admin' && p === '091118110485120385') { 
-            Auth.mostrarAdminPanel(); 
-            return; 
+          // Si el usuario no tiene email, mostrar modal para actualizar
+          if (!user.email) {
+            Utils.hideLoading();
+            UI.mostrarModalActualizarEmail(u, p);
+            return;
           }
-          
+          // Intentar login con email
           try {
-            // Intentar obtener usuarios
-            const users = await Storage.getUsers();
-            const user = users[u];
-            
-            if(!user || user.password !== Utils.hashPassword(p)) { 
-              err.innerText="> USUARIO O CONTRASEÑA INCORRECTOS_"; 
-              err.classList.add('visible'); 
-              return; 
-            }
-            
-            // Verificar email
-            if (!user.email) {
-              UI.mostrarModalActualizarEmail(u, p);
-              return;
-            }
-            
-            // Autenticar con Firebase Auth (opcional, pero lo intentamos)
-            try {
-              await auth.signInWithEmailAndPassword(user.email, p);
-            } catch (authError) {
-              console.warn('Error en Firebase Auth (no crítico):', authError);
-              // Continuamos igual porque ya tenemos los datos locales
-            }
-            
-            // Verificar expiración
-            const now = new Date();
-            const expiry = new Date(user.expires);
-            if(now > expiry) { 
-              if(user.premium) {
-                Utils.showToast('> Tu período premium ha expirado.', 'warning'); 
-              } else { 
-                err.innerText="> ACCESO EXPIRADO_"; 
-                err.classList.add('visible'); 
-                return; 
-              } 
-            }
-            
-            // Actualizar contadores mensuales
-            const ahora = new Date();
-            const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
-            let calculosMes = user.calculosMes || 0;
-            let mesActualUsuario = user.mesActual || '';
-            
-            if(mesActualUsuario !== mesActual) {
-              calculosMes = 0;
-              mesActualUsuario = mesActual;
-              users[u].calculosMes = 0;
-              users[u].mesActual = mesActual;
-              await Storage.saveUsers(users);
-            }
-            
-            // Establecer usuario en el estado global
-            AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
-            
-            // Cargar mensajes
-            const msgs = await Storage.getMensajesUsuario(u);
-            AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
-            UI.actualizarBadgeMensajes();
-            
-            // Entrar a la aplicación
-            Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
-            document.getElementById("loginPage").style.opacity="0";
-            setTimeout(()=>{
-              document.getElementById("loginPage").style.display="none";
-              document.getElementById("mainContent").style.display="flex";
-              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
-              UI.changeDailyTip(); UI.startConsejoAutoChange();
-              UI.setupMensajesListeners();
-              Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
-              if (!user.welcomeSeen) {
-                UI.mostrarWelcomeModal(u);
-              }
-              UI.restaurarEstado();
-            },300);
-            
-          } catch (error) {
-            console.error('Error en login:', error);
-            if (error.code === 'auth/network-request-failed' || error.message?.includes('network')) {
-              err.innerText = "> ERROR DE CONEXIÓN. VERIFICA TU RED_";
-            } else {
-              err.innerText = "> ERROR INESPERADO. INTENTA DE NUEVO_";
-            }
-            err.classList.add('visible');
+            await auth.signInWithEmailAndPassword(user.email, p);
+          } catch (e) {
+            // Ignorar, solo importa la sesión en RTDB
           }
+          const now = new Date(), expiry = new Date(user.expires);
+          if(now>expiry){ if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); else { err.innerText="> ACCESO EXPIRADO_"; err.classList.add('visible'); Utils.hideLoading(); return; } }
+          
+          const ahora = new Date();
+          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          let calculosMes = user.calculosMes || 0;
+          let mesActualUsuario = user.mesActual || '';
+          
+          if(mesActualUsuario !== mesActual) {
+            calculosMes = 0;
+            mesActualUsuario = mesActual;
+            users[u].calculosMes = 0;
+            users[u].mesActual = mesActual;
+            await Storage.saveUsers(users);
+          }
+          
+          AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
+          const msgs = await Storage.getMensajesUsuario(u);
+          AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
+          UI.actualizarBadgeMensajes();
+          Utils.hideLoading();
+          Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
+          document.getElementById("loginPage").style.opacity="0";
+          setTimeout(()=>{
+            document.getElementById("loginPage").style.display="none";
+            document.getElementById("mainContent").style.display="flex";
+            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+            UI.changeDailyTip(); UI.startConsejoAutoChange();
+            UI.setupMensajesListeners();
+            Storage.getUltimoCalculo(u).then(c=>{ if(c){ AppState.setLastCalc(c); UI.mostrarResultadosGuardados(c); } });
+            if (!user.welcomeSeen) {
+              UI.mostrarWelcomeModal(u);
+            }
+          },300);
         },
         async eliminarMiCuenta() {
           const u = document.getElementById('regUsername').value.trim();
@@ -2791,39 +2552,28 @@
           const confirmed = await Utils.confirm('ELIMINAR CUENTA', `¿ESTÁS SEGURO DE ELIMINAR LA CUENTA "${u}"? ESTA ACCIÓN ES IRREVERSIBLE.`);
           if(!confirmed) return;
           
-          try {
-            const users = await Storage.getUsers();
-            const user = users[u];
-            if(!user || user.password !== Utils.hashPassword(p)) {
-              Utils.showToast('> CONTRASEÑA INCORRECTA_', 'error');
-              return;
-            }
-            
-            delete users[u];
-            await Storage.saveUsers(users);
-            
-            if(AppState.currentUser === u) {
-              AppState.setCurrentUser(null);
-              document.getElementById("mainContent").style.display="none";
-              document.getElementById("loginPage").style.display="flex";
-            }
-            
-            Utils.showToast(`✅ CUENTA "${u}" ELIMINADA`, 'success');
-            document.getElementById('regUsername').value = '';
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regPassword').value = '';
-          } catch (error) {
-            Utils.showToast('> ERROR AL ELIMINAR LA CUENTA_', 'error');
+          const users = await Storage.getUsers();
+          const user = users[u];
+          if(!user || user.password !== Utils.hashPassword(p)) {
+            Utils.showToast('> CONTRASEÑA INCORRECTA_', 'error');
+            return;
           }
+          
+          delete users[u];
+          await Storage.saveUsers(users);
+          
+          if(AppState.currentUser === u) {
+            AppState.setCurrentUser(null);
+            document.getElementById("mainContent").style.display="none";
+            document.getElementById("loginPage").style.display="flex";
+          }
+          
+          Utils.showToast(`✅ CUENTA "${u}" ELIMINADA`, 'success');
+          document.getElementById('regUsername').value = '';
+          document.getElementById('regEmail').value = '';
+          document.getElementById('regPassword').value = '';
         },
-        mostrarAdminPanel() { 
-          document.getElementById("loginPage").style.display="none"; 
-          document.getElementById("mainContent").style.display="none"; 
-          document.getElementById("adminPage").style.display="flex"; 
-          document.getElementById('modalUsuarios').classList.remove('active');
-          document.getElementById('modalPendientes').classList.remove('active');
-          Admin.actualizarAdminPanel(); 
-        },
+        mostrarAdminPanel() { document.getElementById("loginPage").style.display="none"; document.getElementById("mainContent").style.display="none"; document.getElementById("adminPage").style.display="flex"; Admin.actualizarAdminPanel(); },
         logoutUser() { 
           Utils.confirm('CERRAR SESIÓN', '> ¿CERRAR SESIÓN?_').then(ok => {
             if(!ok) return;
@@ -2837,90 +2587,53 @@
             document.getElementById("results").innerHTML=''; 
             document.getElementById("calendarioEntreno").style.display="none"; 
             AppState.clearLastCalc();
-            sessionStorage.removeItem('ri5_estado');
           });
         },
-        logoutAdmin() { 
-          document.getElementById("adminPage").style.display="none"; 
-          document.getElementById("loginPage").style.display="flex";
-          document.getElementById('modalUsuarios').classList.remove('active');
-          document.getElementById('modalPendientes').classList.remove('active');
-        },
+        logoutAdmin() { document.getElementById("adminPage").style.display="none"; document.getElementById("loginPage").style.display="flex"; },
         async checkSavedSession() {
-          const s = localStorage.getItem('ri5_current_user'); 
-          if(!s) return false;
+          const s = localStorage.getItem('ri5_current_user'); if(!s) return false;
           
-          try {
-            const savedPremium = localStorage.getItem('ri5_premium') === 'true';
-            if(savedPremium) {
-              const t = document.getElementById('ri5Title');
-              if(t) t.classList.add('premium');
-            }
-            
-            const users = await Storage.getUsers(); 
-            const user = users[s];
-            if(!user) { 
-              localStorage.removeItem('ri5_current_user'); 
-              localStorage.removeItem('ri5_premium'); 
-              return false; 
-            }
-            
-            const now = new Date(), expiry = new Date(user.expires);
-            if(now > expiry && !user.premium) { 
-              localStorage.removeItem('ri5_current_user'); 
-              localStorage.removeItem('ri5_premium'); 
-              return false; 
-            }
-            
-            const ahora = new Date();
-            const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
-            let calculosMes = user.calculosMes || 0;
-            let mesActualUsuario = user.mesActual || '';
-            
-            if(mesActualUsuario !== mesActual) {
-              calculosMes = 0;
-              mesActualUsuario = mesActual;
-              users[s].calculosMes = 0;
-              users[s].mesActual = mesActual;
-              await Storage.saveUsers(users);
-            }
-            
-            AppState.currentUser = s; 
-            AppState.isPremium = user.premium||false;
-            AppState.premiumExpiryDate = user.expires;
-            AppState.calculosMes = calculosMes;
-            AppState.mesActual = mesActualUsuario;
-            
-            document.getElementById("loginPage").style.display="none";
-            document.getElementById("mainContent").style.display="flex";
-            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
-            
-            if(now > expiry && user.premium) {
-              setTimeout(()=>Utils.showToast('> Tu período premium ha expirado.', 'warning'),500);
-            }
-            
-            const nameField = document.getElementById('name');
-            if(nameField) nameField.value = s;
-            
-            UI.changeDailyTip(); 
-            UI.startConsejoAutoChange();
-            AppState.actualizarInterfazPremium();
-            AppState.verificarExpiracionPremium();
-            
-            const calc = await Storage.getUltimoCalculo(s); 
-            if(calc) { 
-              AppState.setLastCalc(calc); 
-              UI.mostrarResultadosGuardados(calc); 
-            }
-            
-            UI.setupMensajesListeners();
-            setTimeout(() => UI.restaurarEstado(), 500);
-            return true;
-            
-          } catch (error) {
-            console.error('Error al recuperar sesión:', error);
-            return false;
+          const savedPremium = localStorage.getItem('ri5_premium') === 'true';
+          if(savedPremium) {
+            const t = document.getElementById('ri5Title');
+            if(t) t.classList.add('premium');
           }
+          
+          const users = await Storage.getUsers(); const user = users[s];
+          if(!user){ localStorage.removeItem('ri5_current_user'); localStorage.removeItem('ri5_premium'); return false; }
+          const now = new Date(), expiry = new Date(user.expires);
+          if(now>expiry && !user.premium){ localStorage.removeItem('ri5_current_user'); localStorage.removeItem('ri5_premium'); return false; }
+          
+          const ahora = new Date();
+          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          let calculosMes = user.calculosMes || 0;
+          let mesActualUsuario = user.mesActual || '';
+          
+          if(mesActualUsuario !== mesActual) {
+            calculosMes = 0;
+            mesActualUsuario = mesActual;
+            users[s].calculosMes = 0;
+            users[s].mesActual = mesActual;
+            await Storage.saveUsers(users);
+          }
+          
+          AppState.currentUser = s; AppState.isPremium = user.premium||false;
+          AppState.premiumExpiryDate = user.expires;
+          AppState.calculosMes = calculosMes;
+          AppState.mesActual = mesActualUsuario;
+          
+          document.getElementById("loginPage").style.display="none";
+          document.getElementById("mainContent").style.display="flex";
+          document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()}_ · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+          if(now>expiry && user.premium) setTimeout(()=>Utils.showToast('> Tu período premium ha expirado.', 'warning'),500);
+          const nameField = document.getElementById('name');
+          if(nameField) nameField.value = s;
+          UI.changeDailyTip(); UI.startConsejoAutoChange();
+          AppState.actualizarInterfazPremium();
+          AppState.verificarExpiracionPremium();
+          const calc = await Storage.getUltimoCalculo(s); if(calc){ AppState.setLastCalc(calc); UI.mostrarResultadosGuardados(calc); }
+          UI.setupMensajesListeners();
+          return true;
         },
         showPremiumBenefits() { 
           document.getElementById('premiumOverlay').classList.add('active');
@@ -2962,18 +2675,24 @@
             err.classList.add('visible');
             return;
           }
+          Utils.showLoading();
+          // Verificar que el usuario existe y el email coincide
+          const users = await Storage.getUsers();
+          const user = users[username];
+          if (!user || user.email !== email) {
+            Utils.hideLoading();
+            // Por seguridad, mensaje genérico
+            Utils.showToast('Si los datos son correctos, recibirás un enlace', 'info');
+            ResetPassword.cerrarModal();
+            return;
+          }
           try {
-            const users = await Storage.getUsers();
-            const user = users[username];
-            if (!user || user.email !== email) {
-              Utils.showToast('Si los datos son correctos, recibirás un enlace', 'info');
-              ResetPassword.cerrarModal();
-              return;
-            }
             await auth.sendPasswordResetEmail(email);
+            Utils.hideLoading();
             Utils.showToast('✅ Revisa tu correo (también spam)', 'success');
             ResetPassword.cerrarModal();
           } catch (error) {
+            Utils.hideLoading();
             Utils.showToast('❌ No se pudo enviar el correo', 'error');
           }
         }
@@ -2997,6 +2716,9 @@
         cerrarModal() {
           document.getElementById('emailUpdateOverlay').style.display = 'none';
           document.getElementById('emailUpdateModal').style.display = 'none';
+          // Si cierra sin guardar, redirigir al login
+          document.getElementById("mainContent").style.display = "none";
+          document.getElementById("loginPage").style.display = "flex";
         },
         async guardar() {
           const email = document.getElementById('emailUpdateInput').value.trim();
@@ -3011,23 +2733,24 @@
             err.classList.add('visible');
             return;
           }
+          Utils.showLoading();
           try {
-            const userCredential = await auth.createUserWithEmailAndPassword(email, this.password);
+            // Actualizar en Firebase Auth
+            await auth.signInWithEmailAndPassword(email, this.password);
+            // Actualizar en RTDB
             const users = await Storage.getUsers();
             if (users[this.usuario]) {
               users[this.usuario].email = email;
               await Storage.saveUsers(users);
             }
-            Utils.showToast('✅ Correo guardado. Ya puedes iniciar sesión.', 'success');
+            Utils.hideLoading();
+            Utils.showToast('✅ Correo guardado', 'success');
             EmailUpdate.cerrarModal();
-            await auth.signInWithEmailAndPassword(email, this.password);
-            window.location.reload();
+            // Continuar login
+            Auth.loginUser(); // Vuelve a intentar login (ahora con email)
           } catch (error) {
-            if (error.code === 'auth/email-already-in-use') {
-              err.innerText = "> ESTE CORREO YA ESTÁ REGISTRADO POR OTRO USUARIO_";
-            } else {
-              err.innerText = "> ERROR AL GUARDAR: " + (error.message || 'Desconocido');
-            }
+            Utils.hideLoading();
+            err.innerText = "> ERROR AL GUARDAR: " + error.message;
             err.classList.add('visible');
           }
         }
@@ -3038,68 +2761,27 @@
 
       // ==================== MÓDULO ADMIN ====================
       const Admin = {
+        adminSeenUsers: JSON.parse(localStorage.getItem('admin_seen_users') || '[]'),
         mensajesRecibidosUnsub: null,
         mensajesEnviadosUnsub: null,
         async actualizarAdminPanel() {
           const users = await Storage.getUsers();
           const ahora = new Date(), total = Object.keys(users).length;
           const activos = Object.values(users).filter(u=>new Date(u.expires)>ahora).length, expirados = total-activos;
-          const pendientes = Object.values(users).filter(u => u.adminNotified === false).length;
-          
+          const newUsersCount = Object.entries(users).filter(([u,d])=>{
+            const created = new Date(d.created);
+            const daysDiff = (ahora - created) / (1000*3600*24);
+            return daysDiff <= 7 && !this.adminSeenUsers.includes(u);
+          }).length;
           document.getElementById("adminStats").innerHTML = `
             <span class="stat-badge" onclick="window.abrirModalUsuarios('total')">📊 TOTAL <span class="number">${total}</span></span>
             <span class="stat-badge" onclick="window.abrirModalUsuarios('activos')">✅ ACTIVOS <span class="number">${activos}</span></span>
             <span class="stat-badge" onclick="window.abrirModalUsuarios('expirados')">⏳ EXPIRADOS <span class="number">${expirados}</span></span>
-            <span class="stat-badge pending" onclick="window.abrirModalPendientes()">🆕 PENDIENTES <span class="number">${pendientes}</span></span>
+            <span class="stat-badge" onclick="window.abrirModalUsuarios('nuevos')" style="background: var(--new-user-bg); border-color: var(--new-user-border);">🆕 NUEVOS <span class="number" style="color: var(--accent-red);">${newUsersCount}</span></span>
           `;
           document.getElementById("adminWelcome").innerText = `> ADMIN · ${ahora.toLocaleString()}`;
           this.setupMensajesListeners();
           this.cargarSelectorUsuarios();
-        },
-        async abrirModalPendientes() {
-          const users = await Storage.getUsers();
-          const pendientes = Object.entries(users).filter(([u, d]) => d.adminNotified === false);
-          const lista = document.getElementById('listaPendientes');
-          let html = '';
-          pendientes.forEach(([u, d]) => {
-            const creado = new Date(d.created).toLocaleDateString();
-            const expiry = new Date(d.expires).toLocaleDateString();
-            html += `
-              <div class="usuario-pendiente" data-usuario="${u}">
-                <div class="usuario-header" onclick="this.parentNode.classList.toggle('abierto')">
-                  <span>${u}</span>
-                  <span class="flecha">▼</span>
-                </div>
-                <div class="usuario-detalle">
-                  <div class="user-details">
-                    <span>📅 Creado: ${creado}</span>
-                    <span>⏳ Expira: ${expiry}</span>
-                    <span>📧 Email: ${d.email || 'No registrado'}</span>
-                  </div>
-                  <div class="modal-user-actions">
-                    <button class="btn-enterado" onclick="window.marcarEnterado('${u}')">✓ ENTERADO</button>
-                  </div>
-                </div>
-              </div>
-            `;
-          });
-          lista.innerHTML = html || '<p style="text-align:center; padding:20px;">📭 NO HAY USUARIOS PENDIENTES</p>';
-          document.getElementById('modalPendientes').classList.add('active');
-        },
-        async marcarEnterado(usuario) {
-          const users = await Storage.getUsers();
-          if (users[usuario]) {
-            users[usuario].adminNotified = true;
-            await Storage.saveUsers(users);
-            this.actualizarAdminPanel();
-            const pendientes = Object.entries(users).filter(([u, d]) => d.adminNotified === false);
-            if (pendientes.length === 0) {
-              document.getElementById('modalPendientes').classList.remove('active');
-            } else {
-              this.abrirModalPendientes();
-            }
-            Utils.showToast(`✅ Usuario ${usuario} marcado como enterado`, 'success');
-          }
         },
         setupMensajesListeners() {
           if (this.mensajesRecibidosUnsub) this.mensajesRecibidosUnsub();
@@ -3138,15 +2820,23 @@
           let tituloTexto = '👥 TODOS LOS USUARIOS';
           if(filtro === 'activos') tituloTexto = '✅ USUARIOS ACTIVOS';
           if(filtro === 'expirados') tituloTexto = '⏳ USUARIOS EXPIRADOS';
+          if(filtro === 'nuevos') tituloTexto = '🆕 USUARIOS NUEVOS (7 DÍAS)';
           if(filtro === 'premium') tituloTexto = '👑 USUARIOS PREMIUM';
           titulo.innerText = tituloTexto;
           
           const ahora = new Date();
+          Object.keys(users).forEach(u => {
+            const created = new Date(users[u].created);
+            const daysDiff = (ahora - created) / (1000*3600*24);
+            if (daysDiff <= 7 && !this.adminSeenUsers.includes(u)) {
+              this.adminSeenUsers.push(u);
+            }
+          });
+          localStorage.setItem('admin_seen_users', JSON.stringify(this.adminSeenUsers));
           
-          let filtroReal = filtro;
-          this.renderizarListaUsuarios(users, listEl, '', filtroReal);
+          this.renderizarListaUsuarios(users, listEl, '', filtro);
           modal.classList.add('active');
-          document.getElementById('modalBuscarUsuario').oninput = (e)=>this.filtrarUsuariosModal(e.target.value, filtroReal);
+          document.getElementById('modalBuscarUsuario').oninput = (e)=>this.filtrarUsuariosModal(e.target.value, filtro);
         },
         renderizarListaUsuarios(users, container, filtro='', tipoFiltro='total') {
           const ahora = new Date();
@@ -3155,6 +2845,11 @@
             .filter(([u,d])=>{
               if(tipoFiltro === 'activos') return new Date(d.expires) > ahora;
               if(tipoFiltro === 'expirados') return new Date(d.expires) <= ahora;
+              if(tipoFiltro === 'nuevos') {
+                const created = new Date(d.created);
+                const daysDiff = (ahora - created) / (1000*3600*24);
+                return daysDiff <= 7;
+              }
               if(tipoFiltro === 'premium') return d.premium === true;
               return true;
             })
@@ -3164,11 +2859,10 @@
             const premium = d.premium ? '✅ PREMIUM' : '❌ NO PREMIUM';
             const estado = new Date(d.expires) > ahora ? '🟢 ACTIVO' : '🔴 EXPIRADO';
             const calculos = d.calculosMes || 0;
-            const pendiente = d.adminNotified === false ? ' (🆕 Pendiente)' : '';
             return `
               <div class="usuario-item" onclick="window.toggleUsuario(this)">
                 <div class="usuario-header">
-                  <span>${u}${pendiente}</span>
+                  <span>${u}</span>
                   <span class="flecha">▼</span>
                 </div>
                 <div class="usuario-detalle">
@@ -3215,7 +2909,7 @@
           if(AppState.currentUser===u) AppState.setCurrentUser(null);
           this.actualizarAdminPanel(); Utils.showToast(`✅ ${u} eliminado`, 'success'); this.abrirModalUsuarios();
         },
-        exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes,Email,AdminNotified\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0},${d.email||''},${d.adminNotified?'SI':'NO'}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
+        exportarUsuariosCSV() { Storage.getUsers().then(u=>{ let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes,Email\n"; Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0},${d.email||''}\n`); const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); }); },
         async renovarExpirados() {
           const confirmed = await Utils.confirm('RENOVAR EXPIRADOS', "> ¿RENOVAR TODOS LOS EXPIRADOS POR 1 MES?");
           if(!confirmed) return;
@@ -3257,8 +2951,6 @@
 
       window.toggleUsuario = (el)=>el.classList.toggle('abierto');
       window.abrirModalUsuarios = Admin.abrirModalUsuarios.bind(Admin);
-      window.abrirModalPendientes = Admin.abrirModalPendientes.bind(Admin);
-      window.marcarEnterado = Admin.marcarEnterado.bind(Admin);
       window.extenderUsuario = Admin.extenderUsuario.bind(Admin);
       window.togglePremium = Admin.togglePremium.bind(Admin);
       window.eliminarUsuario = Admin.eliminarUsuario.bind(Admin);
@@ -3287,16 +2979,11 @@
             if(!puedeCalcular) return;
           }
           
-          // Deshabilitar botón mientras calcula
-          const btn = document.getElementById("calcBtn");
-          btn.disabled = true;
-          const originalText = btn.textContent;
-          btn.textContent = 'CALCULANDO...';
-          
+          const b=document.getElementById("calcBtn"); 
+          Utils.showLoading(); 
           setTimeout(()=>{ 
             this.calculate(); 
-            btn.disabled = false;
-            btn.textContent = originalText;
+            Utils.hideLoading(); 
             Utils.showToast("✓ CALCULADO", 'success'); 
             document.getElementById('results').scrollIntoView({behavior:'smooth'});
             Utils.vibrate(50);
@@ -3484,7 +3171,6 @@
           if(tab==='historial') this.cargarHistorial();
           if(tab==='plan') this.cargarHistorialPlanes();
           if(tab==='soporte'){ this.cargarMensajesRecibidos(); this.cargarMensajesEnviados(); }
-          this.guardarEstado();
         },
         async cargarHistorial() {
           const cont=document.getElementById("historialContainer");
@@ -3572,79 +3258,54 @@
             }
           }
           await Storage.saveHistorialPlanes(AppState.currentUser, historial);
+          // Guardar plan completo
           await Storage.savePlanCompleto(AppState.currentUser, planId, planCompleto);
           this.cargarHistorialPlanes();
         },
         async cargarPlanDesdeHistorial(planId) {
           if (!AppState.currentUser) return;
+          Utils.showLoading();
           try {
             const planCompleto = await Storage.getPlanCompleto(AppState.currentUser, planId);
             if (!planCompleto) {
               Utils.showToast('No se pudo cargar el plan', 'error');
+              Utils.hideLoading();
               return;
             }
+            // Restaurar el plan
             AppState.planGeneradoActual = planCompleto.params;
             AppState.planActualId = planId;
             AppState.sesionesRealizadas = planCompleto.realizadas || {};
-            AppState.trimestreActual = 0;
             document.getElementById("calendarioEntreno").style.display = "block";
             document.getElementById("cuestionarioEntreno").style.display = "none";
-            this.mostrarCalendario(planCompleto.sesiones);
+            // Reconstruir grid
+            const grid = document.getElementById("calendarioGrid");
+            grid.innerHTML = "";
+            const fragment = document.createDocumentFragment();
+            planCompleto.sesiones.forEach((sesion, idx) => {
+              const div = document.createElement("div");
+              div.className = `calendario-dia ${sesion.color}`;
+              if (AppState.sesionesRealizadas[idx]) {
+                div.classList.add('realizado');
+              }
+              div.dataset.detalle = JSON.stringify(sesion.detalle);
+              div.innerHTML = `<div style="font-size:10px;">S${sesion.semana}</div><strong>${sesion.breve}</strong>${sesion.detalle ? `<div style="font-size:8px;">${sesion.detalle.duracion}${sesion.detalle.unidad}</div>` : ''}`;
+              div.dataset.letra = sesion.breve;
+              div.dataset.semana = sesion.semana;
+              div.dataset.colorClass = sesion.color;
+              div.dataset.diaIndex = idx;
+              div.onclick = function() {
+                UI.mostrarDetalleSesion(this);
+              };
+              fragment.appendChild(div);
+            });
+            grid.appendChild(fragment);
             document.getElementById("resumenObjetivo").innerText = planCompleto.resumen;
-            this.guardarEstado();
+            Utils.hideLoading();
           } catch (e) {
             Utils.showToast('Error al cargar el plan', 'error');
+            Utils.hideLoading();
           }
-        },
-        mostrarCalendario(sesiones) {
-          const grid = document.getElementById("calendarioGrid");
-          grid.innerHTML = "";
-          const totalSemanas = sesiones.length / 7;
-          const esAnual = sesiones.length > 7 * 12; // más de 12 semanas
-          const inicio = esAnual ? AppState.trimestreActual * 7 * 12 : 0;
-          const fin = esAnual ? Math.min(inicio + 7 * 12, sesiones.length) : sesiones.length;
-          const sesionesVisibles = sesiones.slice(inicio, fin);
-          
-          const fragment = document.createDocumentFragment();
-          sesionesVisibles.forEach((sesion, idx) => {
-            const diaGlobal = inicio + idx;
-            const div = document.createElement("div");
-            div.className = `calendario-dia ${sesion.color}`;
-            if (AppState.sesionesRealizadas[diaGlobal]) {
-              div.classList.add('realizado');
-            }
-            if(sesion.detalle) div.dataset.detalle = JSON.stringify(sesion.detalle);
-            div.innerHTML = `<div style="font-size:10px;">S${sesion.semana}</div><strong>${sesion.breve}</strong>${sesion.detalle?`<div style="font-size:8px;">${sesion.detalle.duracion}${sesion.detalle.unidad}</div>`:''}`;
-            div.dataset.letra = sesion.breve;
-            div.dataset.semana = sesion.semana;
-            div.dataset.colorClass = sesion.color;
-            div.dataset.diaIndex = diaGlobal;
-            div.onclick = function() {
-              UI.mostrarDetalleSesion(this);
-            };
-            fragment.appendChild(div);
-          });
-          grid.appendChild(fragment);
-          
-          // Actualizar navegación si es plan anual
-          const nav = document.getElementById('calendarioNavegacion');
-          if (esAnual) {
-            nav.style.display = 'flex';
-            document.getElementById('calendarioPagina').innerText = `TRIMESTRE ${AppState.trimestreActual+1}/4`;
-            document.getElementById('calendarioAnterior').disabled = AppState.trimestreActual === 0;
-            document.getElementById('calendarioSiguiente').disabled = AppState.trimestreActual === 3;
-          } else {
-            nav.style.display = 'none';
-          }
-        },
-        cambiarTrimestre(delta) {
-          AppState.trimestreActual += delta;
-          if (AppState.planActualId) {
-            Storage.getPlanCompleto(AppState.currentUser, AppState.planActualId).then(plan => {
-              if (plan) this.mostrarCalendario(plan.sesiones);
-            });
-          }
-          this.guardarEstado();
         },
         async eliminarPlanHistorial(planId) {
           if (!AppState.currentUser) return;
@@ -3657,6 +3318,7 @@
           this.cargarHistorialPlanes();
           Utils.showToast('✅ Plan eliminado', 'success');
         },
+        // Mostrar detalle de sesión con checkbox
         mostrarDetalleSesion(celda) {
           const modal = document.getElementById("detalleSesion"), overlay = document.getElementById("modalOverlay"), wrapper = document.getElementById("modalColorWrapper");
           wrapper.className = "modal-content"; wrapper.classList.add(celda.dataset.colorClass);
@@ -3700,6 +3362,7 @@
           document.getElementById("descripcionSesion").innerHTML = cont;
           modal.classList.add("visible"); overlay.classList.add("visible");
         },
+        // Escucha en tiempo real para mensajes
         setupMensajesListeners() {
           if (!AppState.currentUser) return;
           AppState.mensajeListeners.forEach(unsub => unsub());
@@ -3764,14 +3427,7 @@
           const m=document.getElementById("detalleSesion"), o=document.getElementById("modalOverlay"); 
           m.classList.remove("visible"); o.classList.remove("visible"); 
         },
-        cerrarPlan(){ 
-          document.getElementById("calendarioEntreno").style.display="none"; 
-          document.getElementById("cuestionarioEntreno").style.display="block";
-          AppState.planGeneradoActual=null;
-          AppState.planActualId = null;
-          AppState.sesionesRealizadas = {};
-          this.guardarEstado();
-        },
+        cerrarPlan(){ document.getElementById("calendarioEntreno").style.display="none"; AppState.planGeneradoActual=null; },
         initDiasCheckboxes(){ const c=document.getElementById('diasSemanaContainer'); const dias=['L','M','X','J','V','S','D']; let h=''; for(let i=0;i<7;i++){ const n=i+1; h+=`<div class="dia-checkbox"><input type="checkbox" id="dia${n}" value="${n}" ${n===4||n===6?'checked':''}><label for="dia${n}">${dias[i]}</label></div>`; } c.innerHTML=h; },
         setFechaActual() {
           const fechaInput = document.getElementById('fechaInicio');
@@ -3789,35 +3445,6 @@
         },
         mostrarModalActualizarEmail(u, p) {
           EmailUpdate.mostrarModal(u, p);
-        },
-        // Persistencia del estado
-        guardarEstado() {
-          if (!AppState.currentUser) return;
-          const estado = {
-            activeTab: document.querySelector('.tab-button.active')?.textContent.toLowerCase() || 'entreno',
-            planVisible: document.getElementById('calendarioEntreno').style.display === 'block',
-            planId: AppState.planActualId,
-            trimestre: AppState.trimestreActual
-          };
-          sessionStorage.setItem('ri5_estado', JSON.stringify(estado));
-        },
-        restaurarEstado() {
-          const estadoStr = sessionStorage.getItem('ri5_estado');
-          if (!estadoStr) return;
-          try {
-            const estado = JSON.parse(estadoStr);
-            if (estado.activeTab) {
-              const tabMap = { 'entreno': 'entreno', 'plan': 'plan', 'historial': 'historial', 'soporte': 'soporte' };
-              const tab = tabMap[estado.activeTab] || 'entreno';
-              this.switchTab(tab);
-            }
-            if (estado.planVisible && estado.planId) {
-              AppState.trimestreActual = estado.trimestre || 0;
-              this.cargarPlanDesdeHistorial(estado.planId);
-            }
-          } catch (e) {
-            console.warn('Error restaurando estado', e);
-          }
         }
       };
 
@@ -3846,11 +3473,10 @@
       window.shareResults = Training.shareResults.bind(Training);
       window.cargarPlanDesdeHistorial = UI.cargarPlanDesdeHistorial.bind(UI);
       window.eliminarPlanHistorial = UI.eliminarPlanHistorial.bind(UI);
-      window.cambiarTrimestre = (delta) => UI.cambiarTrimestre(delta);
 
       // ==================== MÓDULO PLAN GENERATOR ====================
       const PlanGenerator = {
-        // MATRIZ COMPLETA DE ENTRENAMIENTOS (runner y trail) - INCLUIDA COMPLETA
+        // MATRIZ COMPLETA DE ENTRENAMIENTOS (runner y trail) - INCLUIDA
         ENTRENAMIENTOS_DB: {
           runner: {
             "2k": {
@@ -5055,6 +4681,7 @@
           }
           const q=document.getElementById("cuestionarioEntreno"); 
           q.style.display=q.style.display==="block"?"none":"block"; 
+          // Desplazamiento suave hacia el formulario si se abre
           if (q.style.display === "block") {
             setTimeout(() => q.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
           }
@@ -5087,14 +4714,8 @@
           if(!AppState.currentUser) return;
           const confirmed = await Utils.confirm('ELIMINAR PLAN', "> ¿ELIMINAR PLAN GUARDADO?_");
           if(!confirmed) return;
-          await Storage.removeUltimoPlan(AppState.currentUser);
-          document.getElementById("calendarioEntreno").style.display = "none";
-          document.getElementById("cuestionarioEntreno").style.display = "block";
-          AppState.planGeneradoActual = null;
-          AppState.planActualId = null;
-          AppState.sesionesRealizadas = {};
+          await Storage.removeUltimoPlan(AppState.currentUser); 
           Utils.showToast("✅ PLAN ELIMINADO", 'success');
-          UI.guardarEstado();
         },
         getRitmoPorZona(z) { if(!AppState.lastRitmoBase) return "Calcula zonas primero"; const f={'Z1':1.35,'Z2':1.25,'Z3':1.15,'Z4':1.05,'Z5':0.95,'Z6':0.85}; if(z.includes('-')){ const [a,b]=z.split('-'); return `${Utils.formatR(AppState.lastRitmoBase*(f[a]||1.15))} – ${Utils.formatR(AppState.lastRitmoBase*(f[b]||1.05))} min/km`; } return Utils.formatR(AppState.lastRitmoBase*(f[z]||1.15))+" min/km"; },
         
@@ -5104,16 +4725,11 @@
           const distSelect = document.getElementById('distObjetivo');
           const opciones = distSelect.options;
           const infoDiv = document.getElementById('info-mensaje-distancia');
-          const generarBtn = document.getElementById('generarPlanBtn');
           
           let mostrarMensaje = false;
-          let habilitarBtn = true;
-          
           for (let i = 0; i < opciones.length; i++) {
             if (opciones[i].value === 'medio' || opciones[i].value === 'maraton') {
-              if (duracion === '12') {
-                opciones[i].disabled = false;
-              } else if (duracion === '3' && experiencia === 'si') {
+              if (duracion === '3' && experiencia === 'si') {
                 opciones[i].disabled = false;
               } else {
                 opciones[i].disabled = true;
@@ -5121,14 +4737,10 @@
                   distSelect.value = '10k';
                 }
                 mostrarMensaje = true;
-                habilitarBtn = false;
               }
-            } else {
-              opciones[i].disabled = false;
             }
           }
           infoDiv.style.display = mostrarMensaje ? 'block' : 'none';
-          generarBtn.disabled = !habilitarBtn;
         },
 
         generarCalendarioEntreno() {
@@ -5139,34 +4751,36 @@
           }
           
           const distancia = document.getElementById("distObjetivo").value;
-          const duracion = parseInt(document.getElementById("duracionPlan").value);
+          const duracion = document.getElementById("duracionPlan").value;
           const experiencia = document.getElementById("experienciaDistancia").value;
           
           if (distancia === 'medio' || distancia === 'maraton') {
-            if (!(duracion === 12 || (duracion === 3 && experiencia === 'si'))) {
-              Utils.showToast("❌ Los planes de Media Maratón y Maratón solo están disponibles con 12 meses (cualquier experiencia) o con 3 meses y experiencia previa.", 'error');
+            if (!(duracion === '3' && experiencia === 'si')) {
+              Utils.showToast("❌ Los planes de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.", 'error');
               return;
             }
           }
           
+          const btn = document.querySelector('[onclick="window.generarCalendarioEntreno()"]');
+          Utils.showLoading();
           setTimeout(()=>{
             try{
               const modalidad = document.getElementById("modalidad").value;
-              const meses = duracion;
+              const meses = parseInt(document.getElementById("duracionPlan").value);
               const nivel = document.getElementById("nivel").value;
-              const exp = experiencia;
+              const exp = document.getElementById("experienciaDistancia").value;
               const obj = document.getElementById("objetivoPrincipal").value;
               const diaLargo = parseInt(document.getElementById("diaLargo").value);
               const fechaInicio = document.getElementById("fechaInicio").value;
-              if(!fechaInicio) { Utils.showToast("> SELECCIONA UNA FECHA DE INICIO_", 'error'); return; }
+              if(!fechaInicio) { Utils.showToast("> SELECCIONA UNA FECHA DE INICIO_", 'error'); Utils.hideLoading(); return; }
               
               const diasEntreno = [];
               for(let i=1;i<=7;i++){ const cb=document.getElementById(`dia${i}`); if(cb&&cb.checked) diasEntreno.push(i); }
-              if(diasEntreno.length===0) { Utils.showToast("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_", 'error'); return; }
+              if(diasEntreno.length===0) { Utils.showToast("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_", 'error'); Utils.hideLoading(); return; }
               if(!diasEntreno.includes(diaLargo)){
                 if(confirm("> El día de tirada larga no está seleccionado. ¿Añadirlo automáticamente?")){
                   diasEntreno.push(diaLargo); document.getElementById(`dia${diaLargo}`).checked = true;
-                } else { return; }
+                } else { Utils.hideLoading(); return; }
               }
               diasEntreno.sort((a,b)=>a-b);
               const fecha = new Date(fechaInicio+"T00:00:00");
@@ -5175,64 +4789,54 @@
               const diaNombre = ["","LUN","MAR","MIÉ","JUE","VIE","SÁB","DOM"][diaLargo];
               document.getElementById("resumenObjetivo").innerText = `${mapa[distancia]} · ${diasEntreno.length} DÍAS/SEM · ${nivel.toUpperCase()} · ${exp==='si'?'CON EXPERIENCIA':'PRIMERA VEZ'} · ${obj==='acabar'?'OBJ: TERMINAR':obj==='mejorar'?'OBJ: MEJORAR':'OBJ: COMPETIR'} · LARGO: ${diaNombre} · ${modalidad==='runner'?'ASFALTO':'MONTAÑA'} · ${meses} MES(ES) · INICIO: ${fecha.toLocaleDateString()}`;
 
+              const grid = document.getElementById("calendarioGrid");
+              grid.innerHTML = "";
               const totalDias = macrociclo * 7;
-              const sesiones = [];
 
-              const esAnual = meses === 12;
+              const tipoPorDia = {};
+              tipoPorDia[diaLargo] = 'largo';
               
-              // Límites de duración por distancia (en minutos)
-              const limitesDistancia = {
-                '2k': 60,
-                '5k': 75,
-                '10k': 90,
-                'medio': 120,
-                'maraton': 210
-              };
-              const limiteDuracion = limitesDistancia[distancia] || 90;
-              
+              const otrosDias = diasEntreno.filter(d=>d!==diaLargo);
+              // Mejor distribución: evitar tipos repetidos en días consecutivos
+              const posiblesTipos = ['series', 'tempo', 'rodaje'];
+              // Mezclamos para que no siempre sea el mismo orden
+              const mezcla = [...posiblesTipos];
+              for (let i = mezcla.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [mezcla[i], mezcla[j]] = [mezcla[j], mezcla[i]];
+              }
+              otrosDias.forEach((dia,index)=> {
+                // Personalización según objetivo
+                let tipoSeleccionado = mezcla[index % mezcla.length];
+                if (obj === 'competir') {
+                  // Más series y tempo
+                  if (tipoSeleccionado === 'rodaje' && Math.random() > 0.5) {
+                    tipoSeleccionado = 'series';
+                  }
+                } else if (obj === 'acabar') {
+                  // Más rodajes
+                  if (tipoSeleccionado !== 'rodaje' && Math.random() > 0.7) {
+                    tipoSeleccionado = 'rodaje';
+                  }
+                }
+                tipoPorDia[dia] = tipoSeleccionado;
+              });
+
+              const ultimosUsados = { rodaje: [], series: [], tempo: [], largo: [] };
+              const MAX_HISTORIAL = 2;
+              const usados = { rodaje: 0, series: 0, tempo: 0, largo: 0 };
+              const fragment = document.createDocumentFragment();
+              const sesiones = []; // Para guardar el plan completo
+
               for(let dia=1; dia<=totalDias; dia++){
                 const semana = Math.floor((dia-1)/7);
                 const diaSem = (dia-1)%7+1;
                 let color = "sesion-descanso", breve = "D", detalle = null;
 
                 if(diasEntreno.includes(diaSem)){
-                  let fase = 'unica';
-                  if (esAnual) {
-                    const semanasTotales = totalDias/7;
-                    const semanaRelativa = semana;
-                    if (semanaRelativa < semanasTotales/4) fase = 'base';
-                    else if (semanaRelativa < semanasTotales/2) fase = 'construccion';
-                    else if (semanaRelativa < 3*semanasTotales/4) fase = 'pico';
-                    else fase = 'descanso';
-                  }
+                  let tipo = tipoPorDia[diaSem];
                   
-                  let tipo = 'rodaje';
-                  if (diaSem === diaLargo) {
-                    tipo = 'largo';
-                  } else {
-                    const indice = diasEntreno.indexOf(diaSem);
-                    if (fase === 'base') {
-                      if (indice % 2 === 0) tipo = 'rodaje';
-                      else tipo = 'tempo';
-                    } else if (fase === 'construccion') {
-                      if (indice % 3 === 0) tipo = 'series';
-                      else if (indice % 3 === 1) tipo = 'tempo';
-                      else tipo = 'rodaje';
-                    } else if (fase === 'pico') {
-                      if (indice % 2 === 0) tipo = 'series';
-                      else tipo = 'tempo';
-                    } else if (fase === 'descanso') {
-                      tipo = 'rodaje';
-                    }
-                  }
-                  
-                  if (obj === 'competir') {
-                    if (tipo === 'rodaje' && Math.random() > 0.7) tipo = 'series';
-                  } else if (obj === 'acabar') {
-                    if (tipo !== 'rodaje' && Math.random() > 0.7) tipo = 'rodaje';
-                  }
-
-                  const esDescarga = (semana+1) % 4 === 0;
+                  const esDescarga = (semana+1)%4===0;
                   let factorPersonal = 1.0;
                   if(AppState.lastRitmoBase){
                     const ritmoRef = 5.0;
@@ -5247,22 +4851,51 @@
                   else opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.rodaje || [];
 
                   if(opts.length){
-                    const idxAleatorio = Math.floor(Math.random() * opts.length);
-                    const optOriginal = opts[idxAleatorio];
-                    detalle = { ...optOriginal, tipo };
-                    // Aplicar factor personal y límite por distancia
-                    let duracionCalculada = Math.round(detalle.duracion * factorPersonal);
-                    detalle.duracion = Math.min(duracionCalculada, limiteDuracion);
+                    let opcionesDisponibles = opts.filter((opt, idx) => !ultimosUsados[tipo].includes(idx));
                     
-                    if(tipo==='largo'){ color="sesion-largo"; breve="L"; }
-                    else if(tipo==='series'){ color="sesion-series"; breve="S"; }
-                    else if(tipo==='tempo'){ color="sesion-tempo"; breve="T"; }
-                    else{ color="sesion-rodaje"; breve="R"; }
+                    if(opcionesDisponibles.length === 0){
+                      opcionesDisponibles = opts;
+                      ultimosUsados[tipo] = [];
+                    }
+                    
+                    const idxAleatorio = Math.floor(Math.random() * opcionesDisponibles.length);
+                    const optOriginal = opcionesDisponibles[idxAleatorio];
+                    const idxOriginal = opts.findIndex(opt => opt.nombre === optOriginal.nombre);
+                    
+                    ultimosUsados[tipo].push(idxOriginal);
+                    if(ultimosUsados[tipo].length > MAX_HISTORIAL){
+                      ultimosUsados[tipo].shift();
+                    }
+                    
+                    detalle = { ...optOriginal, tipo };
+                    detalle.duracion = Math.round(detalle.duracion * factorPersonal);
+                    
+                    if(tipo==='largo'){ color="sesion-largo"; breve="L"; usados.largo++; }
+                    else if(tipo==='series'){ color="sesion-series"; breve="S"; usados.series++; }
+                    else if(tipo==='tempo'){ color="sesion-tempo"; breve="T"; usados.tempo++; }
+                    else{ color="sesion-rodaje"; breve="R"; usados.rodaje++; }
                   }
                 }
 
                 sesiones.push({ color, breve, detalle, semana: semana+1 });
               }
+
+              // Construir grid y guardar
+              sesiones.forEach((sesion, idx) => {
+                const div = document.createElement("div");
+                div.className = `calendario-dia ${sesion.color}`;
+                if(sesion.detalle) div.dataset.detalle = JSON.stringify(sesion.detalle);
+                div.innerHTML = `<div style="font-size:10px;">S${sesion.semana}</div><strong>${sesion.breve}</strong>${sesion.detalle?`<div style="font-size:8px;">${sesion.detalle.duracion}${sesion.detalle.unidad}</div>`:''}`;
+                div.dataset.letra = sesion.breve;
+                div.dataset.semana = sesion.semana;
+                div.dataset.colorClass = sesion.color;
+                div.dataset.diaIndex = idx;
+                div.onclick = function() {
+                  UI.mostrarDetalleSesion(this);
+                };
+                fragment.appendChild(div);
+              });
+              grid.appendChild(fragment);
 
               const planId = Date.now().toString();
               const planCompleto = {
@@ -5275,20 +4908,19 @@
               AppState.planGeneradoActual = planCompleto.params;
               AppState.planActualId = planId;
               AppState.sesionesRealizadas = {};
-              AppState.trimestreActual = 0;
 
               document.getElementById("calendarioEntreno").style.display = "block";
               document.getElementById("cuestionarioEntreno").style.display = "none";
-              UI.mostrarCalendario(sesiones);
-              
+              setTimeout(()=>document.getElementById("calendarioEntreno").scrollIntoView({ behavior:'smooth', block:'center' }),100);
               this.guardarPlanActual();
+              // Guardar en historial de planes
               UI.guardarPlanEnHistorial(planCompleto.params, planCompleto);
-              UI.guardarEstado();
+              Utils.hideLoading();
               
               Utils.vibrate(50);
               Utils.playSound('success');
               Utils.showToast('✅ Plan generado', 'success');
-            } catch(e){ console.error(e); Utils.showToast("> ERROR GENERANDO PLAN_", 'error'); }
+            } catch(e){ console.error(e); Utils.showToast("> ERROR GENERANDO PLAN_", 'error'); Utils.hideLoading(); }
           },300);
         }
       };
