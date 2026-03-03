@@ -22,7 +22,6 @@ const Auth = {
     const err = document.getElementById('registerError');
     const btn = document.getElementById('registerBtn');
 
-    // Validaciones básicas
     if (!username || !email || !password) {
       err.innerText = "> COMPLETA TODOS LOS CAMPOS_";
       err.classList.add('visible');
@@ -33,13 +32,11 @@ const Auth = {
     btn.textContent = 'REGISTRANDO...';
 
     try {
-      // Crear usuario en Firebase Auth
       console.log('Creando usuario en Auth...');
       const userCredential = await auth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
       console.log('✅ Usuario creado en Auth:', user.uid);
 
-      // Guardar datos adicionales
       const expiry = new Date();
       expiry.setMonth(expiry.getMonth() + 1);
       const ahora = new Date();
@@ -61,12 +58,10 @@ const Auth = {
 
       alert('✅ Registro exitoso. Ahora inicia sesión.');
       
-      // Limpiar formulario
       document.getElementById('regUsername').value = '';
       document.getElementById('regEmail').value = '';
       document.getElementById('regPassword').value = '';
       
-      // Cambiar a login
       this.switchAuthTab('login');
 
     } catch (error) {
@@ -109,8 +104,8 @@ const Auth = {
         const users = await db.ref('users').once('value');
         const usersData = users.val() || {};
         
-        let foundUid = null;
         let foundEmail = null;
+        let foundUid = null;
         
         Object.entries(usersData).forEach(([uid, data]) => {
           if (data.username === usernameOrEmail) {
@@ -129,14 +124,81 @@ const Auth = {
       // Login
       console.log('Intentando login con email:', email);
       const userCredential = await auth.signInWithEmailAndPassword(email, password);
-      console.log('✅ Login exitoso:', userCredential.user.uid);
+      const user = userCredential.user;
+      console.log('✅ Login exitoso:', user.uid);
+
+      // Obtener datos del usuario
+      const userData = await db.ref('users/' + user.uid).once('value');
+      const userDataVal = userData.val();
       
-      alert('✅ Login exitoso');
-      
+      if (!userDataVal) {
+        throw new Error('Datos de usuario no encontrados');
+      }
+
+      console.log('✅ Datos de usuario cargados:', userDataVal.username);
+
+      // Guardar en AppState (si existe)
+      if (typeof AppState !== 'undefined' && AppState.setCurrentUser) {
+        AppState.setCurrentUser(user.uid, userDataVal);
+      }
+
+      // Mostrar mensaje de éxito
+      Utils.showToast(`✅ Bienvenido, ${userDataVal.username}`, 'success');
+
+      // Cambiar a la pantalla principal
+      document.getElementById("loginPage").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("mainContent").style.display = "flex";
+        
+        // Actualizar mensaje de bienvenida
+        const welcomeEl = document.getElementById("userWelcome");
+        if (welcomeEl) {
+          welcomeEl.innerText = `> BIENVENIDO, ${userDataVal.username.toUpperCase()} (${userDataVal.email}) · ${userDataVal.premium ? 'PREMIUM' : 'ACCESO'} HASTA ${new Date(userDataVal.expires).toLocaleDateString()}`;
+        }
+
+        // Cargar nombre en el campo
+        const nameField = document.getElementById('name');
+        if (nameField) nameField.value = userDataVal.username;
+
+        // Iniciar consejos
+        if (typeof UI !== 'undefined') {
+          UI.changeDailyTip();
+          UI.startConsejoAutoChange();
+        }
+      }, 300);
+
     } catch (error) {
       console.error('❌ Error en login:', error);
-      err.innerText = "> " + error.message;
+      let mensaje = 'Usuario o contraseña incorrectos';
+      if (error.code === 'auth/user-not-found') {
+        mensaje = 'Usuario no encontrado';
+      } else if (error.code === 'auth/wrong-password') {
+        mensaje = 'Contraseña incorrecta';
+      } else if (error.code === 'auth/too-many-requests') {
+        mensaje = 'Demasiados intentos. Intenta más tarde.';
+      } else {
+        mensaje = error.message;
+      }
+      err.innerText = "> " + mensaje;
       err.classList.add('visible');
     }
+  },
+
+  logoutUser() {
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
+    document.getElementById("loginUsername").value = '';
+    document.getElementById("loginPassword").value = '';
+    document.getElementById("results").innerHTML = '';
+    
+    if (typeof AppState !== 'undefined' && AppState.clearLastCalc) {
+      AppState.clearLastCalc();
+    }
+  },
+
+  logoutAdmin() {
+    document.getElementById("adminPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
   }
 };
