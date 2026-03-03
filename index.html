@@ -2189,7 +2189,15 @@
         messagingSenderId: "889154598385",
         appId: "1:889154598385:web:1d4e7dad605a42c1c60050"
       };
-      firebase.initializeApp(firebaseConfig);
+      
+      // Inicializar Firebase
+      try {
+        firebase.initializeApp(firebaseConfig);
+        console.log('Firebase inicializado correctamente');
+      } catch (e) {
+        console.error('Error al inicializar Firebase:', e);
+      }
+      
       const db = firebase.database();
       const auth = firebase.auth();
       
@@ -2273,6 +2281,24 @@
           gainNode.connect(window.audioContext.destination);
           osc.start();
           osc.stop(window.audioContext.currentTime + 0.2);
+        },
+        // Verificar conexión a Firebase
+        checkFirebaseConnection() {
+          return new Promise((resolve) => {
+            const connectedRef = db.ref('.info/connected');
+            const timeout = setTimeout(() => {
+              connectedRef.off();
+              resolve(false);
+            }, 5000);
+            
+            connectedRef.once('value', (snap) => {
+              clearTimeout(timeout);
+              resolve(snap.val() === true);
+            }).catch(() => {
+              clearTimeout(timeout);
+              resolve(false);
+            });
+          });
         }
       };
 
@@ -2280,89 +2306,89 @@
       const Storage = {
         async getUsers() { 
           try { return (await db.ref('users').once('value')).val() || {}; } 
-          catch(e) { Utils.showToast('Error al cargar usuarios', 'error'); return {}; }
+          catch(e) { console.error('Error al cargar usuarios:', e); return {}; }
         },
         async saveUsers(u) { 
           try { await db.ref('users').set(u); } 
-          catch(e) { Utils.showToast('Error al guardar usuarios', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar usuarios:', e); throw e; }
         },
         async getHistorial(u) { 
           if(!u) return []; 
           try { return (await db.ref('users/'+u+'/historial').once('value')).val() || []; } 
-          catch(e) { Utils.showToast('Error al cargar historial', 'error'); return []; }
+          catch(e) { console.error('Error al cargar historial:', e); return []; }
         },
         async saveHistorial(u,h) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/historial').set(h); } 
-          catch(e) { Utils.showToast('Error al guardar historial', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar historial:', e); throw e; }
         },
         async getHistorialPlanes(u) {
           if(!u) return [];
           try { return (await db.ref('users/'+u+'/historialPlanes').once('value')).val() || []; }
-          catch(e) { Utils.showToast('Error al cargar historial de planes', 'error'); return []; }
+          catch(e) { console.error('Error al cargar historial de planes:', e); return []; }
         },
         async saveHistorialPlanes(u, planes) {
           if(!u) return;
           try { await db.ref('users/'+u+'/historialPlanes').set(planes); }
-          catch(e) { Utils.showToast('Error al guardar historial de planes', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar historial de planes:', e); throw e; }
         },
         async getUltimoPlan(u) { 
           if(!u) return null; 
           try { return (await db.ref('users/'+u+'/ultimoPlan').once('value')).val() || null; } 
-          catch(e) { Utils.showToast('Error al cargar plan', 'error'); return null; }
+          catch(e) { console.error('Error al cargar plan:', e); return null; }
         },
         async setUltimoPlan(u,p) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/ultimoPlan').set(p); } 
-          catch(e) { Utils.showToast('Error al guardar plan', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar plan:', e); throw e; }
         },
         async removeUltimoPlan(u) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/ultimoPlan').remove(); } 
-          catch(e) { Utils.showToast('Error al eliminar plan', 'error'); throw e; }
+          catch(e) { console.error('Error al eliminar plan:', e); throw e; }
         },
         async getUltimoCalculo(u) { 
           if(!u) return null; 
           try { return (await db.ref('users/'+u+'/ultimoCalculo').once('value')).val() || null; } 
-          catch(e) { Utils.showToast('Error al cargar cálculo', 'error'); return null; }
+          catch(e) { console.error('Error al cargar cálculo:', e); return null; }
         },
         async setUltimoCalculo(u,c) { 
           if(!u) return; 
           try { await db.ref('users/'+u+'/ultimoCalculo').set(c); } 
-          catch(e) { Utils.showToast('Error al guardar cálculo', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar cálculo:', e); throw e; }
         },
         async getPlanCompleto(u, planId) {
           if(!u) return null;
           try { return (await db.ref('users/'+u+'/planesCompletos/'+planId).once('value')).val() || null; }
-          catch(e) { Utils.showToast('Error al cargar plan completo', 'error'); return null; }
+          catch(e) { console.error('Error al cargar plan completo:', e); return null; }
         },
         async savePlanCompleto(u, planId, planData) {
           if(!u) return;
           try { await db.ref('users/'+u+'/planesCompletos/'+planId).set(planData); }
-          catch(e) { Utils.showToast('Error al guardar plan completo', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar plan completo:', e); throw e; }
         },
         async deletePlanCompleto(u, planId) {
           if(!u) return;
           try { await db.ref('users/'+u+'/planesCompletos/'+planId).remove(); }
-          catch(e) { Utils.showToast('Error al eliminar plan completo', 'error'); throw e; }
+          catch(e) { console.error('Error al eliminar plan completo:', e); throw e; }
         },
         async marcarSesionRealizada(u, planId, diaIndex, realizado) {
           if(!u) return;
           try { await db.ref('users/'+u+'/sesionesRealizadas/'+planId+'/'+diaIndex).set(realizado); }
-          catch(e) { Utils.showToast('Error al guardar estado de sesión', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar estado de sesión:', e); throw e; }
         },
         async getSesionesRealizadas(u, planId) {
           if(!u) return {};
           try { return (await db.ref('users/'+u+'/sesionesRealizadas/'+planId).once('value')).val() || {}; }
-          catch(e) { Utils.showToast('Error al cargar sesiones realizadas', 'error'); return {}; }
+          catch(e) { console.error('Error al cargar sesiones realizadas:', e); return {}; }
         },
         async getMensajes() { 
           try { return (await db.ref('mensajes').once('value')).val() || {}; } 
-          catch(e) { Utils.showToast('Error al cargar mensajes', 'error'); return {}; }
+          catch(e) { console.error('Error al cargar mensajes:', e); return {}; }
         },
         async saveMensajes(m) { 
           try { await db.ref('mensajes').set(m); } 
-          catch(e) { Utils.showToast('Error al guardar mensajes', 'error'); throw e; }
+          catch(e) { console.error('Error al guardar mensajes:', e); throw e; }
         },
         // Escucha en tiempo real para mensajes de usuario
         listenMensajesUsuario(u, callback) {
@@ -2370,7 +2396,7 @@
           const listener = ref.on('value', (snapshot) => {
             callback(snapshot.val() || []);
           }, (error) => {
-            Utils.showToast('Error en tiempo real', 'error');
+            console.error('Error en tiempo real:', error);
           });
           return () => ref.off('value', listener);
         },
@@ -2379,7 +2405,7 @@
           const listener = ref.on('value', (snapshot) => {
             callback(snapshot.val() || []);
           }, (error) => {
-            Utils.showToast('Error en tiempo real', 'error');
+            console.error('Error en tiempo real:', error);
           });
           return () => ref.off('value', listener);
         },
@@ -2396,7 +2422,7 @@
             });
             callback(recibidos);
           }, (error) => {
-            Utils.showToast('Error en tiempo real', 'error');
+            console.error('Error en tiempo real:', error);
           });
           return () => ref.off('value', listener);
         },
@@ -2412,7 +2438,7 @@
             });
             callback(enviados);
           }, (error) => {
-            Utils.showToast('Error en tiempo real', 'error');
+            console.error('Error en tiempo real:', error);
           });
           return () => ref.off('value', listener);
         },
@@ -2585,104 +2611,125 @@
             err.classList.add('visible');
             return;
           }
-          btn.disabled = true;
-          btn.textContent = 'REGISTRANDO...';
           
-          setTimeout(async () => {
-            try {
-              const userCredential = await auth.createUserWithEmailAndPassword(email, p);
-              const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
-              const ahora = new Date();
-              const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
-              const users = await Storage.getUsers();
-              if(users[u]) {
-                err.innerText="> EL USUARIO YA EXISTE_";
-                err.classList.add('visible');
-                btn.disabled = false;
-                btn.textContent = '[ REGISTRARSE ]';
-                return;
-              }
-              users[u] = { 
-                password: Utils.hashPassword(p), 
-                email: email,
-                created: new Date().toISOString(), 
-                expires: expiry.toISOString(), 
-                premium: true,
-                calculosMes: 0,
-                mesActual: mesActual,
-                welcomeSeen: false,
-                adminNotified: false
-              };
-              await Storage.saveUsers(users);
-              await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
-              AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
-              Utils.showToast('✅ Registro exitoso', 'success');
-              document.getElementById("loginPage").style.opacity="0";
-              setTimeout(()=>{
-                document.getElementById("loginPage").style.display="none";
-                document.getElementById("mainContent").style.display="flex";
-                document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${email}) · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
-                UI.changeDailyTip(); UI.startConsejoAutoChange();
-                if (!users[u].welcomeSeen) {
-                  UI.mostrarWelcomeModal(u);
-                }
-              },300);
-            } catch (error) {
-              btn.disabled = false;
-              btn.textContent = '[ REGISTRARSE ]';
-              if (error.code === 'auth/email-already-in-use') {
-                err.innerText="> EL CORREO YA ESTÁ REGISTRADO_";
-              } else {
-                err.innerText="> ERROR EN EL REGISTRO: " + error.message;
-              }
-              err.classList.add('visible');
-            }
-          }, 100);
-        },
-        async loginUser() {
-          const u = document.getElementById('loginUsername').value.trim(), p = document.getElementById('loginPassword').value.trim(), err = document.getElementById('loginError');
-          const btn = document.getElementById('loginBtn');
-          if(!u||!p) { err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; err.classList.add('visible'); return; }
-          if(u==='admin' && p==='091118110485120385') { Auth.mostrarAdminPanel(); return; }
-          
-          // Deshabilitar botón y mostrar estado de carga
+          // Deshabilitar botón
           btn.disabled = true;
           const originalText = btn.textContent;
-          btn.textContent = 'CARGANDO...';
+          btn.textContent = 'REGISTRANDO...';
           
           try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, p);
+            const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
+            const ahora = new Date();
+            const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+            const users = await Storage.getUsers();
+            if(users[u]) {
+              err.innerText="> EL USUARIO YA EXISTE_";
+              err.classList.add('visible');
+              btn.disabled = false;
+              btn.textContent = originalText;
+              return;
+            }
+            users[u] = { 
+              password: Utils.hashPassword(p), 
+              email: email,
+              created: new Date().toISOString(), 
+              expires: expiry.toISOString(), 
+              premium: true,
+              calculosMes: 0,
+              mesActual: mesActual,
+              welcomeSeen: false,
+              adminNotified: false
+            };
+            await Storage.saveUsers(users);
+            await Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
+            AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
+            Utils.showToast('✅ Registro exitoso', 'success');
+            
+            // Restaurar botón (aunque ya no se verá)
+            btn.disabled = false;
+            btn.textContent = originalText;
+            
+            document.getElementById("loginPage").style.opacity="0";
+            setTimeout(()=>{
+              document.getElementById("loginPage").style.display="none";
+              document.getElementById("mainContent").style.display="flex";
+              document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${email}) · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
+              UI.changeDailyTip(); UI.startConsejoAutoChange();
+              if (!users[u].welcomeSeen) {
+                UI.mostrarWelcomeModal(u);
+              }
+            },300);
+          } catch (error) {
+            btn.disabled = false;
+            btn.textContent = originalText;
+            if (error.code === 'auth/email-already-in-use') {
+              err.innerText="> EL CORREO YA ESTÁ REGISTRADO_";
+            } else if (error.code === 'auth/network-request-failed') {
+              err.innerText="> ERROR DE CONEXIÓN. COMPRUEBA TU RED_";
+            } else {
+              err.innerText="> ERROR EN EL REGISTRO: " + (error.message || 'Desconocido');
+            }
+            err.classList.add('visible');
+          }
+        },
+        async loginUser() {
+          const u = document.getElementById('loginUsername').value.trim();
+          const p = document.getElementById('loginPassword').value.trim();
+          const err = document.getElementById('loginError');
+          
+          // Validación básica
+          if(!u || !p) { 
+            err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          
+          // Admin especial
+          if(u === 'admin' && p === '091118110485120385') { 
+            Auth.mostrarAdminPanel(); 
+            return; 
+          }
+          
+          try {
+            // Intentar obtener usuarios
             const users = await Storage.getUsers();
             const user = users[u];
+            
             if(!user || user.password !== Utils.hashPassword(p)) { 
               err.innerText="> USUARIO O CONTRASEÑA INCORRECTOS_"; 
               err.classList.add('visible'); 
-              btn.disabled = false;
-              btn.textContent = originalText;
               return; 
             }
+            
+            // Verificar email
             if (!user.email) {
-              btn.disabled = false;
-              btn.textContent = originalText;
               UI.mostrarModalActualizarEmail(u, p);
               return;
             }
+            
+            // Autenticar con Firebase Auth (opcional, pero lo intentamos)
             try {
               await auth.signInWithEmailAndPassword(user.email, p);
-            } catch (e) {
-              // Ignorar, solo importa la sesión en RTDB
+            } catch (authError) {
+              console.warn('Error en Firebase Auth (no crítico):', authError);
+              // Continuamos igual porque ya tenemos los datos locales
             }
-            const now = new Date(), expiry = new Date(user.expires);
-            if(now>expiry){ 
-              if(user.premium) Utils.showToast('> Tu período premium ha expirado.', 'warning'); 
-              else { 
+            
+            // Verificar expiración
+            const now = new Date();
+            const expiry = new Date(user.expires);
+            if(now > expiry) { 
+              if(user.premium) {
+                Utils.showToast('> Tu período premium ha expirado.', 'warning'); 
+              } else { 
                 err.innerText="> ACCESO EXPIRADO_"; 
                 err.classList.add('visible'); 
-                btn.disabled = false;
-                btn.textContent = originalText;
                 return; 
               } 
             }
             
+            // Actualizar contadores mensuales
             const ahora = new Date();
             const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
             let calculosMes = user.calculosMes || 0;
@@ -2696,15 +2743,15 @@
               await Storage.saveUsers(users);
             }
             
+            // Establecer usuario en el estado global
             AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
+            
+            // Cargar mensajes
             const msgs = await Storage.getMensajesUsuario(u);
             AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
             UI.actualizarBadgeMensajes();
             
-            // Restaurar botón (aunque ya no se usará porque cambiamos de página)
-            btn.disabled = false;
-            btn.textContent = originalText;
-            
+            // Entrar a la aplicación
             Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
             document.getElementById("loginPage").style.opacity="0";
             setTimeout(()=>{
@@ -2719,12 +2766,15 @@
               }
               UI.restaurarEstado();
             },300);
+            
           } catch (error) {
             console.error('Error en login:', error);
-            err.innerText="> ERROR DE CONEXIÓN_";
+            if (error.code === 'auth/network-request-failed' || error.message?.includes('network')) {
+              err.innerText = "> ERROR DE CONEXIÓN. VERIFICA TU RED_";
+            } else {
+              err.innerText = "> ERROR INESPERADO. INTENTA DE NUEVO_";
+            }
             err.classList.add('visible');
-            btn.disabled = false;
-            btn.textContent = originalText;
           }
         },
         async eliminarMiCuenta() {
@@ -2741,26 +2791,30 @@
           const confirmed = await Utils.confirm('ELIMINAR CUENTA', `¿ESTÁS SEGURO DE ELIMINAR LA CUENTA "${u}"? ESTA ACCIÓN ES IRREVERSIBLE.`);
           if(!confirmed) return;
           
-          const users = await Storage.getUsers();
-          const user = users[u];
-          if(!user || user.password !== Utils.hashPassword(p)) {
-            Utils.showToast('> CONTRASEÑA INCORRECTA_', 'error');
-            return;
+          try {
+            const users = await Storage.getUsers();
+            const user = users[u];
+            if(!user || user.password !== Utils.hashPassword(p)) {
+              Utils.showToast('> CONTRASEÑA INCORRECTA_', 'error');
+              return;
+            }
+            
+            delete users[u];
+            await Storage.saveUsers(users);
+            
+            if(AppState.currentUser === u) {
+              AppState.setCurrentUser(null);
+              document.getElementById("mainContent").style.display="none";
+              document.getElementById("loginPage").style.display="flex";
+            }
+            
+            Utils.showToast(`✅ CUENTA "${u}" ELIMINADA`, 'success');
+            document.getElementById('regUsername').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPassword').value = '';
+          } catch (error) {
+            Utils.showToast('> ERROR AL ELIMINAR LA CUENTA_', 'error');
           }
-          
-          delete users[u];
-          await Storage.saveUsers(users);
-          
-          if(AppState.currentUser === u) {
-            AppState.setCurrentUser(null);
-            document.getElementById("mainContent").style.display="none";
-            document.getElementById("loginPage").style.display="flex";
-          }
-          
-          Utils.showToast(`✅ CUENTA "${u}" ELIMINADA`, 'success');
-          document.getElementById('regUsername').value = '';
-          document.getElementById('regEmail').value = '';
-          document.getElementById('regPassword').value = '';
         },
         mostrarAdminPanel() { 
           document.getElementById("loginPage").style.display="none"; 
@@ -2793,50 +2847,80 @@
           document.getElementById('modalPendientes').classList.remove('active');
         },
         async checkSavedSession() {
-          const s = localStorage.getItem('ri5_current_user'); if(!s) return false;
+          const s = localStorage.getItem('ri5_current_user'); 
+          if(!s) return false;
           
-          const savedPremium = localStorage.getItem('ri5_premium') === 'true';
-          if(savedPremium) {
-            const t = document.getElementById('ri5Title');
-            if(t) t.classList.add('premium');
+          try {
+            const savedPremium = localStorage.getItem('ri5_premium') === 'true';
+            if(savedPremium) {
+              const t = document.getElementById('ri5Title');
+              if(t) t.classList.add('premium');
+            }
+            
+            const users = await Storage.getUsers(); 
+            const user = users[s];
+            if(!user) { 
+              localStorage.removeItem('ri5_current_user'); 
+              localStorage.removeItem('ri5_premium'); 
+              return false; 
+            }
+            
+            const now = new Date(), expiry = new Date(user.expires);
+            if(now > expiry && !user.premium) { 
+              localStorage.removeItem('ri5_current_user'); 
+              localStorage.removeItem('ri5_premium'); 
+              return false; 
+            }
+            
+            const ahora = new Date();
+            const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+            let calculosMes = user.calculosMes || 0;
+            let mesActualUsuario = user.mesActual || '';
+            
+            if(mesActualUsuario !== mesActual) {
+              calculosMes = 0;
+              mesActualUsuario = mesActual;
+              users[s].calculosMes = 0;
+              users[s].mesActual = mesActual;
+              await Storage.saveUsers(users);
+            }
+            
+            AppState.currentUser = s; 
+            AppState.isPremium = user.premium||false;
+            AppState.premiumExpiryDate = user.expires;
+            AppState.calculosMes = calculosMes;
+            AppState.mesActual = mesActualUsuario;
+            
+            document.getElementById("loginPage").style.display="none";
+            document.getElementById("mainContent").style.display="flex";
+            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+            
+            if(now > expiry && user.premium) {
+              setTimeout(()=>Utils.showToast('> Tu período premium ha expirado.', 'warning'),500);
+            }
+            
+            const nameField = document.getElementById('name');
+            if(nameField) nameField.value = s;
+            
+            UI.changeDailyTip(); 
+            UI.startConsejoAutoChange();
+            AppState.actualizarInterfazPremium();
+            AppState.verificarExpiracionPremium();
+            
+            const calc = await Storage.getUltimoCalculo(s); 
+            if(calc) { 
+              AppState.setLastCalc(calc); 
+              UI.mostrarResultadosGuardados(calc); 
+            }
+            
+            UI.setupMensajesListeners();
+            setTimeout(() => UI.restaurarEstado(), 500);
+            return true;
+            
+          } catch (error) {
+            console.error('Error al recuperar sesión:', error);
+            return false;
           }
-          
-          const users = await Storage.getUsers(); const user = users[s];
-          if(!user){ localStorage.removeItem('ri5_current_user'); localStorage.removeItem('ri5_premium'); return false; }
-          const now = new Date(), expiry = new Date(user.expires);
-          if(now>expiry && !user.premium){ localStorage.removeItem('ri5_current_user'); localStorage.removeItem('ri5_premium'); return false; }
-          
-          const ahora = new Date();
-          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
-          let calculosMes = user.calculosMes || 0;
-          let mesActualUsuario = user.mesActual || '';
-          
-          if(mesActualUsuario !== mesActual) {
-            calculosMes = 0;
-            mesActualUsuario = mesActual;
-            users[s].calculosMes = 0;
-            users[s].mesActual = mesActual;
-            await Storage.saveUsers(users);
-          }
-          
-          AppState.currentUser = s; AppState.isPremium = user.premium||false;
-          AppState.premiumExpiryDate = user.expires;
-          AppState.calculosMes = calculosMes;
-          AppState.mesActual = mesActualUsuario;
-          
-          document.getElementById("loginPage").style.display="none";
-          document.getElementById("mainContent").style.display="flex";
-          document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
-          if(now>expiry && user.premium) setTimeout(()=>Utils.showToast('> Tu período premium ha expirado.', 'warning'),500);
-          const nameField = document.getElementById('name');
-          if(nameField) nameField.value = s;
-          UI.changeDailyTip(); UI.startConsejoAutoChange();
-          AppState.actualizarInterfazPremium();
-          AppState.verificarExpiracionPremium();
-          const calc = await Storage.getUltimoCalculo(s); if(calc){ AppState.setLastCalc(calc); UI.mostrarResultadosGuardados(calc); }
-          UI.setupMensajesListeners();
-          setTimeout(() => UI.restaurarEstado(), 500);
-          return true;
         },
         showPremiumBenefits() { 
           document.getElementById('premiumOverlay').classList.add('active');
@@ -2878,14 +2962,14 @@
             err.classList.add('visible');
             return;
           }
-          const users = await Storage.getUsers();
-          const user = users[username];
-          if (!user || user.email !== email) {
-            Utils.showToast('Si los datos son correctos, recibirás un enlace', 'info');
-            ResetPassword.cerrarModal();
-            return;
-          }
           try {
+            const users = await Storage.getUsers();
+            const user = users[username];
+            if (!user || user.email !== email) {
+              Utils.showToast('Si los datos son correctos, recibirás un enlace', 'info');
+              ResetPassword.cerrarModal();
+              return;
+            }
             await auth.sendPasswordResetEmail(email);
             Utils.showToast('✅ Revisa tu correo (también spam)', 'success');
             ResetPassword.cerrarModal();
@@ -2942,7 +3026,7 @@
             if (error.code === 'auth/email-already-in-use') {
               err.innerText = "> ESTE CORREO YA ESTÁ REGISTRADO POR OTRO USUARIO_";
             } else {
-              err.innerText = "> ERROR AL GUARDAR: " + error.message;
+              err.innerText = "> ERROR AL GUARDAR: " + (error.message || 'Desconocido');
             }
             err.classList.add('visible');
           }
@@ -3203,8 +3287,16 @@
             if(!puedeCalcular) return;
           }
           
+          // Deshabilitar botón mientras calcula
+          const btn = document.getElementById("calcBtn");
+          btn.disabled = true;
+          const originalText = btn.textContent;
+          btn.textContent = 'CALCULANDO...';
+          
           setTimeout(()=>{ 
             this.calculate(); 
+            btn.disabled = false;
+            btn.textContent = originalText;
             Utils.showToast("✓ CALCULADO", 'success'); 
             document.getElementById('results').scrollIntoView({behavior:'smooth'});
             Utils.vibrate(50);
@@ -5087,7 +5179,16 @@
               const sesiones = [];
 
               const esAnual = meses === 12;
-              const fases = esAnual ? ['base', 'construccion', 'pico', 'descanso'] : ['unica'];
+              
+              // Límites de duración por distancia (en minutos)
+              const limitesDistancia = {
+                '2k': 60,
+                '5k': 75,
+                '10k': 90,
+                'medio': 120,
+                'maraton': 210
+              };
+              const limiteDuracion = limitesDistancia[distancia] || 90;
               
               for(let dia=1; dia<=totalDias; dia++){
                 const semana = Math.floor((dia-1)/7);
@@ -5149,7 +5250,9 @@
                     const idxAleatorio = Math.floor(Math.random() * opts.length);
                     const optOriginal = opts[idxAleatorio];
                     detalle = { ...optOriginal, tipo };
-                    detalle.duracion = Math.round(detalle.duracion * factorPersonal);
+                    // Aplicar factor personal y límite por distancia
+                    let duracionCalculada = Math.round(detalle.duracion * factorPersonal);
+                    detalle.duracion = Math.min(duracionCalculada, limiteDuracion);
                     
                     if(tipo==='largo'){ color="sesion-largo"; breve="L"; }
                     else if(tipo==='series'){ color="sesion-series"; breve="S"; }
