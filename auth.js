@@ -136,37 +136,19 @@ const Auth = {
       }
 
       console.log('✅ Datos de usuario cargados:', userDataVal.username);
+      
+      // Mostrar mensaje
+      alert(`✅ Bienvenido, ${userDataVal.username}`);
 
-      // Guardar en AppState (si existe)
-      if (typeof AppState !== 'undefined' && AppState.setCurrentUser) {
-        AppState.setCurrentUser(user.uid, userDataVal);
-      }
-
-      // Mostrar mensaje de éxito
-      Utils.showToast(`✅ Bienvenido, ${userDataVal.username}`, 'success');
-
-      // Cambiar a la pantalla principal
-      document.getElementById("loginPage").style.opacity = "0";
-      setTimeout(() => {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("mainContent").style.display = "flex";
-        
-        // Actualizar mensaje de bienvenida
-        const welcomeEl = document.getElementById("userWelcome");
-        if (welcomeEl) {
-          welcomeEl.innerText = `> BIENVENIDO, ${userDataVal.username.toUpperCase()} (${userDataVal.email}) · ${userDataVal.premium ? 'PREMIUM' : 'ACCESO'} HASTA ${new Date(userDataVal.expires).toLocaleDateString()}`;
-        }
-
-        // Cargar nombre en el campo
-        const nameField = document.getElementById('name');
-        if (nameField) nameField.value = userDataVal.username;
-
-        // Iniciar consejos
-        if (typeof UI !== 'undefined') {
-          UI.changeDailyTip();
-          UI.startConsejoAutoChange();
-        }
-      }, 300);
+      // CAMBIAR A PANTALLA PRINCIPAL (esto es lo importante)
+      document.getElementById("loginPage").style.display = "none";
+      document.getElementById("mainContent").style.display = "flex";
+      
+      // Actualizar bienvenida
+      document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${userDataVal.username.toUpperCase()}`;
+      
+      // Poner nombre en campo
+      document.getElementById('name').value = userDataVal.username;
 
     } catch (error) {
       console.error('❌ Error en login:', error);
@@ -191,10 +173,6 @@ const Auth = {
     document.getElementById("loginUsername").value = '';
     document.getElementById("loginPassword").value = '';
     document.getElementById("results").innerHTML = '';
-    
-    if (typeof AppState !== 'undefined' && AppState.clearLastCalc) {
-      AppState.clearLastCalc();
-    }
   },
 
   logoutAdmin() {
