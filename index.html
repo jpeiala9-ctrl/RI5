@@ -225,16 +225,23 @@
           <button class="tab-button" onclick="window.switchTab('soporte')" id="soporteTabButton" role="tab" aria-selected="false">SOPORTE</button>
         </div>
 
+        <!-- TAB ENTRENO -->
         <div id="tab-entreno" class="tab-content active" role="tabpanel">
           <h2>> ZONAS DE ENTRENO_</h2>
-          <input id="name" placeholder="> NOMBRE_" readonly disabled><div class="error-message" id="nameError"></div>
-          <input id="age" type="number" min="14" max="85" placeholder="> EDAD_"><div class="error-message" id="ageError"></div>
-          <input id="time" placeholder="> 6km_ (MM:SS) · ÚLTIMA MARCA"><div class="error-message" id="timeError"></div>
-          <button class="button-main" id="calcBtn" disabled onclick="window.startCalc()">[ CALCULAR ]</button>
-          <div class="curiosity" id="curiosity" onclick="window.changeConsejo()"><span>> CONSEJO_</span><small>// pulsa para nuevo consejo</small></div>
+          <input id="name" placeholder="> NOMBRE_" readonly disabled>
+          <div class="error-message" id="nameError"></div>
+          <input id="age" type="number" min="14" max="85" placeholder="> EDAD_">
+          <div class="error-message" id="ageError"></div>
+          <input id="time" placeholder="> 6km_ (MM:SS) · ÚLTIMA MARCA">
+          <div class="error-message" id="timeError"></div>
+          <button class="button-main" id="calcBtn" onclick="window.startCalc()">[ CALCULAR ]</button>
+          <div class="curiosity" id="curiosity" onclick="window.changeConsejo()">
+            <span>> CONSEJO_</span><small>// pulsa para nuevo consejo</small>
+          </div>
           <div id="results"></div>
         </div>
 
+        <!-- TAB PLAN -->
         <div id="tab-plan" class="tab-content" role="tabpanel">
           <h2>> CREADOR DE PLANES_</h2>
           <button class="action-button" style="border-color: var(--accent-purple); color: var(--accent-purple); margin-bottom: 20px;" onclick="window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank')">🏆 PLANES A MEDIDA</button>
@@ -330,6 +337,7 @@
           </div>
         </div>
 
+        <!-- TAB HISTORIAL -->
         <div id="tab-historial" class="tab-content" role="tabpanel">
           <h2>> HISTORIAL_</h2>
           <div class="historial-controls">
@@ -343,6 +351,7 @@
           <button class="action-button btn-delete" onclick="window.borrarHistorial()" style="margin-top:16px;">🗑️ LIMPIAR TODO EL HISTORIAL</button>
         </div>
 
+        <!-- TAB SOPORTE -->
         <div id="tab-soporte" class="tab-content" role="tabpanel">
           <h2>> SOPORTE_</h2>
           <div class="soporte-section">
@@ -380,7 +389,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-  <!-- Scripts de la aplicación (SIN type="module") -->
+  <!-- Nuestros scripts -->
   <script src="firebase.js"></script>
   <script src="utils.js"></script>
   <script src="storage.js"></script>

@@ -1,13 +1,21 @@
 // main.js
-// Asignar funciones a window
+// Asignar funciones de auth
 window.switchAuthTab = (tab) => Auth.switchAuthTab(tab);
 window.registerUser = () => Auth.registerUser();
 window.loginUser = () => Auth.loginUser();
 window.logoutUser = () => Auth.logoutUser();
-window.logoutAdmin = () => Auth.logoutAdmin();
-window.eliminarMiCuenta = () => Auth.eliminarMiCuenta();
 
-// Funciones auxiliares
+// Asignar funciones de training
+window.startCalc = () => Training.startCalc();
+window.copyResults = () => Training.copyResults();
+window.shareResults = () => Training.shareResults();
+
+// Asignar funciones de UI
+window.switchTab = (tab) => UI.switchTab(tab);
+window.changeDailyTip = () => UI.changeDailyTip();
+window.changeConsejo = () => UI.changeConsejo();
+
+// Función togglePassword
 window.togglePassword = (inputId, element) => {
   const input = document.getElementById(inputId);
   if (input.type === 'password') {
@@ -20,4 +28,8 @@ window.togglePassword = (inputId, element) => {
 };
 
 console.log('✅ main.js cargado');
-console.log('registerUser disponible:', typeof window.registerUser);
+console.log('Funciones disponibles:', {
+  startCalc: typeof window.startCalc,
+  switchTab: typeof window.switchTab,
+  registerUser: typeof window.registerUser
+});
