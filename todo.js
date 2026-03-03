@@ -1,5 +1,5 @@
 // ============================================
-// TODO.JS - TODOS LOS MÓDULOS EN UNO
+// TODO.JS - TODOS LOS MÓDULOS EN UNO (SIN MATRIZ)
 // ============================================
 
 console.log('🚀 Iniciando carga de RI5...');
@@ -28,7 +28,7 @@ console.log('✅ Firebase inicializado');
 // ============================================
 const Utils = {
   showToast(message, type = 'info', duration = 3000) {
-    alert(message); // Simplificado para pruebas
+    alert(message);
   },
   parseTime(t) {
     t = t.trim();
@@ -49,12 +49,26 @@ const Utils = {
   },
   isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  },
+  confirm(title, message) {
+    return new Promise((resolve) => {
+      if (confirm(message)) resolve(true);
+      else resolve(false);
+    });
+  },
+  vibrate(pattern) {
+    if (window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(pattern);
+    }
+  },
+  playSound(type) {
+    console.log('Sonido:', type);
   }
 };
 console.log('✅ Utils cargado');
 
 // ============================================
-// STORAGE
+// STORAGE (COMPLETO)
 // ============================================
 const Storage = {
   async getUsers() {
@@ -88,17 +102,277 @@ const Storage = {
       console.error('Error updateUser:', e);
       throw e;
     }
+  },
+  async deleteUser(uid) {
+    try {
+      await db.ref('users/' + uid).remove();
+    } catch(e) {
+      console.error('Error deleteUser:', e);
+      throw e;
+    }
+  },
+  async getHistorial(uid) {
+    try {
+      return (await db.ref('historial/' + uid).once('value')).val() || [];
+    } catch(e) {
+      console.error('Error getHistorial:', e);
+      return [];
+    }
+  },
+  async saveHistorial(uid, historial) {
+    try {
+      await db.ref('historial/' + uid).set(historial);
+    } catch(e) {
+      console.error('Error saveHistorial:', e);
+      throw e;
+    }
+  },
+  async getUltimoCalculo(uid) {
+    try {
+      return (await db.ref('historial/' + uid + '/ultimoCalculo').once('value')).val() || null;
+    } catch(e) {
+      console.error('Error getUltimoCalculo:', e);
+      return null;
+    }
+  },
+  async setUltimoCalculo(uid, calculo) {
+    try {
+      await db.ref('historial/' + uid + '/ultimoCalculo').set(calculo);
+    } catch(e) {
+      console.error('Error setUltimoCalculo:', e);
+      throw e;
+    }
+  },
+  async getHistorialPlanes(uid) {
+    try {
+      return (await db.ref('planesCompletos/' + uid + '/historial').once('value')).val() || [];
+    } catch(e) {
+      console.error('Error getHistorialPlanes:', e);
+      return [];
+    }
+  },
+  async saveHistorialPlanes(uid, historial) {
+    try {
+      await db.ref('planesCompletos/' + uid + '/historial').set(historial);
+    } catch(e) {
+      console.error('Error saveHistorialPlanes:', e);
+      throw e;
+    }
+  },
+  async getUltimoPlan(uid) {
+    try {
+      return (await db.ref('planesCompletos/' + uid + '/ultimo').once('value')).val() || null;
+    } catch(e) {
+      console.error('Error getUltimoPlan:', e);
+      return null;
+    }
+  },
+  async setUltimoPlan(uid, plan) {
+    try {
+      await db.ref('planesCompletos/' + uid + '/ultimo').set(plan);
+    } catch(e) {
+      console.error('Error setUltimoPlan:', e);
+      throw e;
+    }
+  },
+  async removeUltimoPlan(uid) {
+    try {
+      await db.ref('planesCompletos/' + uid + '/ultimo').remove();
+    } catch(e) {
+      console.error('Error removeUltimoPlan:', e);
+      throw e;
+    }
+  },
+  async getPlanCompleto(uid, planId) {
+    try {
+      return (await db.ref('planesCompletos/' + uid + '/detalles/' + planId).once('value')).val() || null;
+    } catch(e) {
+      console.error('Error getPlanCompleto:', e);
+      return null;
+    }
+  },
+  async savePlanCompleto(uid, planId, planData) {
+    try {
+      await db.ref('planesCompletos/' + uid + '/detalles/' + planId).set(planData);
+    } catch(e) {
+      console.error('Error savePlanCompleto:', e);
+      throw e;
+    }
+  },
+  async deletePlanCompleto(uid, planId) {
+    try {
+      await db.ref('planesCompletos/' + uid + '/detalles/' + planId).remove();
+    } catch(e) {
+      console.error('Error deletePlanCompleto:', e);
+      throw e;
+    }
+  },
+  async marcarSesionRealizada(uid, planId, diaIndex, realizado) {
+    try {
+      await db.ref('sesionesRealizadas/' + uid + '/' + planId + '/' + diaIndex).set(realizado);
+    } catch(e) {
+      console.error('Error marcarSesionRealizada:', e);
+      throw e;
+    }
+  },
+  async getSesionesRealizadas(uid, planId) {
+    try {
+      return (await db.ref('sesionesRealizadas/' + uid + '/' + planId).once('value')).val() || {};
+    } catch(e) {
+      console.error('Error getSesionesRealizadas:', e);
+      return {};
+    }
+  },
+  async getMensajes() {
+    try {
+      return (await db.ref('mensajes').once('value')).val() || {};
+    } catch(e) {
+      console.error('Error getMensajes:', e);
+      return {};
+    }
+  },
+  async saveMensajes(mensajes) {
+    try {
+      await db.ref('mensajes').set(mensajes);
+    } catch(e) {
+      console.error('Error saveMensajes:', e);
+      throw e;
+    }
+  },
+  async enviarMensajeUsuario(uid, texto) {
+    const mensajes = await this.getMensajes();
+    const key = "admin_" + uid;
+    if (!mensajes[key]) mensajes[key] = [];
+    mensajes[key].push({
+      id: Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+      fecha: new Date().toLocaleString(),
+      texto: texto,
+      leido: false,
+      esUsuario: true
+    });
+    await this.saveMensajes(mensajes);
+  },
+  async enviarMensajeAdminAUsuario(uid, texto) {
+    const mensajes = await this.getMensajes();
+    if (!mensajes[uid]) mensajes[uid] = [];
+    mensajes[uid].push({
+      id: Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+      fecha: new Date().toLocaleString(),
+      texto: texto,
+      leido: false,
+      esAdmin: true
+    });
+    await this.saveMensajes(mensajes);
+  },
+  async marcarLeido(uid, idx) {
+    const mensajes = await this.getMensajes();
+    if (mensajes[uid] && mensajes[uid][idx]) {
+      mensajes[uid][idx].leido = true;
+      await this.saveMensajes(mensajes);
+    }
+  },
+  async borrarMensaje(key, id) {
+    const mensajes = await this.getMensajes();
+    if (mensajes[key]) {
+      mensajes[key] = mensajes[key].filter(msg => msg.id !== id);
+      if (mensajes[key].length === 0) delete mensajes[key];
+      await this.saveMensajes(mensajes);
+    }
+  },
+  listenMensajesUsuario(uid, callback) {
+    const ref = db.ref('mensajes/admin_' + uid);
+    const listener = ref.on('value', (snapshot) => {
+      callback(snapshot.val() || []);
+    }, (error) => {
+      console.error('Error listenMensajesUsuario:', error);
+    });
+    return () => ref.off('value', listener);
+  },
+  listenMensajesEnviadosUsuario(uid, callback) {
+    const ref = db.ref('mensajes/' + uid);
+    const listener = ref.on('value', (snapshot) => {
+      callback(snapshot.val() || []);
+    }, (error) => {
+      console.error('Error listenMensajesEnviadosUsuario:', error);
+    });
+    return () => ref.off('value', listener);
+  },
+  listenMensajesAdminRecibidos(callback) {
+    const ref = db.ref('mensajes');
+    const listener = ref.on('value', (snapshot) => {
+      const todos = snapshot.val() || {};
+      const recibidos = [];
+      Object.keys(todos).forEach(k => {
+        if (k.startsWith('admin_')) {
+          const uid = k.replace('admin_', '');
+          todos[k].forEach((msg, idx) => {
+            recibidos.push({
+              usuarioUid: uid,
+              mensaje: msg,
+              idx,
+              key: k
+            });
+          });
+        }
+      });
+      callback(recibidos);
+    }, (error) => {
+      console.error('Error listenMensajesAdminRecibidos:', error);
+    });
+    return () => ref.off('value', listener);
+  },
+  listenMensajesAdminEnviados(callback) {
+    const ref = db.ref('mensajes');
+    const listener = ref.on('value', (snapshot) => {
+      const todos = snapshot.val() || {};
+      const enviados = [];
+      Object.keys(todos).forEach(k => {
+        if (!k.startsWith('admin_')) {
+          todos[k].forEach((msg, idx) => {
+            if (msg.esAdmin) {
+              enviados.push({
+                usuarioUid: k,
+                mensaje: msg,
+                idx,
+                key: k
+              });
+            }
+          });
+        }
+      });
+      callback(enviados);
+    }, (error) => {
+      console.error('Error listenMensajesAdminEnviados:', error);
+    });
+    return () => ref.off('value', listener);
   }
 };
 console.log('✅ Storage cargado');
 
 // ============================================
-// APPSTATE
+// APPSTATE (CORREGIDO)
 // ============================================
 const AppState = {
   currentUid: null,
   currentUserData: null,
   zonasCalculadas: false,
+  lastName: "",
+  lastAge: 0,
+  lastFC: 0,
+  lastUL: 0,
+  lastZones: [],
+  lastPred: [],
+  lastRitmoBase: 0,
+  ultimoPlanParams: null,
+  planGeneradoActual: null,
+  planActualId: null,
+  sesionesRealizadas: {},
+  camposTocados: { name: false, age: false, time: false },
+  mensajesNoLeidos: 0,
+  mensajesNoLeidosAdmin: 0,
+  mensajeListeners: [],
+  trimestreActual: 0,
+
   setCurrentUser(uid, userData) {
     this.currentUid = uid;
     this.currentUserData = userData;
@@ -107,9 +381,137 @@ const AppState = {
     } else {
       localStorage.removeItem('ri5_current_uid');
     }
+    const title = document.getElementById('ri5Title');
+    if (title && userData?.premium) {
+      title.classList.add('premium');
+    }
+    if (uid) {
+      const nameField = document.getElementById('name');
+      if (nameField) nameField.value = userData?.username || '';
+    }
+    this.actualizarInterfazPremium();
+    this.verificarExpiracionPremium();
   },
+
   get isPremium() {
     return this.currentUserData?.premium || false;
+  },
+
+  get premiumExpiryDate() {
+    return this.currentUserData?.expires || null;
+  },
+
+  get calculosMes() {
+    return this.currentUserData?.calculosMes || 0;
+  },
+
+  get mesActual() {
+    return this.currentUserData?.mesActual || '';
+  },
+
+  async incrementarCalculo() {
+    if (!this.currentUid) return false;
+    if (this.isPremium) return true;
+
+    const ahora = new Date();
+    const mesActualKey = `${ahora.getFullYear()}-${ahora.getMonth() + 1}`;
+
+    if (this.mesActual !== mesActualKey) {
+      this.currentUserData.calculosMes = 0;
+      this.currentUserData.mesActual = mesActualKey;
+    }
+
+    if (this.calculosMes >= 2) {
+      Utils.showToast('❌ Has alcanzado el límite de 2 cálculos mensuales. Hazte premium para cálculos ilimitados.', 'error');
+      return false;
+    }
+
+    this.currentUserData.calculosMes++;
+    await Storage.updateUser(this.currentUid, {
+      calculosMes: this.calculosMes,
+      mesActual: this.mesActual
+    });
+
+    this.actualizarInterfazPremium();
+    return true;
+  },
+
+  actualizarInterfazPremium() {
+    const planBtns = ['nuevoPlanBtn', 'cargarPlanBtn', 'borrarPlanBtn', 'generarPlanBtn'];
+    if (!this.isPremium) {
+      planBtns.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = true;
+      });
+      const counterDiv = document.getElementById('calculoCounter');
+      if (counterDiv) {
+        counterDiv.style.display = 'block';
+        counterDiv.innerHTML = `📊 Cálculos este mes: ${this.calculosMes}/2`;
+      }
+    } else {
+      planBtns.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = false;
+      });
+      const counterDiv = document.getElementById('calculoCounter');
+      if (counterDiv) counterDiv.style.display = 'none';
+    }
+  },
+
+  verificarExpiracionPremium() {
+    const banner = document.getElementById('premium-expiry-banner');
+    const messageSpan = document.getElementById('expiry-message');
+
+    if (!this.isPremium || !this.premiumExpiryDate) {
+      if (banner) banner.style.display = 'none';
+      return;
+    }
+
+    const ahora = new Date();
+    const expiry = new Date(this.premiumExpiryDate);
+    const diasRestantes = Math.ceil((expiry - ahora) / (1000 * 60 * 60 * 24));
+
+    if (diasRestantes <= 7 && diasRestantes > 0) {
+      banner.style.display = 'block';
+      messageSpan.innerText = `⚠️ Tu premium expira en ${diasRestantes} día${diasRestantes !== 1 ? 's' : ''}. Renueva para seguir disfrutando.`;
+    } else if (diasRestantes <= 0) {
+      banner.style.display = 'block';
+      messageSpan.innerText = `⚠️ Tu premium ha expirado. Renueva para seguir disfrutando.`;
+    } else {
+      banner.style.display = 'none';
+    }
+  },
+
+  setLastCalc(calc) {
+    this.lastName = calc.name;
+    this.lastAge = calc.age;
+    this.lastFC = calc.fcMax;
+    this.lastUL = calc.ul;
+    this.lastZones = calc.zones;
+    this.lastPred = calc.pred;
+    this.lastRitmoBase = calc.ritmoBase;
+    this.zonasCalculadas = true;
+    console.log('✅ Zonas calculadas y guardadas:', this.lastRitmoBase);
+  },
+
+  clearLastCalc() {
+    this.zonasCalculadas = false;
+    this.lastName = "";
+    this.lastAge = 0;
+    this.lastFC = 0;
+    this.lastUL = 0;
+    this.lastZones = [];
+    this.lastPred = [];
+    this.lastRitmoBase = 0;
+  },
+
+  debug() {
+    console.log('AppState:', {
+      zonasCalculadas: this.zonasCalculadas,
+      lastRitmoBase: this.lastRitmoBase,
+      lastAge: this.lastAge,
+      isPremium: this.isPremium
+    });
   }
 };
 console.log('✅ AppState cargado');
@@ -228,12 +630,22 @@ const Auth = {
       
       if (!userDataVal) throw new Error('Datos de usuario no encontrados');
 
+      AppState.setCurrentUser(user.uid, userDataVal);
+
       alert(`✅ Bienvenido, ${userDataVal.username}`);
 
       document.getElementById("loginPage").style.display = "none";
       document.getElementById("mainContent").style.display = "flex";
       document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${userDataVal.username.toUpperCase()}`;
       document.getElementById('name').value = userDataVal.username;
+
+      const calc = await Storage.getUltimoCalculo(user.uid);
+      if (calc) {
+        AppState.setLastCalc(calc);
+        if (typeof Training !== 'undefined' && Training.mostrarResultadosGuardados) {
+          Training.mostrarResultadosGuardados(calc);
+        }
+      }
 
     } catch (error) {
       let mensaje = 'Usuario o contraseña incorrectos';
@@ -251,15 +663,21 @@ const Auth = {
     document.getElementById("loginUsername").value = '';
     document.getElementById("loginPassword").value = '';
     document.getElementById("results").innerHTML = '';
+    AppState.clearLastCalc();
+  },
+
+  logoutAdmin() {
+    document.getElementById("adminPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
   }
 };
 console.log('✅ Auth cargado');
 
 // ============================================
-// TRAINING
+// TRAINING (CORREGIDO)
 // ============================================
 const Training = {
-  startCalc() {
+  async startCalc() {
     const age = parseInt(document.getElementById("age").value);
     const time = this.parseTime(document.getElementById("time").value);
     
@@ -297,57 +715,207 @@ const Training = {
     const ul = Math.round(fcMax * 0.92 * 1.03);
 
     const pred = [
-      { dist: "2km", color: "blue", ritmo: ritmoBase * 0.98 },
-      { dist: "6km", color: "green", ritmo: ritmoBase },
-      { dist: "10km", color: "orange", ritmo: ritmoBase * 1.05 },
-      { dist: "21km", color: "red", ritmo: ritmoBase * 1.12 },
-      { dist: "42km", color: "purple", ritmo: ritmoBase * 1.20 }
+      { dist: "2km", color: "var(--accent-blue)", ritmo: ritmoBase * 0.98 },
+      { dist: "6km", color: "var(--accent-green)", ritmo: ritmoBase },
+      { dist: "10km", color: "var(--accent-yellow)", ritmo: ritmoBase * 1.05 },
+      { dist: "21km", color: "var(--accent-red)", ritmo: ritmoBase * 1.12 },
+      { dist: "42km", color: "var(--accent-purple)", ritmo: ritmoBase * 1.20 }
     ];
 
+    const zones = [
+      ["Z1", "RECUPERACIÓN", 0.75, 0.80, 1.35, "z1",
+        "<p><strong>🎯 Ritmo:</strong> " + this.formatR(ritmoBase * 1.35) + " min/km</p>" +
+        "<p><strong>📍 Objetivo:</strong> Recuperación activa después de esfuerzos intensos.</p>" +
+        "<p><strong>✅ Beneficios:</strong></p><ul>" +
+        "<li>Mejora la circulación sanguínea</li>" +
+        "<li>Elimina toxinas (ácido láctico)</li>" +
+        "<li>Prepara el cuerpo para próximas sesiones</li></ul>" +
+        "<p><strong>😌 Sensación:</strong> Muy fácil, puedes mantener una conversación sin esfuerzo</p>"
+      ],
+      ["Z2", "BASE", 0.80, 0.90, 1.25, "z2",
+        "<p><strong>🎯 Ritmo:</strong> " + this.formatR(ritmoBase * 1.25) + " min/km</p>" +
+        "<p><strong>📍 Objetivo:</strong> Desarrollar resistencia aeróbica fundamental.</p>" +
+        "<p><strong>✅ Beneficios:</strong></p><ul>" +
+        "<li>Optimiza la quema de grasas</li>" +
+        "<li>Fortalece el corazón</li>" +
+        "<li>Mejora la eficiencia metabólica</li></ul>" +
+        "<p><strong>😌 Sensación:</strong> Cómodo y controlado, puedes hablar con frases completas</p>"
+      ],
+      ["Z3", "TEMPO", 0.90, 0.95, 1.15, "z3",
+        "<p><strong>🎯 Ritmo:</strong> " + this.formatR(ritmoBase * 1.15) + " min/km</p>" +
+        "<p><strong>📍 Objetivo:</strong> Elevar el umbral de lactato.</p>" +
+        "<p><strong>✅ Beneficios:</strong></p><ul>" +
+        "<li>Permite correr más rápido durante más tiempo</li>" +
+        "<li>Retrasa la aparición de la fatiga</li>" +
+        "<li>Mejora la resistencia a ritmos exigentes</li></ul>" +
+        "<p><strong>😌 Sensación:</strong> 'Cómodamente duro', puedes hablar con frases cortas</p>"
+      ],
+      ["Z4", "UMBRAL", 0.95, 1.02, 1.05, "z4",
+        "<p><strong>🎯 Ritmo:</strong> " + this.formatR(ritmoBase * 1.05) + " min/km</p>" +
+        "<p><strong>📍 Objetivo:</strong> Limpiar y tolerar el lactato.</p>" +
+        "<p><strong>✅ Beneficios:</strong></p><ul>" +
+        "<li>Mejora la capacidad de mantener ritmos de carrera</li>" +
+        "<li>Incrementa la velocidad en competición</li>" +
+        "<li>Prepara para esfuerzos sostenidos</li></ul>" +
+        "<p><strong>😌 Sensación:</strong> Fuerte, hablar es incómodo, solo palabras sueltas</p>"
+      ],
+      ["Z5", "VO₂MÁX", 1.02, 1.06, 0.95, "z5",
+        "<p><strong>🎯 Ritmo:</strong> " + this.formatR(ritmoBase * 0.95) + " min/km</p>" +
+        "<p><strong>📍 Objetivo:</strong> Potencia aeróbica máxima.</p>" +
+        "<p><strong>✅ Beneficios:</strong></p><ul>" +
+        "<li>Aumenta la capacidad del corazón</li>" +
+        "<li>Mejora el consumo de oxígeno</li>" +
+        "<li>Desarrolla la tolerancia al esfuerzo extremo</li></ul>" +
+        "<p><strong>😌 Sensación:</strong> Muy intenso, apenas puedes hablar, solo para intervalos cortos</p>"
+      ],
+      ["Z6", "VELOCIDAD", 1.06, 1.12, 0.85, "z6",
+        "<p><strong>🎯 Ritmo:</strong> " + this.formatR(ritmoBase * 0.85) + " min/km</p>" +
+        "<p><strong>📍 Objetivo:</strong> Potencia neuromuscular y velocidad.</p>" +
+        "<p><strong>✅ Beneficios:</strong></p><ul>" +
+        "<li>Mejora la zancada y coordinación</li>" +
+        "<li>Aumenta la potencia explosiva</li>" +
+        "<li>Desarrolla velocidad punta</li></ul>" +
+        "<p><strong>😌 Sensación:</strong> Esfuerzo máximo, sprints cortos con recuperación completa</p>"
+      ]
+    ];
+
+    const calc = {
+      name: username,
+      age: age,
+      fcMax: fcMax,
+      ul: ul,
+      zones: zones,
+      pred: pred,
+      ritmoBase: ritmoBase
+    };
+
+    // ¡ESTAS LÍNEAS SON CRÍTICAS!
+    AppState.setLastCalc(calc);
+    AppState.debug();
+    
+    this.mostrarResultados(calc);
+    this.guardarCalculoAutomatico(calc);
+  },
+
+  mostrarResultados(d) {
     let html = `<h2>> MÉTRICAS_</h2>
       <div style="text-align:center; margin:20px 0;">
-        ${username} · ${age} años<br>
-        FC MÁX: ${fcMax} lpm · UMBRAL: ${ul} lpm<br>
-        RITMO 6km: ${this.formatR(ritmoBase)} min/km
+        ${d.name} · ${d.age} años<br>
+        FC MÁX: ${d.fcMax} lpm · UMBRAL: ${d.ul} lpm<br>
+        RITMO 6km: ${this.formatR(d.ritmoBase)} min/km
       </div>
       <h2>> PREDICCIONES_</h2>`;
 
-    pred.forEach(p => {
-      html += `<div style="border:1px solid ${p.color}; color:${p.color}; padding:10px; margin:5px; border-radius:40px; text-align:center;">
-        ${p.dist} → ${this.formatR(p.ritmo)} min/km
-      </div>`;
+    d.pred.forEach(p => {
+      html += `<div class="pred-bar" style="border-color:${p.color}; color:${p.color};">${p.dist} → ${this.formatR(p.ritmo)} min/km</div>`;
     });
 
     html += `<h2>> ZONAS_</h2>`;
 
-    const zonas = [
-      { nombre: "Z1 - RECUPERACIÓN", min: 0.75, max: 0.80, desc: "Recuperación activa" },
-      { nombre: "Z2 - BASE", min: 0.80, max: 0.90, desc: "Resistencia aeróbica" },
-      { nombre: "Z3 - TEMPO", min: 0.90, max: 0.95, desc: "Ritmo controlado" },
-      { nombre: "Z4 - UMBRAL", min: 0.95, max: 1.02, desc: "Ritmo de carrera" },
-      { nombre: "Z5 - VO₂MÁX", min: 1.02, max: 1.06, desc: "Alta intensidad" }
-    ];
-
-    zonas.forEach(z => {
-      const minFC = Math.round(ul * z.min);
-      const maxFC = Math.round(ul * z.max);
-      html += `<div style="margin:10px 0; padding:15px; background:#2C2C2E; border-radius:24px;">
-        <strong>${z.nombre}</strong><br>
-        FC: ${minFC}-${maxFC} lpm<br>
-        <small>${z.desc}</small>
+    d.zones.forEach(z => {
+      const min = Math.round(d.ul * z[2]);
+      const max = Math.round(d.ul * z[3]);
+      html += `<div class="zone-card ${z[5]}" onclick="this.classList.toggle('active')">
+        <strong>${z[0]} – ${z[1]}</strong><br>
+        FC: ${min}-${max} lpm
+        <div class="long">${z[6]}</div>
       </div>`;
     });
 
+    html += `<button class="action-button btn-copy" onclick="window.copyResults()">📋 COPIAR</button>`;
+    html += `<button class="action-button btn-share" onclick="window.shareResults()">📱 COMPARTIR</button>`;
+
     document.getElementById("results").innerHTML = html;
-    document.getElementById("footer").innerText = `${username} · ${new Date().toLocaleDateString('es-ES')} · RI5`;
+    document.getElementById("footer").innerText = `${d.name} · ${new Date().toLocaleDateString('es-ES')} · RI5`;
+  },
+
+  mostrarResultadosGuardados(d) {
+    this.mostrarResultados(d);
+  },
+
+  async guardarCalculoAutomatico(calc) {
+    if (!AppState.currentUid) return;
+
+    const ahora = new Date();
+    let zonasResumen = calc.zones.map(z => {
+      const min = Math.round(calc.ul * z[2]);
+      const max = Math.round(calc.ul * z[3]);
+      return { zona: z[0], min, max };
+    });
+
+    const data = {
+      date: ahora.toLocaleDateString('es-ES'),
+      hora: ahora.toLocaleTimeString('es-ES'),
+      nombre: calc.name,
+      edad: calc.age,
+      fcMax: calc.fcMax,
+      umbral: calc.ul,
+      ritmo6k: this.formatR(calc.ritmoBase),
+      predicciones: calc.pred.map(p => `${p.dist}:${this.formatR(p.ritmo)}`).join(' '),
+      resumen: `${calc.name} · ${calc.age} años · 6km: ${this.formatR(calc.ritmoBase)}`,
+      zonasResumen
+    };
+
+    let hist = await Storage.getHistorial(AppState.currentUid);
+    hist.unshift(data);
+    const lim = AppState.isPremium ? 25 : 10;
+    if (hist.length > lim) hist.pop();
+
+    await Storage.saveHistorial(AppState.currentUid, hist);
+    await Storage.setUltimoCalculo(AppState.currentUid, calc);
     
-    alert('✅ Cálculo completado');
+    if (document.getElementById('tab-historial').classList.contains('active')) {
+      if (typeof UI !== 'undefined' && UI.cargarHistorial) {
+        UI.cargarHistorial();
+      }
+    }
+  },
+
+  copyResults() {
+    if (!AppState.lastName) return alert("> CALCULA ZONAS PRIMERO_");
+
+    let txt = "🔹 RI5 - ZONAS DE ENTRENO 🔹\n\n";
+    txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n`;
+    txt += `❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n`;
+    txt += `⏱️ RITMO 6km: ${this.formatR(AppState.lastRitmoBase)} min/km\n\n`;
+    txt += `📊 PREDICCIONES:\n`;
+    AppState.lastPred.forEach(p => txt += `   ${p.dist} → ${this.formatR(p.ritmo)} min/km\n`);
+    
+    navigator.clipboard.writeText(txt).then(() => {
+      alert("✅ COPIADO");
+    });
+  },
+
+  shareResults() {
+    if (!AppState.lastName) return alert("> CALCULA ZONAS PRIMERO_");
+
+    let txt = "🏃‍♂️ MIS ZONAS DE ENTRENAMIENTO RI5 🏃‍♀️\n\n";
+    txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n`;
+    txt += `❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n`;
+    txt += `⏱️ RITMO 6km: ${this.formatR(AppState.lastRitmoBase)} min/km\n\n`;
+    txt += `📊 PREDICCIONES:\n`;
+    AppState.lastPred.forEach(p => txt += `   ${p.dist} → ${this.formatR(p.ritmo)} min/km\n`);
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'Mis zonas de entrenamiento RI5',
+        text: txt
+      }).catch(() => {
+        navigator.clipboard.writeText(txt).then(() => {
+          alert("✅ RESULTADOS COPIADOS");
+        });
+      });
+    } else {
+      navigator.clipboard.writeText(txt).then(() => {
+        alert("✅ RESULTADOS COPIADOS");
+      });
+    }
   }
 };
 console.log('✅ Training cargado');
 
 // ============================================
-// UI
+// UI (COMPLETO)
 // ============================================
 const UI = {
   switchTab(tab) {
@@ -363,6 +931,224 @@ const UI = {
     });
     
     document.getElementById(`tab-${tab}`).classList.add('active');
+    
+    if (tab === 'historial') this.cargarHistorial();
+    if (tab === 'plan') this.cargarHistorialPlanes();
+  },
+
+  async cargarHistorial() {
+    const cont = document.getElementById("historialContainer");
+    if (!AppState.currentUid) {
+      cont.innerHTML = '<p style="text-align:center; padding:20px;">📭 SIN USUARIO</p>';
+      return;
+    }
+
+    let hist = await Storage.getHistorial(AppState.currentUid);
+    const lim = parseInt(document.getElementById('historialLimit')?.value || 10);
+    if (hist.length > lim) hist = hist.slice(0, lim);
+
+    if (!hist.length) {
+      cont.innerHTML = '<p style="text-align:center; padding:20px;">📭 SIN HISTORIAL</p>';
+      return;
+    }
+
+    let html = '<div class="historial-list">';
+    hist.forEach((it, i) => {
+      html += `<div class="historial-item" onclick="window.toggleHistorialDetalle(this)">
+        <div class="fecha">📅 ${it.date}</div>
+        <div class="resumen">${it.resumen}</div>
+        <button class="delete-icon" onclick="event.stopPropagation(); window.borrarEntradaHistorial(${i})">🗑️</button>
+        <div class="detalle">${it.hora ? `<div>🕒 ${it.hora}</div>` : ''}${it.predicciones ? `<div>📊 ${it.predicciones}</div>` : ''}</div>
+      </div>`;
+    });
+    html += '</div>';
+    cont.innerHTML = html;
+  },
+
+  async cargarHistorialPlanes() {
+    const container = document.getElementById('planesHistorialContainer');
+    const section = document.getElementById('planesHistorial');
+    if (!AppState.currentUid || !AppState.isPremium) {
+      if (section) section.style.display = 'none';
+      return;
+    }
+    const planes = await Storage.getHistorialPlanes(AppState.currentUid);
+    if (planes.length === 0) {
+      if (section) section.style.display = 'none';
+      return;
+    }
+    if (section) section.style.display = 'block';
+    let html = '';
+    planes.slice(0, 3).forEach((plan) => {
+      const fecha = new Date(plan.fecha).toLocaleDateString();
+      html += `<div class="plan-card" data-plan-id="${plan.id}">
+        <div class="plan-info" onclick="window.cargarPlanDesdeHistorial('${plan.id}')">
+          <div class="plan-fecha">📅 ${fecha}</div>
+          <div class="plan-resumen">${plan.resumen}</div>
+          <div class="plan-detalle">${plan.detalle}</div>
+        </div>
+        <button class="delete-plan" onclick="event.stopPropagation(); window.eliminarPlanHistorial('${plan.id}')">🗑️</button>
+      </div>`;
+    });
+    if (container) container.innerHTML = html;
+  },
+
+  async guardarPlanEnHistorial(planParams, planCompleto) {
+    if (!AppState.currentUid || !AppState.isPremium) return;
+    const ahora = new Date();
+    const planId = ahora.getTime().toString();
+    const mapaDist = { "2k": "2 km", "5k": "5 km", "10k": "10 km", "medio": "MEDIA", "maraton": "MARATÓN" };
+    const resumen = `${mapaDist[planParams.distancia]} · ${planParams.diasPorSemana} días · ${planParams.nivel}`;
+    const detalle = `${planParams.modalidad === 'runner' ? 'Asfalto' : 'Montaña'} · ${planParams.objetivo} · Inicio: ${new Date(planParams.fechaInicio).toLocaleDateString()}`;
+    const nuevoPlan = {
+      id: planId,
+      fecha: ahora.toISOString(),
+      resumen: resumen,
+      detalle: detalle,
+      params: planParams
+    };
+    let historial = await Storage.getHistorialPlanes(AppState.currentUid);
+    historial.unshift(nuevoPlan);
+    if (historial.length > 3) {
+      const eliminado = historial.pop();
+      if (eliminado && eliminado.id) {
+        await Storage.deletePlanCompleto(AppState.currentUid, eliminado.id);
+      }
+    }
+    await Storage.saveHistorialPlanes(AppState.currentUid, historial);
+    await Storage.savePlanCompleto(AppState.currentUid, planId, planCompleto);
+    this.cargarHistorialPlanes();
+  },
+
+  async cargarPlanDesdeHistorial(planId) {
+    if (!AppState.currentUid) return;
+    try {
+      const planCompleto = await Storage.getPlanCompleto(AppState.currentUid, planId);
+      if (!planCompleto) {
+        alert('No se pudo cargar el plan');
+        return;
+      }
+      AppState.planGeneradoActual = planCompleto.params;
+      AppState.planActualId = planId;
+      AppState.sesionesRealizadas = planCompleto.realizadas || {};
+      AppState.trimestreActual = 0;
+      document.getElementById("calendarioEntreno").style.display = "block";
+      document.getElementById("cuestionarioEntreno").style.display = "none";
+      this.mostrarCalendario(planCompleto.sesiones);
+      document.getElementById("resumenObjetivo").innerText = planCompleto.resumen;
+    } catch (e) {
+      alert('Error al cargar el plan');
+    }
+  },
+
+  mostrarCalendario(sesiones) {
+    const grid = document.getElementById("calendarioGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    const inicio = AppState.trimestreActual * 7 * 12;
+    const fin = Math.min(inicio + 7 * 12, sesiones.length);
+    const sesionesTrimestre = sesiones.slice(inicio, fin);
+    const fragment = document.createDocumentFragment();
+    sesionesTrimestre.forEach((sesion, idx) => {
+      const diaGlobal = inicio + idx;
+      const div = document.createElement("div");
+      div.className = `calendario-dia ${sesion.color}`;
+      if (AppState.sesionesRealizadas[diaGlobal]) {
+        div.classList.add('realizado');
+      }
+      if (sesion.detalle) div.dataset.detalle = JSON.stringify(sesion.detalle);
+      div.innerHTML = `<div style="font-size:10px;">S${sesion.semana}</div>
+        <strong>${sesion.breve}</strong>
+        ${sesion.detalle ? `<div style="font-size:8px;">${sesion.detalle.duracion}${sesion.detalle.unidad}</div>` : ''}`;
+      div.dataset.letra = sesion.breve;
+      div.dataset.semana = sesion.semana;
+      div.dataset.colorClass = sesion.color;
+      div.dataset.diaIndex = diaGlobal;
+      div.onclick = function() {
+        UI.mostrarDetalleSesion(this);
+      };
+      fragment.appendChild(div);
+    });
+    grid.appendChild(fragment);
+    const nav = document.getElementById('calendarioNavegacion');
+    if (sesiones.length > 7 * 12) {
+      nav.style.display = 'flex';
+      document.getElementById('calendarioPagina').innerText = `TRIMESTRE ${AppState.trimestreActual + 1}/4`;
+      document.getElementById('calendarioAnterior').disabled = AppState.trimestreActual === 0;
+      document.getElementById('calendarioSiguiente').disabled = AppState.trimestreActual === 3;
+    } else {
+      nav.style.display = 'none';
+    }
+  },
+
+  mostrarDetalleSesion(celda) {
+    const modal = document.getElementById("detalleSesion");
+    const overlay = document.getElementById("modalOverlay");
+    const wrapper = document.getElementById("modalColorWrapper");
+    if (!modal || !overlay || !wrapper) return;
+    wrapper.className = "modal-content";
+    wrapper.classList.add(celda.dataset.colorClass);
+    const det = celda.dataset.detalle ? JSON.parse(celda.dataset.detalle) : null;
+    const diaIndex = celda.dataset.diaIndex;
+    let tit = "", cont = "";
+    if (celda.dataset.letra === "D") {
+      tit = "DÍA DE DESCANSO";
+      cont = "<strong>OBJETIVO:</strong> Recuperación completa<br><br><strong>RECOMENDADO:</strong><br>• No correr<br>• Estiramientos suaves<br>• Buena nutrición";
+      document.getElementById('sesionCheckboxContainer').style.display = 'none';
+    } else if (det) {
+      tit = det.nombre || `${celda.dataset.letra} · Semana ${celda.dataset.semana}`;
+      const ritmo = PlanGenerator.getRitmoPorZona(det.zona);
+      let extras = '';
+      if (det.tipo === 'rodaje') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar eficiencia aeróbica. Sensación cómoda, ritmo constante.';
+      else if (det.tipo === 'series') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Mejorar velocidad y tolerancia al lactato. Recuperación completa entre repeticiones.';
+      else if (det.tipo === 'tempo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Aumentar capacidad de mantener ritmo rápido. Sensación "cómodamente duro".';
+      else if (det.tipo === 'largo') extras = '<br><br><strong>🎯 OBJETIVO:</strong> Desarrollar resistencia y confianza. Ritmo suave, prioriza el tiempo de pie.';
+      cont = `<strong>🏃 ${det.nombre}</strong><br><br>
+        <strong>⏱️ DURACIÓN:</strong> ${det.duracion} ${det.unidad}<br>
+        <strong>📊 ZONA:</strong> ${det.zona}<br>
+        <strong>⚡ RITMO:</strong> ${ritmo}<br><br>
+        <strong>📋 ESTRUCTURA:</strong><br>${det.estructura}<br><br>
+        <strong>💬 DESCRIPCIÓN:</strong><br>${det.desc}<br><br>
+        <strong>😌 SENSACIÓN:</strong> ${det.sensacion}${extras}`;
+      document.getElementById('sesionCheckboxContainer').style.display = 'flex';
+      const checkbox = document.getElementById('sesionRealizada');
+      checkbox.checked = AppState.sesionesRealizadas[diaIndex] || false;
+      checkbox.onchange = () => {
+        const realizado = checkbox.checked;
+        AppState.sesionesRealizadas[diaIndex] = realizado;
+        if (AppState.planActualId && AppState.currentUid) {
+          Storage.marcarSesionRealizada(AppState.currentUid, AppState.planActualId, diaIndex, realizado);
+        }
+        if (realizado) {
+          celda.classList.add('realizado');
+        } else {
+          celda.classList.remove('realizado');
+        }
+      };
+    } else {
+      cont = "> SELECCIONA UN DÍA PARA VER DETALLES_";
+      document.getElementById('sesionCheckboxContainer').style.display = 'none';
+    }
+    document.getElementById("tituloSesion").innerText = tit;
+    document.getElementById("descripcionSesion").innerHTML = cont;
+    modal.classList.add("visible");
+    overlay.classList.add("visible");
+  },
+
+  cerrarModalSesion() {
+    const modal = document.getElementById("detalleSesion");
+    const overlay = document.getElementById("modalOverlay");
+    if (modal) modal.classList.remove("visible");
+    if (overlay) overlay.classList.remove("visible");
+  },
+
+  cambiarTrimestre(delta) {
+    AppState.trimestreActual += delta;
+    if (AppState.planActualId) {
+      Storage.getPlanCompleto(AppState.currentUid, AppState.planActualId).then(plan => {
+        if (plan) this.mostrarCalendario(plan.sesiones);
+      });
+    }
   },
 
   initDiasCheckboxes() {
@@ -389,14 +1175,72 @@ const UI = {
       const mes = String(hoy.getMonth() + 1).padStart(2, '0');
       const dia = String(hoy.getDate()).padStart(2, '0');
       fechaInput.value = `${año}-${mes}-${dia}`;
+      fechaInput.min = `${año}-${mes}-${dia}`;
+      fechaInput.max = `${año + 1}-${mes}-${dia}`;
     }
+  },
+
+  toggleHistorialDetalle(el) {
+    if (el) el.classList.toggle('abierto');
+  },
+
+  async borrarEntradaHistorial(i) {
+    if (!AppState.currentUid) return;
+    if (!confirm('¿Eliminar esta entrada?')) return;
+    let hist = await Storage.getHistorial(AppState.currentUid);
+    hist.splice(i, 1);
+    await Storage.saveHistorial(AppState.currentUid, hist);
+    this.cargarHistorial();
+    alert("✅ ELIMINADA");
+  },
+
+  async borrarHistorial() {
+    if (!AppState.currentUid) return;
+    if (!confirm('¿Eliminar todo el historial?')) return;
+    await Storage.saveHistorial(AppState.currentUid, []);
+    this.cargarHistorial();
+    alert("✅ HISTORIAL LIMPIO");
+  },
+
+  cambiarSoporteTab(tab) {
+    document.querySelectorAll('#tab-soporte .soporte-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('#tab-soporte .soporte-panel').forEach(p => p.classList.remove('active'));
+    if (tab === 'recibidos') {
+      document.querySelectorAll('#tab-soporte .soporte-tab')[0].classList.add('active');
+      document.getElementById('soporte-recibidos').classList.add('active');
+    } else {
+      document.querySelectorAll('#tab-soporte .soporte-tab')[1].classList.add('active');
+      document.getElementById('soporte-enviados').classList.add('active');
+    }
+  },
+
+  enviarMensajeUsuario() {
+    const texto = document.getElementById('mensajeUsuario')?.value.trim();
+    if (!texto) {
+      alert('Escribe un mensaje');
+      return;
+    }
+    alert('Mensaje enviado (simulado)');
+    document.getElementById('mensajeUsuario').value = '';
+  },
+
+  guardarEstado() {},
+  restaurarEstado() {},
+  cerrarPlan() {
+    document.getElementById("calendarioEntreno").style.display = "none";
+    AppState.planGeneradoActual = null;
+    AppState.planActualId = null;
+    AppState.sesionesRealizadas = {};
+    document.getElementById("cuestionarioEntreno").style.display = "block";
   }
 };
 console.log('✅ UI cargado');
 
 // ============================================
-// planGenerator.js
+// PLAN GENERATOR (SIN MATRIZ - AÑADE LA MATRIZ AQUÍ)
+// ============================================
 const PlanGenerator = {
+  // ⚠️ AQUÍ DEBES AÑADIR TU MATRIZ ENTRENAMIENTOS_DB
   ENTRENAMIENTOS_DB: {
     runner: {
       "2k": {
@@ -1898,6 +2742,315 @@ const PlanGenerator = {
     }, 300);
   }
 };
+
+  toggleCuestionario() {
+    AppState.debug();
+    
+    if (!AppState.lastRitmoBase) {
+      Utils.showToast("> PRIMERO CALCULA TUS ZONAS EN LA PESTAÑA ENTRENO_", 'error');
+      return;
+    }
+    
+    if (!AppState.isPremium) {
+      Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN CREAR PLANES_", 'error');
+      return;
+    }
+
+    const q = document.getElementById("cuestionarioEntreno");
+    q.style.display = q.style.display === "block" ? "none" : "block";
+
+    if (q.style.display === "block") {
+      setTimeout(() => q.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+  },
+
+  async guardarPlanActual() {
+    if (!AppState.currentUid || !AppState.planGeneradoActual) return;
+    await Storage.setUltimoPlan(AppState.currentUid, AppState.planGeneradoActual);
+  },
+
+  async mostrarUltimoPlanGuardado() {
+    if (!AppState.currentUid) {
+      Utils.showToast("> NO HAY USUARIO_", 'error');
+      return;
+    }
+    if (!AppState.isPremium) {
+      Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN VER PLANES_", 'error');
+      return;
+    }
+
+    const stored = await Storage.getUltimoPlan(AppState.currentUid);
+    if (!stored) {
+      Utils.showToast("> NO HAY PLAN GUARDADO_", 'error');
+      return;
+    }
+
+    AppState.ultimoPlanParams = stored;
+
+    document.getElementById("modalidad").value = stored.modalidad;
+    document.getElementById("distObjetivo").value = stored.distancia;
+    document.getElementById("duracionPlan").value = stored.macrociclo / 4;
+
+    const diasGuardados = stored.diasEntreno || [4, 6];
+    for (let i = 1; i <= 7; i++) {
+      const cb = document.getElementById(`dia${i}`);
+      if (cb) cb.checked = diasGuardados.includes(i);
+    }
+
+    document.getElementById("nivel").value = stored.nivel;
+    document.getElementById("experienciaDistancia").value = stored.experiencia || "no";
+    document.getElementById("objetivoPrincipal").value = stored.objetivo || "mejorar";
+    document.getElementById("diaLargo").value = stored.diaLargo;
+    document.getElementById("fechaInicio").value = stored.fechaInicio || new Date().toISOString().split('T')[0];
+
+    document.getElementById("cuestionarioEntreno").style.display = "none";
+    document.getElementById("calendarioEntreno").style.display = "block";
+    this.generarCalendarioEntreno();
+  },
+
+  async borrarPlanGuardado() {
+    if (!AppState.currentUid) return;
+
+    const confirmed = await Utils.confirm('ELIMINAR PLAN', "> ¿ELIMINAR PLAN GUARDADO?_");
+    if (!confirmed) return;
+
+    await Storage.removeUltimoPlan(AppState.currentUid);
+    document.getElementById("calendarioEntreno").style.display = "none";
+    document.getElementById("cuestionarioEntreno").style.display = "block";
+    AppState.planGeneradoActual = null;
+    AppState.planActualId = null;
+    AppState.sesionesRealizadas = {};
+
+    Utils.showToast("✅ PLAN ELIMINADO", 'success');
+    UI.guardarEstado();
+  },
+
+  getRitmoPorZona(z) {
+    if (!AppState.lastRitmoBase) return "Calcula zonas primero";
+
+    const f = { 'Z1': 1.35, 'Z2': 1.25, 'Z3': 1.15, 'Z4': 1.05, 'Z5': 0.95, 'Z6': 0.85 };
+
+    if (z.includes('-')) {
+      const [a, b] = z.split('-');
+      return `${Utils.formatR(AppState.lastRitmoBase * (f[a] || 1.15))} – ${Utils.formatR(AppState.lastRitmoBase * (f[b] || 1.05))} min/km`;
+    }
+
+    return Utils.formatR(AppState.lastRitmoBase * (f[z] || 1.15)) + " min/km";
+  },
+
+  validarOpcionesPlan() {
+    const duracion = document.getElementById('duracionPlan').value;
+    const experiencia = document.getElementById('experienciaDistancia').value;
+    const distSelect = document.getElementById('distObjetivo');
+    const opciones = distSelect.options;
+    const infoDiv = document.getElementById('info-mensaje-distancia');
+    const generarBtn = document.getElementById('generarPlanBtn');
+
+    let mostrarMensaje = false;
+    let habilitarBtn = true;
+
+    for (let i = 0; i < opciones.length; i++) {
+      if (opciones[i].value === 'medio' || opciones[i].value === 'maraton') {
+        if (duracion === '3' && experiencia === 'si') {
+          opciones[i].disabled = false;
+        } else {
+          opciones[i].disabled = true;
+          if (distSelect.value === opciones[i].value) {
+            distSelect.value = '10k';
+          }
+          mostrarMensaje = true;
+          habilitarBtn = false;
+        }
+      } else {
+        opciones[i].disabled = false;
+      }
+    }
+
+    infoDiv.style.display = mostrarMensaje ? 'block' : 'none';
+    generarBtn.disabled = !habilitarBtn;
+  },
+
+  generarCalendarioEntreno() {
+    if (!AppState.lastRitmoBase) {
+      Utils.showToast("> PRIMERO CALCULA TUS ZONAS_", 'error');
+      return;
+    }
+    if (!AppState.isPremium) {
+      Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN GENERAR PLANES_", 'error');
+      return;
+    }
+
+    const distancia = document.getElementById("distObjetivo").value;
+    const duracion = parseInt(document.getElementById("duracionPlan").value);
+    const experiencia = document.getElementById("experienciaDistancia").value;
+
+    if (distancia === 'medio' || distancia === 'maraton') {
+      if (!(duracion === 3 && experiencia === 'si')) {
+        Utils.showToast("❌ Los planes de Media Maratón y Maratón solo están disponibles con 3 meses de duración y experiencia previa en la distancia.", 'error');
+        return;
+      }
+    }
+
+    setTimeout(() => {
+      try {
+        const modalidad = document.getElementById("modalidad").value;
+        const meses = duracion;
+        const nivel = document.getElementById("nivel").value;
+        const exp = experiencia;
+        const obj = document.getElementById("objetivoPrincipal").value;
+        const diaLargo = parseInt(document.getElementById("diaLargo").value);
+        const fechaInicio = document.getElementById("fechaInicio").value;
+
+        if (!fechaInicio) {
+          Utils.showToast("> SELECCIONA UNA FECHA DE INICIO_", 'error');
+          return;
+        }
+
+        const diasEntreno = [];
+        for (let i = 1; i <= 7; i++) {
+          const cb = document.getElementById(`dia${i}`);
+          if (cb && cb.checked) diasEntreno.push(i);
+        }
+
+        if (diasEntreno.length === 0) {
+          Utils.showToast("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_", 'error');
+          return;
+        }
+
+        if (!diasEntreno.includes(diaLargo)) {
+          if (confirm("> El día de tirada larga no está seleccionado. ¿Añadirlo automáticamente?")) {
+            diasEntreno.push(diaLargo);
+            document.getElementById(`dia${diaLargo}`).checked = true;
+          } else {
+            return;
+          }
+        }
+
+        diasEntreno.sort((a, b) => a - b);
+
+        const fecha = new Date(fechaInicio + "T00:00:00");
+        const macrociclo = meses * 4;
+        const mapa = { "2k": "2 km", "5k": "5 km", "10k": "10 km", "medio": "MEDIA", "maraton": "MARATÓN" };
+        const diaNombre = ["", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB", "DOM"][diaLargo];
+
+        document.getElementById("resumenObjetivo").innerText =
+          `${mapa[distancia]} · ${diasEntreno.length} DÍAS/SEM · ${nivel.toUpperCase()} · ${exp === 'si' ? 'CON EXPERIENCIA' : 'PRIMERA VEZ'} · ${obj === 'acabar' ? 'OBJ: TERMINAR' : obj === 'mejorar' ? 'OBJ: MEJORAR' : 'OBJ: COMPETIR'} · LARGO: ${diaNombre} · ${modalidad === 'runner' ? 'ASFALTO' : 'MONTAÑA'} · ${meses} MES(ES) · INICIO: ${fecha.toLocaleDateString()}`;
+
+        const totalDias = macrociclo * 7;
+        const sesiones = [];
+
+        const esAnual = meses === 12;
+        const fases = esAnual ? ['base', 'construccion', 'pico', 'descanso'] : ['unica'];
+
+        for (let dia = 1; dia <= totalDias; dia++) {
+          const semana = Math.floor((dia - 1) / 7);
+          const diaSem = (dia - 1) % 7 + 1;
+          let color = "sesion-descanso", breve = "D", detalle = null;
+
+          if (diasEntreno.includes(diaSem)) {
+            let fase = 'unica';
+            if (esAnual) {
+              const semanasTotales = totalDias / 7;
+              const semanaRelativa = semana;
+              if (semanaRelativa < semanasTotales / 4) fase = 'base';
+              else if (semanaRelativa < semanasTotales / 2) fase = 'construccion';
+              else if (semanaRelativa < 3 * semanasTotales / 4) fase = 'pico';
+              else fase = 'descanso';
+            }
+
+            let tipo = 'rodaje';
+            if (diaSem === diaLargo) {
+              tipo = 'largo';
+            } else {
+              const indice = diasEntreno.indexOf(diaSem);
+              if (fase === 'base') {
+                if (indice % 2 === 0) tipo = 'rodaje';
+                else tipo = 'tempo';
+              } else if (fase === 'construccion') {
+                if (indice % 3 === 0) tipo = 'series';
+                else if (indice % 3 === 1) tipo = 'tempo';
+                else tipo = 'rodaje';
+              } else if (fase === 'pico') {
+                if (indice % 2 === 0) tipo = 'series';
+                else tipo = 'tempo';
+              } else if (fase === 'descanso') {
+                tipo = 'rodaje';
+              }
+            }
+
+            if (obj === 'competir') {
+              if (tipo === 'rodaje' && Math.random() > 0.7) tipo = 'series';
+            } else if (obj === 'acabar') {
+              if (tipo !== 'rodaje' && Math.random() > 0.7) tipo = 'rodaje';
+            }
+
+            const esDescarga = (semana + 1) % 4 === 0;
+            let factorPersonal = 1.0;
+            if (AppState.lastRitmoBase) {
+              const ritmoRef = 5.0;
+              factorPersonal = Math.min(1.2, Math.max(0.8, ritmoRef / AppState.lastRitmoBase));
+            }
+            if (esDescarga) factorPersonal *= 0.8;
+
+            let opts = [];
+            if (tipo === 'largo') opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.largo || [];
+            else if (tipo === 'series') opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.series || [];
+            else if (tipo === 'tempo') opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.tempo || [];
+            else opts = this.ENTRENAMIENTOS_DB[modalidad]?.[distancia]?.[nivel]?.rodaje || [];
+
+            if (opts.length) {
+              const idxAleatorio = Math.floor(Math.random() * opts.length);
+              const optOriginal = opts[idxAleatorio];
+              detalle = { ...optOriginal, tipo };
+              detalle.duracion = Math.round(detalle.duracion * factorPersonal);
+
+              if (tipo === 'largo') { color = "sesion-largo"; breve = "L"; }
+              else if (tipo === 'series') { color = "sesion-series"; breve = "S"; }
+              else if (tipo === 'tempo') { color = "sesion-tempo"; breve = "T"; }
+              else { color = "sesion-rodaje"; breve = "R"; }
+            }
+          }
+
+          sesiones.push({ color, breve, detalle, semana: semana + 1 });
+        }
+
+        const planId = Date.now().toString();
+        const planCompleto = {
+          params: {
+            modalidad, distancia, macrociclo,
+            diasPorSemana: diasEntreno.length,
+            nivel, experiencia: exp, objetivo: obj,
+            diaLargo, fechaInicio, diasEntreno
+          },
+          sesiones: sesiones,
+          resumen: document.getElementById("resumenObjetivo").innerText,
+          realizadas: {}
+        };
+
+        AppState.planGeneradoActual = planCompleto.params;
+        AppState.planActualId = planId;
+        AppState.sesionesRealizadas = {};
+        AppState.trimestreActual = 0;
+
+        document.getElementById("calendarioEntreno").style.display = "block";
+        document.getElementById("cuestionarioEntreno").style.display = "none";
+        UI.mostrarCalendario(sesiones);
+
+        this.guardarPlanActual();
+        UI.guardarPlanEnHistorial(planCompleto.params, planCompleto);
+        UI.guardarEstado();
+
+        Utils.vibrate(50);
+        Utils.playSound('success');
+        Utils.showToast('✅ Plan generado', 'success');
+
+      } catch (e) {
+        console.error(e);
+        Utils.showToast("> ERROR GENERANDO PLAN_", 'error');
+      }
+    }, 300);
+  }
+};
 console.log('✅ PlanGenerator cargado');
 
 // ============================================
@@ -1930,7 +3083,20 @@ console.log('✅ Theme cargado');
 const Admin = {
   actualizarAdminPanel() {
     console.log('Admin panel');
-  }
+  },
+  abrirModalUsuarios() { alert('Panel de admin - en desarrollo'); },
+  abrirModalPendientes() { alert('Usuarios pendientes - en desarrollo'); },
+  marcarEnterado() { alert('Función en desarrollo'); },
+  extenderUsuario() { alert('Función en desarrollo'); },
+  togglePremium() { alert('Función en desarrollo'); },
+  eliminarUsuario() { alert('Función en desarrollo'); },
+  enviarMensajeAUsuario() { alert('Función en desarrollo'); },
+  exportarUsuariosCSV() { alert('Función en desarrollo'); },
+  renovarExpirados() { alert('Función en desarrollo'); },
+  enviarMensajeAdmin() { alert('Función en desarrollo'); },
+  cambiarSoporteTab() {},
+  switchAdminTab() {},
+  cargarSelectorUsuarios() {}
 };
 console.log('✅ Admin cargado');
 
@@ -1940,6 +3106,9 @@ console.log('✅ Admin cargado');
 const PWA = {
   instalarPWA() {
     alert('Para instalar: menú del navegador → "Añadir a pantalla de inicio"');
+  },
+  cerrarBannerPWA() {
+    document.getElementById('pwa-banner').style.display = 'none';
   }
 };
 console.log('✅ PWA cargado');
@@ -1951,8 +3120,11 @@ window.switchAuthTab = (tab) => Auth.switchAuthTab(tab);
 window.registerUser = () => Auth.registerUser();
 window.loginUser = () => Auth.loginUser();
 window.logoutUser = () => Auth.logoutUser();
+window.logoutAdmin = () => Auth.logoutAdmin();
 
 window.startCalc = () => Training.startCalc();
+window.copyResults = () => Training.copyResults();
+window.shareResults = () => Training.shareResults();
 
 window.switchTab = (tab) => UI.switchTab(tab);
 window.changeDailyTip = () => {
@@ -1965,14 +3137,79 @@ window.changeConsejo = () => {
 };
 
 window.toggleCuestionario = () => PlanGenerator.toggleCuestionario();
-window.mostrarUltimoPlanGuardado = () => alert('Cargar último plan - en desarrollo');
-window.borrarPlanGuardado = () => { if(confirm('¿Eliminar?')) alert('Eliminado'); };
-window.generarCalendarioEntreno = () => alert('Generar plan - en desarrollo');
-window.validarOpcionesPlan = () => {};
+window.mostrarUltimoPlanGuardado = () => PlanGenerator.mostrarUltimoPlanGuardado();
+window.borrarPlanGuardado = () => PlanGenerator.borrarPlanGuardado();
+window.generarCalendarioEntreno = () => PlanGenerator.generarCalendarioEntreno();
+window.validarOpcionesPlan = () => PlanGenerator.validarOpcionesPlan();
+window.cargarPlanDesdeHistorial = (planId) => UI.cargarPlanDesdeHistorial(planId);
+window.eliminarPlanHistorial = (planId) => UI.eliminarPlanHistorial(planId);
+window.cambiarTrimestre = (delta) => UI.cambiarTrimestre(delta);
+window.cerrarPlan = () => UI.cerrarPlan();
+
+window.cambiarSoporteTab = (tab) => UI.cambiarSoporteTab(tab);
+window.enviarMensajeUsuario = () => UI.enviarMensajeUsuario();
+window.toggleHistorialDetalle = (el) => UI.toggleHistorialDetalle(el);
+window.borrarEntradaHistorial = (i) => UI.borrarEntradaHistorial(i);
+window.borrarHistorial = () => UI.borrarHistorial();
+window.cargarHistorial = () => UI.cargarHistorial();
+
+window.abrirModalUsuarios = (filtro) => Admin.abrirModalUsuarios(filtro);
+window.abrirModalPendientes = () => Admin.abrirModalPendientes();
+window.marcarEnterado = (uid) => Admin.marcarEnterado(uid);
+window.extenderUsuario = (uid, meses) => Admin.extenderUsuario(uid, meses);
+window.togglePremium = (uid) => Admin.togglePremium(uid);
+window.eliminarUsuario = (uid) => Admin.eliminarUsuario(uid);
+window.enviarMensajeAUsuario = (uid) => Admin.enviarMensajeAUsuario(uid);
+window.exportarUsuariosCSV = () => Admin.exportarUsuariosCSV();
+window.renovarExpirados = () => Admin.renovarExpirados();
+window.enviarMensajeAdmin = () => Admin.enviarMensajeAdmin();
+window.switchAdminTab = (tab) => Admin.switchAdminTab(tab);
+window.cambiarAdminSoporteTab = (tab) => Admin.cambiarSoporteTab(tab);
+window.toggleUsuario = (el) => el.classList.toggle('abierto');
+
+window.instalarPWA = () => PWA.instalarPWA();
+window.cerrarBannerPWA = () => PWA.cerrarBannerPWA();
 
 window.toggleTheme = () => ThemeManager.toggle();
-window.instalarPWA = () => PWA.instalarPWA();
-window.cerrarBannerPWA = () => document.getElementById('pwa-banner').style.display = 'none';
+
+window.showPremiumBenefits = () => {
+  document.getElementById('premiumOverlay').classList.add('active');
+  document.getElementById('premiumModal').classList.add('active');
+};
+window.cerrarPremiumModal = () => {
+  document.getElementById('premiumOverlay').classList.remove('active');
+  document.getElementById('premiumModal').classList.remove('active');
+};
+window.contactarAdmin = () => {
+  window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank');
+};
+
+window.abrirResetModal = () => {
+  document.getElementById('resetOverlay').style.display = 'block';
+  document.getElementById('resetModal').style.display = 'block';
+};
+window.cerrarResetModal = () => {
+  document.getElementById('resetOverlay').style.display = 'none';
+  document.getElementById('resetModal').style.display = 'none';
+};
+window.enviarResetPassword = () => {
+  alert('Función de recuperación - en desarrollo');
+  window.cerrarResetModal();
+};
+
+window.cerrarWelcomeModal = () => {
+  document.getElementById('welcomeOverlay').style.display = 'none';
+  document.getElementById('welcomeModal').style.display = 'none';
+};
+
+window.cerrarEmailUpdateModal = () => {
+  document.getElementById('emailUpdateOverlay').style.display = 'none';
+  document.getElementById('emailUpdateModal').style.display = 'none';
+};
+window.guardarEmailActualizacion = () => {
+  alert('Función de actualización de email - en desarrollo');
+  window.cerrarEmailUpdateModal();
+};
 
 window.togglePassword = (inputId, element) => {
   const input = document.getElementById(inputId);
@@ -1985,6 +3222,8 @@ window.togglePassword = (inputId, element) => {
   }
 };
 
+window.cerrarModalSesion = () => UI.cerrarModalSesion();
+
 console.log('✅ Todas las funciones asignadas a window');
 
 // ============================================
@@ -1995,7 +3234,6 @@ document.addEventListener("DOMContentLoaded", () => {
   UI.initDiasCheckboxes();
   UI.setFechaActual();
   
-  // Comprobar sesión guardada (simplificado)
   if (localStorage.getItem('ri5_current_uid')) {
     document.getElementById("loginPage").style.display = "none";
     document.getElementById("mainContent").style.display = "flex";
