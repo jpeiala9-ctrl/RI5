@@ -1,4 +1,4 @@
-// auth.js
+// auth.js - VERSIÓN SIMPLIFICADA
 const Auth = {
   switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
@@ -14,8 +14,6 @@ const Auth = {
   },
 
   async registerUser() {
-    console.log('➡️ registerUser iniciado');
-    
     const username = document.getElementById('regUsername').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const password = document.getElementById('regPassword').value.trim();
@@ -32,10 +30,8 @@ const Auth = {
     btn.textContent = 'REGISTRANDO...';
 
     try {
-      console.log('Creando usuario en Auth...');
       const userCredential = await auth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
-      console.log('✅ Usuario creado en Auth:', user.uid);
 
       const expiry = new Date();
       expiry.setMonth(expiry.getMonth() + 1);
@@ -54,7 +50,6 @@ const Auth = {
         isAdmin: false,
         adminNotified: false
       });
-      console.log('✅ Datos guardados en Realtime Database');
 
       alert('✅ Registro exitoso. Ahora inicia sesión.');
       
@@ -65,7 +60,6 @@ const Auth = {
       this.switchAuthTab('login');
 
     } catch (error) {
-      console.error('❌ Error en registro:', error);
       let mensaje = 'Error en el registro';
       if (error.code === 'auth/email-already-in-use') {
         mensaje = 'El correo ya está registrado';
@@ -83,8 +77,6 @@ const Auth = {
   },
 
   async loginUser() {
-    console.log('➡️ loginUser iniciado');
-    
     const usernameOrEmail = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
     const err = document.getElementById('loginError');
@@ -98,18 +90,14 @@ const Auth = {
     try {
       let email = usernameOrEmail;
 
-      // Si no es email, buscar por username
       if (!usernameOrEmail.includes('@')) {
-        console.log('Buscando usuario por nombre:', usernameOrEmail);
         const users = await db.ref('users').once('value');
         const usersData = users.val() || {};
         
         let foundEmail = null;
-        let foundUid = null;
         
         Object.entries(usersData).forEach(([uid, data]) => {
           if (data.username === usernameOrEmail) {
-            foundUid = uid;
             foundEmail = data.email;
           }
         });
@@ -118,16 +106,11 @@ const Auth = {
           throw new Error('Usuario no encontrado');
         }
         email = foundEmail;
-        console.log('Email encontrado:', email);
       }
 
-      // Login
-      console.log('Intentando login con email:', email);
       const userCredential = await auth.signInWithEmailAndPassword(email, password);
       const user = userCredential.user;
-      console.log('✅ Login exitoso:', user.uid);
 
-      // Obtener datos del usuario
       const userData = await db.ref('users/' + user.uid).once('value');
       const userDataVal = userData.val();
       
@@ -135,30 +118,21 @@ const Auth = {
         throw new Error('Datos de usuario no encontrados');
       }
 
-      console.log('✅ Datos de usuario cargados:', userDataVal.username);
-      
-      // Mostrar mensaje
       alert(`✅ Bienvenido, ${userDataVal.username}`);
 
-      // CAMBIAR A PANTALLA PRINCIPAL (esto es lo importante)
+      // CAMBIAR A PANTALLA PRINCIPAL
       document.getElementById("loginPage").style.display = "none";
       document.getElementById("mainContent").style.display = "flex";
       
-      // Actualizar bienvenida
       document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${userDataVal.username.toUpperCase()}`;
-      
-      // Poner nombre en campo
       document.getElementById('name').value = userDataVal.username;
 
     } catch (error) {
-      console.error('❌ Error en login:', error);
       let mensaje = 'Usuario o contraseña incorrectos';
       if (error.code === 'auth/user-not-found') {
         mensaje = 'Usuario no encontrado';
       } else if (error.code === 'auth/wrong-password') {
         mensaje = 'Contraseña incorrecta';
-      } else if (error.code === 'auth/too-many-requests') {
-        mensaje = 'Demasiados intentos. Intenta más tarde.';
       } else {
         mensaje = error.message;
       }
@@ -173,10 +147,5 @@ const Auth = {
     document.getElementById("loginUsername").value = '';
     document.getElementById("loginPassword").value = '';
     document.getElementById("results").innerHTML = '';
-  },
-
-  logoutAdmin() {
-    document.getElementById("adminPage").style.display = "none";
-    document.getElementById("loginPage").style.display = "flex";
   }
 };

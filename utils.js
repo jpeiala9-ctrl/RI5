@@ -1,5 +1,44 @@
 // utils.js
 const Utils = {
+  showToast(message, type = 'info', duration = 3000) {
+    // Crear toast simple si no existe el contenedor
+    let container = document.getElementById('toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toast-container';
+      container.style.position = 'fixed';
+      container.style.top = '20px';
+      container.style.right = '20px';
+      container.style.zIndex = '1000000';
+      document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.style.background = '#333';
+    toast.style.color = 'white';
+    toast.style.padding = '12px 20px';
+    toast.style.borderRadius = '40px';
+    toast.style.marginBottom = '10px';
+    toast.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
+    toast.style.animation = 'slideIn 0.3s ease';
+    toast.textContent = message;
+    
+    // Añadir estilos de animación
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    toast.onclick = () => toast.remove();
+    container.appendChild(toast);
+    
+    setTimeout(() => toast.remove(), duration);
+  },
+
   parseTime(t) {
     t = t.trim();
     if (!t) return NaN;
@@ -22,88 +61,9 @@ const Utils = {
     return m + ":" + (s < 10 ? '0' : '') + s;
   },
 
-  showLoading() {
-    document.getElementById('loadingOverlay').classList.add('active');
-  },
-
-  hideLoading() {
-    document.getElementById('loadingOverlay').classList.remove('active');
-  },
-
-  showToast(message, type = 'info', duration = 3000) {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
-    toast.setAttribute('role', 'alert');
-    toast.onclick = () => toast.remove();
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), duration);
-  },
-
-  confirm(title, message) {
-    return new Promise((resolve) => {
-      const overlay = document.getElementById('confirmOverlay');
-      const modal = document.getElementById('confirmModal');
-      const titleEl = document.getElementById('confirmTitle');
-      const msgEl = document.getElementById('confirmMessage');
-      const yesBtn = document.getElementById('confirmYes');
-      const noBtn = document.getElementById('confirmNo');
-
-      titleEl.textContent = title;
-      msgEl.textContent = message;
-      overlay.classList.add('active');
-      modal.classList.add('active');
-
-      const onYes = () => {
-        overlay.classList.remove('active');
-        modal.classList.remove('active');
-        yesBtn.removeEventListener('click', onYes);
-        noBtn.removeEventListener('click', onNo);
-        resolve(true);
-      };
-      const onNo = () => {
-        overlay.classList.remove('active');
-        modal.classList.remove('active');
-        yesBtn.removeEventListener('click', onYes);
-        noBtn.removeEventListener('click', onNo);
-        resolve(false);
-      };
-
-      yesBtn.addEventListener('click', onYes);
-      noBtn.addEventListener('click', onNo);
-    });
-  },
-
   isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  },
-
-  vibrate(pattern) {
-    if (window.navigator && window.navigator.vibrate) {
-      window.navigator.vibrate(pattern);
-    }
-  },
-
-  playSound(type) {
-    if (!window.audioEnabled) return;
-    if (!window.audioContext) {
-      try {
-        window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      } catch (e) {
-        console.log('Web Audio API no soportada');
-        return;
-      }
-    }
-    const osc = window.audioContext.createOscillator();
-    const gainNode = window.audioContext.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = type === 'success' ? 800 : 400;
-    gainNode.gain.value = 0.1;
-    gainNode.gain.exponentialRampToValueAtTime(0.00001, window.audioContext.currentTime + 0.5);
-    osc.connect(gainNode);
-    gainNode.connect(window.audioContext.destination);
-    osc.start();
-    osc.stop(window.audioContext.currentTime + 0.2);
   }
 };
+
+console.log('✅ Utils.js cargado');
