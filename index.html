@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>RI5 · EDITION</title>
+  
+  <!-- MANIFEST -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RI5%22%2C%22short_name%22%3A%22RI5%22%2C%22description%22%3A%22Entrenamiento%20runner%20con%20zonas%2C%20planes%20y%20soporte%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23F5F2EB%22%2C%22theme_color%22%3A%22%23D4A373%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23F5F2EB%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%232C2C2C%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RI5">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23F5F2EB%22%2F%3E%3Ctext%20x%3D%2250%22%20y%3D%2268%22%20font-size%3D%2260%22%20text-anchor%3D%22middle%22%20fill%3D%22%232C2C2C%22%20font-family%3D%22Arial%22%3ERI5%3C%2Ftext%3E%3C%2Fsvg%3E">
+
+  <style>
+    /* ===== RESET Y VARIABLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #1C1C1E;
+      --bg-secondary: #2C2C2E;
+      --bg-card: #3A3A3C;
+      --text-primary: #F5F5F7;
+      --text-secondary: #E0E0E0;
+      --accent-red: #8B3A3A;
+      --accent-green: #2E6B4C;
+      --accent-blue: #4A5B6E;
+      --accent-yellow: #CC954D;
+      --accent-purple: #B87333;
+      --border-color: #4A4A4E;
+      --glow-color: rgba(184, 115, 51, 0.2);
+      --dot-color: rgba(142, 142, 147, 0.05);
+      --gold: #B59A6B;
+      --new-user-bg: rgba(46, 107, 76, 0.2);
+      --new-user-border: #2E6B4C;
+      --stat-bg: #2C2C2E;
+      --stat-number: #F5F5F7;
+      --pending-bg: #E6B800;
+      --pending-text: #1C1C1E;
+      --logout-red: #FF4136;
+      --warning-red: #FF4136;
+    }
+
+    body.manual-light {
+      --bg-primary: #F5F5F7 !important;
+      --bg-secondary: #E8E2D5 !important;
+      --bg-card: #FFFFFF !important;
+      --text-primary: #1C1C1E !important;
+      --text-secondary: #2C2C2E !important;
+      --accent-red: #C46D5E !important;
+      --accent-green: #7D8F69 !important;
+      --accent-blue: #5A6572 !important;
+      --accent-yellow: #D4A373 !important;
+      --accent-purple: #B76E3C !important;
+      --border-color: #D6D2C5 !important;
+      --gold: #C4A77D !important;
+      --stat-bg: #E8E2D5 !important;
+      --stat-number: #1C1C1E !important;
+      --pending-bg: #E6B800 !important;
+      --pending-text: #1C1C1E !important;
+      --logout-red: #C0392B !important;
+      --warning-red: #C0392B !important;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-radial-gradient(circle at 20px 20px, var(--dot-color) 2px, transparent 2px, transparent 10px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Courier New', 'Dot Matrix', monospace;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+    }
+
+    @keyframes softMove {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(5deg) brightness(1.05); }
+      100% { filter: hue-rotate(0deg) brightness(1); }
+    }
+
+    h1::after, h2::after {
+      content: "";
+      position: absolute;
+      bottom: -5px; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, var(--accent-yellow), var(--accent-purple), var(--accent-blue), var(--accent-yellow));
+      background-size: 300% 100%;
+      animation: softMove 8s linear infinite;
+    }
+
+    .wrapper {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    #loginPage.wrapper {
+      align-items: flex-start;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 540px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1), inset 0 0 10px var(--glow-color);
+      position: relative;
+      overflow: hidden;
+      margin: 20px 0;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      border-color: var(--accent-yellow);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-radial-gradient(circle at 20px 20px, var(--dot-color) 2px, transparent 2px, transparent 10px);
+      background-size: 30px 30px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .card.admin-card {
+      max-width: 800px;
+      max-height: none;
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+    }
+
+    /* ===== HEADER CON BOTÓN CERRAR SESIÓN Y SELECTOR DE TEMA ===== */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: relative;
+    }
+    .app-header h1 {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+      margin: 0;
+    }
+
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 40px;
+      color: var(--text-secondary);
+      font-size: 20px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 50px;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent-yellow);
+      color: var(--accent-yellow);
+    }
+
+    .logout-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .logout-button {
+      background: transparent;
+      border: 1px solid var(--logout-red);
+      border-radius: 40px;
+      color: var(--logout-red);
+      font-size: 14px;
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      width: auto;
+      min-width: 150px;
+      margin: 0 auto;
+    }
+    .logout-button:hover {
+      background: var(--logout-red);
+      color: var(--bg-primary);
+    }
+
+    /* ===== TABS DE LOGIN/REGISTRO ===== */
+    .auth-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 30px;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: 40px;
+      border: 1px solid var(--border-color);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: 'Courier New', 'Dot Matrix', monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 30px;
+    }
+    .auth-tab.active {
+      background: var(--accent-yellow);
+      color: var(--bg-primary);
+      box-shadow: inset 0 0 15px var(--glow-color);
+    }
+    .auth-form { display: none; animation: glyphIn 0.5s ease; }
+    .auth-form.active { display: block; }
+
+    .delete-account-btn {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      padding: 12px;
+      border-radius: 40px;
+      width: 100%;
+      margin-top: 20px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    .delete-account-btn:hover {
+      background: var(--accent-red);
+      color: var(--bg-primary);
+    }
+
+    /* ===== PESTAÑAS PRINCIPALES ===== */
+    .tabs-container { margin: 30px 0; }
+    .tabs-header {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 20px;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: 40px;
+      border: 1px solid var(--border-color);
+      align-items: center;
+    }
+    .tab-button {
+      flex: 1;
+      min-width: 70px;
+      max-width: 100px;
+      padding: 10px 4px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: 'Courier New', 'Dot Matrix', monospace;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      border-radius: 30px;
+      white-space: nowrap;
+      transition: color 0.3s ease, background 0.3s ease;
+      text-align: center;
+    }
+    .tab-button.active {
+      background: var(--accent-yellow);
+      color: var(--bg-primary);
+    }
+    .tab-content { display: none; animation: glyphIn 0.5s ease; }
+    .tab-content.active { display: block; }
+    @keyframes glyphIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== INPUTS, SELECTS Y TEXTAREAS ===== */
+    input, button, select, textarea {
+      width: 100%;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 40px;
+      color: var(--text-primary);
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    input:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    textarea {
+      border-radius: 24px;
+      resize: vertical;
+      min-height: 100px;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 15px rgba(90, 101, 114, 0.4);
+    }
+    input::placeholder, textarea::placeholder {
+      color: var(--text-secondary);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
+    }
+    input.error { border-color: var(--accent-red); }
+
+    /* ===== CAMPO DE CONTRASEÑA CON TEXTO MINIMALISTA ===== */
+    .password-wrapper {
+      position: relative;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .password-wrapper input {
+      margin-bottom: 0;
+      padding-right: 70px;
+      line-height: 1.5;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 14px;
+      user-select: none;
+      z-index: 2;
+      text-transform: lowercase;
+      letter-spacing: 1px;
+      background: var(--bg-secondary);
+      padding: 4px 8px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: auto;
+      line-height: 1;
+    }
+    .password-toggle:hover {
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+
+    .fecha-inicio-container {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+    .fecha-inicio-container label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-yellow);
+      font-family: 'Courier New', 'Dot Matrix', monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    #fechaInicio {
+      max-width: 300px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .button-main {
+      background: transparent;
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      width: auto;
+      min-width: 180px;
+      margin: 20px auto !important;
+      display: block;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .button-main::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(90, 101, 114, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    .button-main:hover::before { left: 100%; }
+    .button-main:hover { box-shadow: 0 0 25px rgba(90, 101, 114, 0.4); }
+    .button-main:disabled { 
+      opacity: 0.5; 
+      cursor: not-allowed; 
+      pointer-events: none;
+    }
+
+    /* ===== CURIOSIDAD ===== */
+    .curiosity {
+      margin: 30px 0;
+      padding: 30px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--accent-purple);
+      border-radius: 24px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .curiosity::before {
+      content: "";
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(183, 110, 60, 0.25) 0%, transparent 70%);
+      animation: pulse 4s linear infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 0.2; }
+      100% { transform: scale(1); opacity: 0.5; }
+    }
+    .curiosity span { font-size: 18px; line-height: 1.5; position: relative; z-index: 1; }
+    .curiosity small { display: block; color: var(--text-secondary); margin-top: 12px; font-size: 12px; }
+
+    /* ===== ZONAS DE ENTRENAMIENTO ===== */
+    .zone-card {
+      margin: 16px 0;
+      padding: 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+    .zone-card::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      transition: all 0.3s ease;
+    }
+    .zone-card:hover { transform: translateX(5px); border-color: var(--accent-yellow); }
+    .z1::after { background: var(--accent-blue); }
+    .z2::after { background: var(--accent-green); }
+    .z3::after { background: var(--accent-yellow); }
+    .z4::after { background: var(--accent-red); }
+    .z5::after { background: var(--accent-purple); }
+    .z6::after { background: var(--accent-blue); }
+
+    .zone-card .long {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      margin-top: 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+      text-align: center;
+    }
+    .zone-card.active .long {
+      max-height: 500px;
+      margin-top: 16px;
+    }
+    
+    .zone-card .long p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+    .zone-card .long strong {
+      color: var(--accent-yellow);
+      display: inline-block;
+      min-width: 80px;
+    }
+    .zone-card .long ul {
+      margin: 8px 0 8px 20px;
+      list-style-type: none;
+    }
+    .zone-card .long li {
+      margin: 4px 0;
+      position: relative;
+      padding-left: 20px;
+    }
+    .zone-card .long li::before {
+      content: "•";
+      color: var(--accent-green);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .pred-bar {
+      height: 40px;
+      border-radius: 40px;
+      margin: 8px 0;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    /* ===== CALENDARIO ===== */
+    #calendarioEntreno {
+      margin: 30px 0;
+      padding: 20px;
+      background: var(--bg-secondary);
+      border-radius: 24px;
+      width: 100%;
+    }
+    .calendar-grid-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .calendar-header {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 4px;
+      margin-bottom: 8px;
+      width: 100%;
+    }
+    .calendar-header div {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 5px 0;
+      white-space: nowrap;
+    }
+    #calendarioGrid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 4px;
+      width: 100%;
+    }
+    .calendario-dia {
+      aspect-ratio: 1 / 1;
+      padding: 4px 2px;
+      background: var(--bg-primary);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 11px;
+      width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .calendario-dia:hover {
+      border-color: var(--accent-blue);
+      transform: scale(1.05);
+      z-index: 5;
+      box-shadow: 0 0 12px rgba(90, 101, 114, 0.6);
+    }
+    .calendario-dia.realizado {
+      opacity: 0.7;
+      background: var(--accent-green);
+      color: var(--bg-primary);
+      border-color: var(--accent-green);
+    }
+    .calendario-dia.realizado::after {
+      content: "✓";
+      font-size: 14px;
+      font-weight: bold;
+      position: absolute;
+      top: 2px;
+      right: 2px;
+    }
+    .sesion-descanso { border-color: var(--border-color); background: var(--bg-secondary); }
+    .sesion-rodaje { border-color: var(--accent-blue); background: rgba(90, 101, 114, 0.1); }
+    .sesion-series { border-color: var(--accent-green); background: rgba(125, 143, 105, 0.1); }
+    .sesion-tempo { border-color: var(--accent-yellow); background: rgba(212, 163, 115, 0.1); }
+    .sesion-largo { border-color: var(--accent-red); background: rgba(196, 109, 94, 0.1); }
+
+    /* ===== BOTONES DE ACCIÓN ===== */
+    .action-button {
+      padding: 16px;
+      margin: 8px 0;
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 40px;
+      color: var(--text-primary);
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      text-align: center;
+    }
+    .action-button:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 20px rgba(90, 101, 114, 0.3);
+    }
+    .action-button:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .btn-copy { border-color: var(--accent-blue); }
+    .btn-save { border-color: var(--accent-green); }
+    .btn-delete { border-color: var(--accent-red); }
+    .btn-plan { border-color: var(--accent-yellow); }
+    .btn-view { border-color: var(--accent-purple); }
+
+    /* ===== BOTÓN COMPARTIR ===== */
+    .btn-share {
+      border-color: var(--accent-purple);
+      color: var(--accent-purple);
+      margin-top: 10px;
+    }
+    .btn-share:hover {
+      background: var(--accent-purple);
+      color: var(--bg-primary);
+    }
+
+    /* ===== HISTORIAL ===== */
+    .historial-controls {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .historial-controls label {
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+    .historial-controls select {
+      width: auto;
+      padding: 8px 12px;
+      margin: 0;
+      font-size: 12px;
+      background: var(--bg-primary);
+    }
+    .historial-list { display: flex; flex-direction: column; gap: 12px; }
+    .historial-item {
+      position: relative;
+      padding: 12px 12px 12px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 70px;
+    }
+    .historial-item:hover {
+      background: var(--bg-card);
+    }
+    .historial-item .fecha {
+      color: var(--accent-blue);
+      font-family: 'Courier New', 'Dot Matrix', monospace;
+      font-size: 14px;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+    .historial-item .resumen {
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-align: center;
+      word-break: break-word;
+    }
+    .historial-item .delete-icon {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: var(--accent-red);
+      font-size: 18px;
+      cursor: pointer;
+      width: auto;
+      padding: 5px;
+      margin: 0;
+      z-index: 5;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      line-height: 1;
+    }
+    .historial-item .delete-icon:hover {
+      opacity: 1;
+      color: var(--accent-red);
+    }
+    .historial-item .detalle {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      margin-top: 0;
+      color: var(--text-secondary);
+      font-size: 13px;
+      border-top: 1px solid transparent;
+      text-align: center;
+    }
+    .historial-item.abierto .detalle {
+      max-height: 400px;
+      margin-top: 12px;
+      border-top-color: var(--border-color);
+      padding-top: 12px;
+    }
+
+    /* ===== MENSAJES ===== */
+    .mensaje-item {
+      margin-bottom: 10px;
+      border-left: 4px solid var(--accent-blue);
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .mensaje-item .mensaje-header {
+      padding: 16px;
+      background: var(--bg-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      color: var(--accent-blue);
+      transition: background 0.2s;
+      flex-wrap: wrap;
+    }
+    .mensaje-item .mensaje-header:hover {
+      background: var(--bg-card);
+    }
+    .mensaje-item .mensaje-header span:first-child {
+      font-size: 14px;
+      flex: 1;
+      min-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .mensaje-item .mensaje-header .flecha {
+      font-size: 16px;
+      transition: transform 0.3s;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .delete-mensaje {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      border-radius: 40px;
+      color: var(--accent-red);
+      padding: 4px 8px;
+      font-size: 10px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .delete-mensaje:hover {
+      background: var(--accent-red);
+      color: var(--bg-primary);
+    }
+    .mensaje-item .mensaje-contenido {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 16px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.5;
+      background: var(--bg-secondary);
+    }
+    .mensaje-item.abierto .mensaje-contenido {
+      max-height: 200px;
+      padding: 16px;
+    }
+    .mensaje-item.abierto .flecha {
+      transform: rotate(180deg);
+    }
+    .mensaje-item.nuevo .mensaje-header {
+      border-left: 4px solid var(--accent-red);
+    }
+
+    .soporte-section {
+      margin-top: 30px;
+    }
+    .soporte-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: 40px;
+      border: 1px solid var(--border-color);
+    }
+    .soporte-tab {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: 'Courier New', 'Dot Matrix', monospace;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s;
+    }
+    .soporte-tab.active {
+      background: var(--accent-yellow);
+      color: var(--bg-primary);
+    }
+    .soporte-panel {
+      display: none;
+    }
+    .soporte-panel.active {
+      display: block;
+    }
+
+    /* ===== ADMIN PANEL ===== */
+    .admin-panel { margin: 30px 0; padding: 20px; background: var(--bg-secondary); border-radius: 24px; }
+
+    .admin-stats {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .stat-badge {
+      background: var(--stat-bg);
+      padding: 12px 24px;
+      border-radius: 40px;
+      border: 1px solid var(--border-color);
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .stat-badge:hover {
+      border-color: var(--accent-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(90,101,114,0.3);
+    }
+    .stat-badge .number {
+      color: var(--accent-blue);
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .stat-badge.pending {
+      background: var(--pending-bg);
+      color: var(--pending-text);
+      border-color: var(--pending-bg);
+    }
+    .stat-badge.pending .number {
+      color: var(--pending-text);
+    }
+
+    /* ===== MODALES ===== */
+    #confirmModal, #premiumModal, #welcomeModal, #emailUpdateModal, #resetModal {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-card);
+      border: 3px solid var(--accent-blue);
+      border-radius: 32px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      z-index: 30001;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+      text-align: center;
+    }
+    #confirmModal.active, #premiumModal.active, #welcomeModal.active, #emailUpdateModal.active, #resetModal.active {
+      display: block;
+    }
+    #confirmOverlay, #premiumOverlay, #welcomeOverlay, #emailUpdateOverlay, #resetOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      z-index: 30000;
+    }
+    #confirmOverlay.active, #premiumOverlay.active, #welcomeOverlay.active, #emailUpdateOverlay.active, #resetOverlay.active {
+      display: block;
+    }
+
+    /* ===== SELECCIÓN DE DÍAS ===== */
+    .dias-semana-label {
+      text-align: center;
+      color: var(--accent-yellow);
+      font-family: 'Courier New', 'Dot Matrix', monospace;
+      font-size: 14px;
+      margin: 10px 0 5px;
+    }
+    .dias-semana-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 5px 0 16px;
+      background: var(--bg-secondary);
+      padding: 12px;
+      border-radius: 40px;
+      border: 1px solid var(--border-color);
+    }
+    .dia-checkbox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 50px;
+    }
+    .dia-checkbox input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin: 0 0 4px 0;
+      accent-color: var(--accent-blue);
+    }
+    .dia-checkbox label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    /* ===== TÍTULO PREMIUM ===== */
+    .premium {
+      color: var(--gold) !important;
+      cursor: pointer;
+      transition: text-shadow 0.3s;
+    }
+    .premium:hover {
+      text-shadow: 0 0 10px var(--gold);
+    }
+
+    /* Overlay y modal de detalle de sesión */
+    #modalOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+    }
+    #modalOverlay.visible { display: block; }
+
+    #detalleSesion {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 500px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 24px;
+      padding: 0;
+      z-index: 10000;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    #detalleSesion.visible { display: block; }
+
+    #detalleSesion .modal-content {
+      padding: 30px 25px 30px;
+      position: relative;
+      background: var(--bg-card);
+      border-radius: 22px;
+      text-align: center;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    #detalleSesion .modal-content.sesion-descanso { border: 2px solid var(--border-color); }
+    #detalleSesion .modal-content.sesion-rodaje { border: 2px solid var(--accent-blue); }
+    #detalleSesion .modal-content.sesion-series { border: 2px solid var(--accent-green); }
+    #detalleSesion .modal-content.sesion-tempo { border: 2px solid var(--accent-yellow); }
+    #detalleSesion .modal-content.sesion-largo { border: 2px solid var(--accent-red); }
+
+    #tituloSesion {
+      margin: 0 0 15px;
+      color: var(--accent-blue);
+      font-size: 20px;
+      text-align: center;
+    }
+
+    #descripcionSesion {
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-size: 13px;
+      max-height: none;
+      overflow-y: visible;
+      padding-right: 0;
+      text-align: center;
+    }
+
+    .close-btn {
+      background: var(--accent-red);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    /* Checkbox en modal de sesión */
+    .sesion-checkbox {
+      margin: 20px 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .sesion-checkbox input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      accent-color: var(--accent-green);
+    }
+    .sesion-checkbox label {
+      color: var(--text-primary);
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* ===== BANNER PWA ===== */
+    #pwa-banner {
+      position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 400px; margin: 0 auto;
+      background: var(--bg-card); border: 2px solid var(--accent-blue); border-radius: 40px;
+      padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; z-index: 100000; box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      animation: slideUp 0.5s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    #pwa-banner span { color: var(--text-primary); font-size: 14px; flex: 1; }
+    #pwa-banner button {
+      width: auto; margin: 0; padding: 8px 16px; background: var(--accent-blue);
+      border: none; color: var(--bg-primary); font-weight: bold; cursor: pointer;
+    }
+    #pwa-banner button:hover { background: var(--accent-green); }
+    #pwa-banner .close-banner { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); }
+
+    /* ===== TOAST NOTIFICATIONS ===== */
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 300px;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 2px solid var(--accent-blue);
+      border-radius: 40px;
+      padding: 12px 20px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+      cursor: pointer;
+    }
+    .toast.success { border-color: var(--accent-green); }
+    .toast.error { border-color: var(--accent-red); }
+    .toast.warning { border-color: var(--accent-yellow); }
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0%); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(100%); }
+    }
+
+    /* ===== LOADING OVERLAY ===== */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 40000;
+      align-items: center;
+      justify-content: center;
+    }
+    #loadingOverlay.active { display: flex; }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--bg-secondary);
+      border-top-color: var(--accent-blue);
+      border-radius: 50%;
+      animation: spinner 0.8s linear infinite;
+    }
+    @keyframes spinner {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== ERRORES ===== */
+    .error-message {
+      color: var(--accent-red); font-size: 12px; margin-top: -10px; margin-bottom: 10px;
+      opacity: 0; transition: opacity 0.3s ease; text-align: center;
+    }
+    .error-message.visible { opacity: 1; }
+
+    .nota-plan {
+      color: var(--text-secondary); margin: 20px 0; padding: 20px;
+      background: var(--bg-primary);
+      border: 1px solid var(--accent-blue);
+      border-radius: 16px;
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    #results { margin-top: 30px; }
+    .footer {
+      margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color);
+      text-align: center; color: var(--text-secondary); font-size: 11px; letter-spacing: 1px;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 20px; }
+      .tabs-header { flex-wrap: wrap; height: auto; }
+      .tab-button { min-width: 60px; font-size: 11px; padding: 10px 2px; }
+      .calendario-dia { font-size: 9px; padding: 2px 1px; }
+      .calendario-dia div { font-size: 7px; }
+      #pwa-banner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- Confirm modal -->
+  <div id="confirmOverlay"></div>
+  <div id="confirmModal">
+    <h3>CONFIRMAR</h3>
+    <p id="confirmMessage">¿Estás seguro?</p>
+    <div class="confirm-buttons">
+      <button class="confirm-yes" id="confirmYes">SÍ</button>
+      <button class="confirm-no" id="confirmNo">NO</button>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Banner de expiración premium -->
+  <div id="premium-expiry-banner" style="display:none;">
+    <span id="expiry-message"></span>
+    <button onclick="window.contactarAdmin()">CONTACTAR</button>
+  </div>
+
+  <!-- BANNER PWA -->
+  <div id="pwa-banner" style="display:none;">
+    <span>📲 INSTALA RI5 EN TU MÓVIL</span>
+    <button onclick="window.instalarPWA()">INSTALAR</button>
+    <button class="close-banner" onclick="window.cerrarBannerPWA()">✕</button>
+  </div>
+
+  <!-- Overlay y modal de detalle de sesión -->
+  <div id="modalOverlay" class="modal-overlay" onclick="window.cerrarModalSesion()"></div>
+
+  <div id="detalleSesion">
+    <div class="modal-content" id="modalColorWrapper">
+      <h3 id="tituloSesion"></h3>
+      <div id="descripcionSesion"></div>
+      <div class="sesion-checkbox" id="sesionCheckboxContainer" style="display: none;">
+        <input type="checkbox" id="sesionRealizada">
+        <label for="sesionRealizada">✅ Marcar como realizada</label>
+      </div>
+      <button class="close-btn" onclick="window.cerrarModalSesion()">[ CERRAR ]</button>
+    </div>
+  </div>
+
+  <!-- OVERLAY Y MODAL PREMIUM -->
+  <div id="premiumOverlay" onclick="window.cerrarPremiumModal()"></div>
+  <div id="premiumModal">
+    <h2>✨ RI5 PREMIUM</h2>
+    <p>✔ Planes de entrenamiento de hasta 12 meses</p>
+    <p>✔ Prioridad en soporte</p>
+    <p>✔ Acceso a contenido exclusivo</p>
+    <p>✔ Historial ampliado hasta 25 entradas</p>
+    <p>✔ Y mucho más...</p>
+    <p>🔗 Para hacerte premium, contacta por Instagram <strong>@navegacionpro</strong></p>
+    <button onclick="window.cerrarPremiumModal()">CERRAR</button>
+  </div>
+
+  <!-- Modal de bienvenida -->
+  <div id="welcomeOverlay"></div>
+  <div id="welcomeModal">
+    <h2>✨ BIENVENIDO A RI5</h2>
+    <p>✔ Calcula tus zonas de entrenamiento con solo tu edad y tu marca en 6km.</p>
+    <p>✔ Crea planes personalizados (solo premium).</p>
+    <p>✔ Historial de cálculos.</p>
+    <p>✔ Soporte directo con el administrador.</p>
+    <p>✔ Muchas más funcionalidades.</p>
+    <p>🔗 Para más información, contacta por Instagram <strong>@navegacionpro</strong></p>
+    <button onclick="window.cerrarWelcomeModal()">ENTENDIDO</button>
+  </div>
+
+  <!-- Modal de actualización de email -->
+  <div id="emailUpdateOverlay"></div>
+  <div id="emailUpdateModal">
+    <h2>📧 ACTUALIZA TU CORREO</h2>
+    <p>Para poder recuperar tu contraseña en el futuro, necesitamos que introduzcas tu dirección de correo electrónico.</p>
+    <input type="email" id="emailUpdateInput" placeholder="> CORREO ELECTRÓNICO_">
+    <div class="error-message" id="emailUpdateError"></div>
+    <button onclick="window.guardarEmailActualizacion()">[ GUARDAR ]</button>
+    <button class="cancel-btn" onclick="window.cerrarEmailUpdateModal()">CANCELAR</button>
+  </div>
+
+  <!-- Modal de recuperación de contraseña -->
+  <div id="resetOverlay"></div>
+  <div id="resetModal">
+    <h2>🔐 RECUPERAR CONTRASEÑA</h2>
+    <p>Introduce tu nombre de usuario y el correo electrónico asociado. Si coinciden, se te proporcionará una nueva contraseña.</p>
+    <input type="text" id="resetUsername" placeholder="> USUARIO_">
+    <input type="email" id="resetEmail" placeholder="> CORREO ELECTRÓNICO_">
+    <div class="error-message" id="resetError"></div>
+    <button onclick="window.enviarResetPassword()">[ RECUPERAR ]</button>
+    <button class="cancel-btn" onclick="window.cerrarResetModal()">CANCELAR</button>
+  </div>
+
+  <!-- LOGIN PAGE -->
+  <div class="wrapper" id="loginPage">
+    <div class="card">
+      <h1>RI5</h1>
+      <p style="color: var(--text-secondary); margin:20px 0; text-align:center;">> SISTEMA DE ACCESO_</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="window.switchAuthTab('login')">[LOGIN]</button>
+        <button class="auth-tab" onclick="window.switchAuthTab('register')">[REGISTRO]</button>
+      </div>
+      <div id="loginForm" class="auth-form active">
+        <input type="text" id="loginUsername" placeholder="> USUARIO_">
+        <div class="password-wrapper">
+          <input type="password" id="loginPassword" placeholder="> CONTRASEÑA_">
+          <span class="password-toggle" onclick="window.togglePassword('loginPassword', this)">ver</span>
+        </div>
+        <div class="error-message" id="loginError"></div>
+        <button class="button-main" id="loginBtn" onclick="window.loginUser()">[ ACCEDER ]</button>
+        <button class="action-button" style="margin-top:10px; border-color: var(--accent-blue); color: var(--accent-blue);" onclick="window.abrirResetModal()">🔐 RECORDAR CONTRASEÑA</button>
+      </div>
+      <div id="registerForm" class="auth-form">
+        <input type="text" id="regUsername" placeholder="> NUEVO USUARIO_" oninput="window.validarRegistroEnTiempoReal()">
+        <input type="email" id="regEmail" placeholder="> CORREO ELECTRÓNICO_" oninput="window.validarRegistroEnTiempoReal()">
+        <div class="password-wrapper">
+          <input type="password" id="regPassword" placeholder="> NUEVA CONTRASEÑA_" oninput="window.validarRegistroEnTiempoReal()">
+          <span class="password-toggle" onclick="window.togglePassword('regPassword', this)">ver</span>
+        </div>
+        <div class="error-message" id="registerError"></div>
+        <button class="button-main" id="registerBtn" onclick="window.registerUser()">[ REGISTRARSE ]</button>
+        <button class="delete-account-btn" onclick="window.eliminarMiCuenta()">🗑️ ELIMINAR MI CUENTA</button>
+      </div>
+      <div id="dailyTip" class="curiosity" onclick="window.changeDailyTip()">
+        <span>> CONSEJO DEL DÍA_</span><small>// pulsa para nuevo consejo</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PAGE -->
+  <div class="wrapper" id="adminPage" style="display:none;">
+    <div class="card admin-card">
+      <div class="app-header">
+        <h1>RI5·ADMIN</h1>
+        <button class="theme-toggle" onclick="window.toggleTheme()" id="themeToggleAdmin" aria-label="Cambiar tema">🌓</button>
+      </div>
+      <p style="color: var(--accent-green); margin:20px 0; text-align:center;" id="adminWelcome"></p>
+      <div class="tabs-container">
+        <div class="tabs-header">
+          <button class="tab-button active" onclick="window.switchAdminTab('usuarios')">USUARIOS</button>
+          <button class="tab-button" onclick="window.switchAdminTab('soporte')" id="adminSoporteTab">SOPORTE</button>
+        </div>
+        <div id="admin-tab-usuarios" class="tab-content active">
+          <div class="admin-stats" id="adminStats"></div>
+          <button class="admin-btn admin-export-btn" onclick="window.exportarUsuariosCSV()" style="width:100%; margin:10px 0;">📥 EXPORTAR USUARIOS CSV</button>
+          <button class="admin-btn" onclick="window.renovarExpirados()" style="width:100%;">🔄 RENOVAR EXPIRADOS</button>
+        </div>
+        <div id="admin-tab-soporte" class="tab-content">
+          <h2>SOPORTE</h2>
+          <div class="soporte-section">
+            <div class="soporte-tabs">
+              <button class="soporte-tab active" onclick="window.cambiarAdminSoporteTab('recibidos')">📥 RECIBIDOS</button>
+              <button class="soporte-tab" onclick="window.cambiarAdminSoporteTab('enviados')">📤 ENVIADOS</button>
+            </div>
+            <div id="admin-soporte-recibidos" class="soporte-panel active">
+              <div id="listaMensajesRecibidosAdmin"></div>
+            </div>
+            <div id="admin-soporte-enviados" class="soporte-panel">
+              <div class="nuevo-mensaje" style="margin-bottom:20px;">
+                <select id="adminSelectorUsuarios" style="margin-bottom:10px;"></select>
+                <textarea id="adminMensaje" placeholder="> ESCRIBE TU MENSAJE..."></textarea>
+                <button class="send-message-btn" onclick="window.enviarMensajeAdmin()">📤 ENVIAR MENSAJE</button>
+              </div>
+              <div id="listaMensajesEnviadosAdmin"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="logout-container">
+        <button class="logout-button" onclick="window.logoutAdmin()">CERRAR SESIÓN</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="wrapper" id="mainContent" style="display:none;">
+    <div class="card">
+      <div class="app-header">
+        <h1 id="ri5Title" onclick="window.showPremiumBenefits()" role="button" tabindex="0" aria-label="Ver beneficios premium">RI5</h1>
+        <button class="theme-toggle" onclick="window.toggleTheme()" id="themeToggle" aria-label="Cambiar tema">🌓</button>
+      </div>
+      <p style="color: var(--text-secondary); margin:20px 0; text-align:center;" id="userWelcome"></p>
+      <div id="calculoCounter" class="calculo-limit-msg" style="display:none;"></div>
+      
+      <div class="tabs-container">
+        <div class="tabs-header" role="tablist">
+          <button class="tab-button active" onclick="window.switchTab('entreno')" role="tab" aria-selected="true">ENTRENO</button>
+          <button class="tab-button" onclick="window.switchTab('plan')" role="tab" aria-selected="false">PLAN</button>
+          <button class="tab-button" onclick="window.switchTab('historial')" role="tab" aria-selected="false">HISTORIAL</button>
+          <button class="tab-button" onclick="window.switchTab('soporte')" id="soporteTabButton" role="tab" aria-selected="false">SOPORTE</button>
+        </div>
+
+        <!-- TAB ENTRENO -->
+        <div id="tab-entreno" class="tab-content active" role="tabpanel">
+          <h2>> ZONAS DE ENTRENO_</h2>
+          <input id="name" placeholder="> NOMBRE_" readonly disabled><div class="error-message" id="nameError"></div>
+          <input id="age" type="number" min="14" max="85" placeholder="> EDAD_"><div class="error-message" id="ageError"></div>
+          <input id="time" placeholder="> 6km_ (MM:SS) · ÚLTIMA MARCA"><div class="error-message" id="timeError"></div>
+          <button class="button-main" id="calcBtn" disabled onclick="window.startCalc()">[ CALCULAR ]</button>
+          <div class="curiosity" id="curiosity" onclick="window.changeConsejo()"><span>> CONSEJO_</span><small>// pulsa para nuevo consejo</small></div>
+          <div id="results"></div>
+        </div>
+
+        <!-- TAB PLAN -->
+        <div id="tab-plan" class="tab-content" role="tabpanel">
+          <h2>> CREADOR DE PLANES_</h2>
+          <button class="action-button btn-plan" onclick="window.toggleCuestionario()" id="nuevoPlanBtn">+ NUEVO PLAN</button>
+          <button class="action-button btn-view" onclick="window.mostrarUltimoPlanGuardado()" id="cargarPlanBtn">📂 CARGAR ÚLTIMO PLAN</button>
+          <button class="action-button btn-delete" onclick="window.borrarPlanGuardado()" id="borrarPlanBtn">🗑️ ELIMINAR PLAN</button>
+          
+          <div id="cuestionarioEntreno" style="display:none;">
+            <h3>> CONFIGURACIÓN_</h3>
+            <select id="modalidad">
+              <option value="runner">RUNNER (asfalto)</option>
+              <option value="trail">TRAIL (montaña)</option>
+            </select>
+
+            <select id="distObjetivo">
+              <option value="2k">2 km</option>
+              <option value="5k">5 km</option>
+              <option value="10k">10 km</option>
+              <option value="medio">MEDIA MARATÓN</option>
+              <option value="maraton" selected>MARATÓN</option>
+            </select>
+
+            <select id="duracionPlan">
+              <option value="1">1 MES</option>
+              <option value="3">3 MESES</option>
+              <option value="12">12 MESES (anual)</option>
+            </select>
+
+            <div class="dias-semana-label">📅 DÍAS QUE ENTRENAS A LA SEMANA</div>
+            <div class="dias-semana-container" id="diasSemanaContainer"></div>
+
+            <select id="nivel">
+              <option value="principiante">PRINCIPIANTE</option>
+              <option value="intermedio" selected>INTERMEDIO</option>
+              <option value="avanzado">AVANZADO</option>
+            </select>
+
+            <select id="experienciaDistancia">
+              <option value="si">CON EXPERIENCIA</option>
+              <option value="no" selected>PRIMERA VEZ</option>
+            </select>
+
+            <select id="objetivoPrincipal">
+              <option value="acabar">TERMINAR</option>
+              <option value="mejorar" selected>MEJORAR TIEMPO</option>
+              <option value="competir">COMPETIR</option>
+            </select>
+
+            <select id="diaLargo">
+              <option value="1">LUNES (tirada larga)</option>
+              <option value="2">MARTES (tirada larga)</option>
+              <option value="3">MIÉRCOLES (tirada larga)</option>
+              <option value="4">JUEVES (tirada larga)</option>
+              <option value="5">VIERNES (tirada larga)</option>
+              <option value="6">SÁBADO (tirada larga)</option>
+              <option value="7" selected>DOMINGO (tirada larga)</option>
+            </select>
+
+            <div class="fecha-inicio-container">
+              <label for="fechaInicio">📅 FECHA DE INICIO DEL PLAN</label>
+              <input type="date" id="fechaInicio" min="2025-01-01" max="2026-12-31">
+            </div>
+
+            <button class="action-button btn-save" onclick="window.generarCalendarioEntreno()" style="margin-top:16px;" id="generarPlanBtn">[ GENERAR PLAN ]</button>
+            <button class="action-button btn-delete" onclick="window.toggleCuestionario()">[ CANCELAR ]</button>
+          </div>
+
+          <div id="calendarioEntreno" style="display:none;">
+            <h3>> TU PLAN_</h3>
+            <div class="nota-plan">
+              <p><strong>📌 Plan de entrenamiento personalizado</strong></p>
+              <p>Este plan está generado en base a tu perfil y objetivos.</p>
+            </div>
+            <p id="resumenObjetivo" style="color: var(--accent-blue); margin:20px 0; text-align:center;"></p>
+            <div class="calendar-grid-container">
+              <div class="calendar-header"><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div><div>DOM</div></div>
+              <div id="calendarioGrid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB HISTORIAL -->
+        <div id="tab-historial" class="tab-content" role="tabpanel">
+          <h2>> HISTORIAL_</h2>
+          <div class="historial-controls">
+            <label for="historialLimit">Mostrar:</label>
+            <select id="historialLimit" onchange="window.cargarHistorial()">
+              <option value="10">10 entradas</option>
+              <option value="25">25 entradas</option>
+            </select>
+          </div>
+          <div id="historialContainer"></div>
+          <button class="action-button btn-delete" onclick="window.borrarHistorial()" style="margin-top:16px;">🗑️ LIMPIAR TODO EL HISTORIAL</button>
+        </div>
+
+        <!-- TAB SOPORTE -->
+        <div id="tab-soporte" class="tab-content" role="tabpanel">
+          <h2>> SOPORTE_</h2>
+          <div class="soporte-section">
+            <div class="soporte-tabs">
+              <button class="soporte-tab active" onclick="window.cambiarSoporteTab('recibidos')">📥 RECIBIDOS</button>
+              <button class="soporte-tab" onclick="window.cambiarSoporteTab('enviados')">📤 ENVIADOS</button>
+            </div>
+            <div id="soporte-recibidos" class="soporte-panel active">
+              <h3>Mensajes del administrador</h3>
+              <div id="listaMensajesRecibidos"></div>
+            </div>
+            <div id="soporte-enviados" class="soporte-panel">
+              <h3>Tus mensajes al admin</h3>
+              <div class="nuevo-mensaje">
+                <textarea id="mensajeUsuario" placeholder="> ESCRIBE TU CONSULTA..."></textarea>
+                <button class="send-message-btn" onclick="window.enviarMensajeUsuario()">📤 ENVIAR MENSAJE</button>
+              </div>
+              <div id="listaMensajesEnviados" style="margin-top:20px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer" id="footer"></div>
+      
+      <div class="logout-container">
+        <button class="logout-button" onclick="window.logoutUser()">CERRAR SESIÓN</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ==================== UTILS ====================
+      const Utils = {
+        parseTime(t) { 
+          t = t.trim(); 
+          if(!t) return NaN; 
+          const m = t.match(/^(\d{1,3}):?(\d{0,2})$/); 
+          if(!m) return NaN; 
+          const min = parseInt(m[1]), seg = m[2]?parseInt(m[2]):0; 
+          if(seg>59||min>120||min<10) return NaN; 
+          return min + seg/60; 
+        },
+        formatR(r) { 
+          if(!isFinite(r)||r<=0) return "--:--"; 
+          let m = Math.floor(r), s = Math.round((r-m)*60); 
+          if(s===60){ m++; s=0; } 
+          return m+":"+(s<10?'0':'')+s; 
+        },
+        showLoading() { document.getElementById('loadingOverlay').classList.add('active'); },
+        hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); },
+        showToast(message, type = 'info', duration = 3000) {
+          const container = document.getElementById('toast-container');
+          const toast = document.createElement('div');
+          toast.className = `toast ${type}`;
+          toast.textContent = message;
+          toast.onclick = () => toast.remove();
+          container.appendChild(toast);
+          setTimeout(() => toast.remove(), duration);
+        },
+        confirm(title, message) {
+          return new Promise((resolve) => {
+            const overlay = document.getElementById('confirmOverlay');
+            const modal = document.getElementById('confirmModal');
+            const msgEl = document.getElementById('confirmMessage');
+            const yesBtn = document.getElementById('confirmYes');
+            const noBtn = document.getElementById('confirmNo');
+
+            msgEl.textContent = message;
+            overlay.classList.add('active');
+            modal.classList.add('active');
+
+            const onYes = () => {
+              overlay.classList.remove('active');
+              modal.classList.remove('active');
+              yesBtn.removeEventListener('click', onYes);
+              noBtn.removeEventListener('click', onNo);
+              resolve(true);
+            };
+            const onNo = () => {
+              overlay.classList.remove('active');
+              modal.classList.remove('active');
+              yesBtn.removeEventListener('click', onYes);
+              noBtn.removeEventListener('click', onNo);
+              resolve(false);
+            };
+
+            yesBtn.addEventListener('click', onYes);
+            noBtn.addEventListener('click', onNo);
+          });
+        },
+        hashPassword(str) { return btoa(str + "_RI5_SALT"); },
+        isValidEmail(email) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        },
+        vibrate(pattern) {
+          if (window.navigator && window.navigator.vibrate) {
+            window.navigator.vibrate(pattern);
+          }
+        }
+      };
+
+      // ==================== MÓDULO STORAGE ====================
+      const Storage = {
+        getUsers() { return JSON.parse(localStorage.getItem('ri5_users') || '{}'); },
+        saveUsers(u) { localStorage.setItem('ri5_users', JSON.stringify(u)); },
+        getHistorial(u) { 
+          if(!u) return []; 
+          return JSON.parse(localStorage.getItem(`historial_${u}`) || '[]'); 
+        },
+        saveHistorial(u, h) { 
+          if(!u) return; 
+          localStorage.setItem(`historial_${u}`, JSON.stringify(h)); 
+        },
+        getUltimoCalculo(u) { 
+          if(!u) return null; 
+          return JSON.parse(localStorage.getItem(`ultimoCalculo_${u}`) || 'null'); 
+        },
+        setUltimoCalculo(u, c) { 
+          if(!u) return; 
+          localStorage.setItem(`ultimoCalculo_${u}`, JSON.stringify(c)); 
+        },
+        getMensajes() { return JSON.parse(localStorage.getItem('ri5_mensajes') || '{}'); },
+        saveMensajes(m) { localStorage.setItem('ri5_mensajes', JSON.stringify(m)); },
+        getMensajesUsuario(u) {
+          const todos = this.getMensajes();
+          return todos[u] || [];
+        },
+        marcarLeido(u, index) {
+          const todos = this.getMensajes();
+          if (todos[u] && todos[u][index]) {
+            todos[u][index].leido = true;
+            this.saveMensajes(todos);
+          }
+        },
+        enviarMensajeUsuario(usuario, texto) {
+          const mensajes = this.getMensajes();
+          const adminKey = "admin_" + usuario;
+          if (!mensajes[adminKey]) mensajes[adminKey] = [];
+          mensajes[adminKey].push({
+            fecha: new Date().toLocaleString(),
+            texto: texto,
+            leido: false,
+            esUsuario: true
+          });
+          this.saveMensajes(mensajes);
+        },
+        enviarMensajeAdminAUsuario(usuario, texto) {
+          const mensajes = this.getMensajes();
+          if (!mensajes[usuario]) mensajes[usuario] = [];
+          mensajes[usuario].push({
+            fecha: new Date().toLocaleString(),
+            texto: texto,
+            leido: false,
+            esAdmin: true
+          });
+          this.saveMensajes(mensajes);
+        },
+        getMensajesEnviadosUsuario(u) {
+          const todos = this.getMensajes();
+          const adminKey = "admin_" + u;
+          return todos[adminKey] || [];
+        },
+        getMensajesRecibidosAdmin() {
+          const todos = this.getMensajes();
+          const recibidos = [];
+          Object.keys(todos).forEach(key => {
+            if (key.startsWith('admin_')) {
+              const usuario = key.replace('admin_', '');
+              todos[key].forEach((msg, idx) => {
+                recibidos.push({
+                  usuario: usuario,
+                  mensaje: msg,
+                  idx: idx,
+                  key: key
+                });
+              });
+            }
+          });
+          return recibidos;
+        },
+        getMensajesEnviadosAdmin() {
+          const todos = this.getMensajes();
+          const enviados = [];
+          Object.keys(todos).forEach(key => {
+            if (!key.startsWith('admin_')) {
+              todos[key].forEach((msg, idx) => {
+                if (msg.esAdmin) {
+                  enviados.push({
+                    usuario: key,
+                    mensaje: msg,
+                    idx: idx,
+                    key: key
+                  });
+                }
+              });
+            }
+          });
+          return enviados;
+        },
+        borrarMensajeUsuario(u, i) {
+          const todos = this.getMensajes();
+          if (todos[u] && todos[u][i]) {
+            todos[u].splice(i, 1);
+            if (todos[u].length === 0) delete todos[u];
+            this.saveMensajes(todos);
+          }
+        },
+        borrarMensaje(key, idx) {
+          const todos = this.getMensajes();
+          if (todos[key] && todos[key][idx]) {
+            todos[key].splice(idx, 1);
+            if (todos[key].length === 0) delete todos[key];
+            this.saveMensajes(todos);
+          }
+        }
+      };
+
+      // ==================== ESTADO GLOBAL ====================
+      const AppState = {
+        zonasCalculadas: false, lastName: "", lastAge: 0, lastFC: 0, lastUL: 0,
+        lastZones: [], lastPred: [], lastRitmoBase: 0,
+        camposTocados: { name: false, age: false, time: false },
+        currentUser: null, currentSesionDetalle: null, deferredPrompt: null,
+        mensajesNoLeidos: 0,
+        mensajesNoLeidosAdmin: 0,
+        isPremium: false,
+        premiumExpiryDate: null,
+        calculosMes: 0,
+        mesActual: '',
+        setLastCalc(d) { 
+          this.lastName=d.name; this.lastAge=d.age; this.lastFC=d.fcMax; 
+          this.lastUL=d.ul; this.lastZones=d.zones; this.lastPred=d.pred; 
+          this.lastRitmoBase=d.ritmoBase; this.zonasCalculadas=true; 
+        },
+        clearLastCalc() { 
+          this.zonasCalculadas=false; this.lastName=""; this.lastAge=0; 
+          this.lastFC=0; this.lastUL=0; this.lastZones=[]; this.lastPred=[]; 
+          this.lastRitmoBase=0; 
+        },
+        setCurrentUser(u, premium=false, expiryDate=null, calculosMes=0, mesActual='') {
+          this.currentUser = u; 
+          this.isPremium = premium; 
+          this.premiumExpiryDate = expiryDate; 
+          this.calculosMes = calculosMes; 
+          this.mesActual = mesActual;
+          u ? localStorage.setItem('ri5_current_user', u) : localStorage.removeItem('ri5_current_user');
+          if(u) {
+            localStorage.setItem('ri5_premium', premium ? 'true' : 'false');
+          } else {
+            localStorage.removeItem('ri5_premium');
+          }
+          const t = document.getElementById('ri5Title'); 
+          if(t){ if(premium) t.classList.add('premium'); else t.classList.remove('premium'); }
+          if(u) {
+            const nameField = document.getElementById('name');
+            if(nameField) nameField.value = u;
+          }
+        }
+      };
+
+      // ==================== FUNCIÓN PARA MOSTRAR/OCULTAR CONTRASEÑA ====================
+      window.togglePassword = function(inputId, element) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          element.textContent = 'ocultar';
+        } else {
+          input.type = 'password';
+          element.textContent = 'ver';
+        }
+      };
+
+      // ==================== VALIDACIÓN EN TIEMPO REAL REGISTRO ====================
+      window.validarRegistroEnTiempoReal = function() {
+        const u = document.getElementById('regUsername').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const p = document.getElementById('regPassword').value.trim();
+        const err = document.getElementById('registerError');
+        let mensaje = '';
+        if (u && (u.length < 3 || !/^[a-zA-Z0-9_]+$/.test(u))) {
+          mensaje = '> Usuario: mínimo 3 caracteres, solo letras, números y _';
+        } else if (email && !Utils.isValidEmail(email)) {
+          mensaje = '> Correo electrónico no válido';
+        } else if (p && p.length < 4) {
+          mensaje = '> Contraseña: mínimo 4 caracteres';
+        }
+        if (mensaje) {
+          err.innerText = mensaje;
+          err.classList.add('visible');
+        } else {
+          err.classList.remove('visible');
+        }
+      };
+
+      // ==================== MÓDULO AUTENTICACIÓN ====================
+      const Auth = {
+        switchAuthTab(tab) { 
+          document.querySelectorAll('.auth-tab').forEach(b=>b.classList.remove('active')); 
+          document.querySelectorAll('.auth-form').forEach(f=>f.classList.remove('active')); 
+          if(tab==='login'){ 
+            document.querySelector('.auth-tab').classList.add('active'); 
+            document.getElementById('loginForm').classList.add('active'); 
+          }else{ 
+            document.querySelectorAll('.auth-tab')[1].classList.add('active'); 
+            document.getElementById('registerForm').classList.add('active'); 
+          } 
+        },
+        registerUser() {
+          const u = document.getElementById('regUsername').value.trim();
+          const email = document.getElementById('regEmail').value.trim();
+          const p = document.getElementById('regPassword').value.trim();
+          const err = document.getElementById('registerError');
+          
+          if(!u || !email || !p) { 
+            err.innerText="> COMPLETA TODOS LOS CAMPOS_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          if(u.length<3) { 
+            err.innerText="> MÍNIMO 3 CARACTERES_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          if(p.length<4) { 
+            err.innerText="> MÍNIMO 4 CARACTERES_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          if(!Utils.isValidEmail(email)) { 
+            err.innerText="> CORREO ELECTRÓNICO NO VÁLIDO_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          if(!/^[a-zA-Z0-9_]+$/.test(u)) {
+            err.innerText="> SOLO LETRAS, NÚMEROS Y GUION BAJO_";
+            err.classList.add('visible');
+            return;
+          }
+          
+          const users = Storage.getUsers();
+          if(users[u]) {
+            err.innerText="> EL USUARIO YA EXISTE_";
+            err.classList.add('visible');
+            return;
+          }
+          
+          const expiry = new Date(); 
+          expiry.setMonth(expiry.getMonth()+1);
+          const ahora = new Date();
+          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          
+          users[u] = { 
+            password: Utils.hashPassword(p), 
+            email: email,
+            created: new Date().toISOString(), 
+            expires: expiry.toISOString(), 
+            premium: true,
+            calculosMes: 0,
+            mesActual: mesActual,
+            welcomeSeen: false,
+            adminNotified: false
+          };
+          Storage.saveUsers(users);
+          Storage.enviarMensajeAdminAUsuario(u, "¡Bienvenido a RI5! Disfruta de 1 mes premium.");
+          AppState.setCurrentUser(u, true, expiry.toISOString(), 0, mesActual);
+          Utils.showToast('✅ Registro exitoso', 'success');
+          
+          document.getElementById("loginPage").style.opacity="0";
+          setTimeout(()=>{
+            document.getElementById("loginPage").style.display="none";
+            document.getElementById("mainContent").style.display="flex";
+            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${email}) · PREMIUM HASTA ${expiry.toLocaleDateString()}`;
+            UI.changeDailyTip(); 
+            UI.startConsejoAutoChange();
+          },300);
+        },
+        loginUser() {
+          const u = document.getElementById('loginUsername').value.trim();
+          const p = document.getElementById('loginPassword').value.trim();
+          const err = document.getElementById('loginError');
+          
+          if(!u || !p) { 
+            err.innerText="> INTRODUCE USUARIO Y CONTRASEÑA_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          
+          // Admin especial
+          if(u === 'admin' && p === '091118110485120385') { 
+            Auth.mostrarAdminPanel(); 
+            return; 
+          }
+          
+          const users = Storage.getUsers();
+          const user = users[u];
+          
+          if(!user || user.password !== Utils.hashPassword(p)) { 
+            err.innerText="> USUARIO O CONTRASEÑA INCORRECTOS_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          
+          const now = new Date(), expiry = new Date(user.expires);
+          if(now > expiry) { 
+            err.innerText="> ACCESO EXPIRADO_"; 
+            err.classList.add('visible'); 
+            return; 
+          }
+          
+          const ahora = new Date();
+          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          let calculosMes = user.calculosMes || 0;
+          let mesActualUsuario = user.mesActual || '';
+          
+          if(mesActualUsuario !== mesActual) {
+            calculosMes = 0;
+            mesActualUsuario = mesActual;
+            users[u].calculosMes = 0;
+            users[u].mesActual = mesActual;
+            Storage.saveUsers(users);
+          }
+          
+          AppState.setCurrentUser(u, user.premium||false, user.expires, calculosMes, mesActualUsuario);
+          
+          const msgs = Storage.getMensajesUsuario(u);
+          AppState.mensajesNoLeidos = msgs.filter(m=>!m.leido).length;
+          UI.actualizarBadgeMensajes();
+          
+          Utils.showToast(`✅ Bienvenido, ${u}`, 'success');
+          document.getElementById("loginPage").style.opacity="0";
+          setTimeout(()=>{
+            document.getElementById("loginPage").style.display="none";
+            document.getElementById("mainContent").style.display="flex";
+            document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${u.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+            UI.changeDailyTip(); 
+            UI.startConsejoAutoChange();
+            UI.cargarMensajesRecibidos();
+            UI.cargarMensajesEnviados();
+          },300);
+        },
+        mostrarAdminPanel() { 
+          document.getElementById("loginPage").style.display="none"; 
+          document.getElementById("mainContent").style.display="none"; 
+          document.getElementById("adminPage").style.display="flex"; 
+          Admin.actualizarAdminPanel(); 
+        },
+        logoutUser() { 
+          Utils.confirm('CERRAR SESIÓN', '> ¿CERRAR SESIÓN?_').then(ok => {
+            if(!ok) return;
+            AppState.setCurrentUser(null); 
+            document.getElementById("mainContent").style.display="none"; 
+            document.getElementById("loginPage").style.display="flex"; 
+            document.getElementById("loginUsername").value=''; 
+            document.getElementById("loginPassword").value=''; 
+            document.getElementById("results").innerHTML=''; 
+            document.getElementById("calendarioEntreno").style.display="none"; 
+            AppState.clearLastCalc();
+          });
+        },
+        logoutAdmin() { 
+          document.getElementById("adminPage").style.display="none"; 
+          document.getElementById("loginPage").style.display="flex";
+        },
+        checkSavedSession() {
+          const s = localStorage.getItem('ri5_current_user'); 
+          if(!s) return false;
+          
+          const savedPremium = localStorage.getItem('ri5_premium') === 'true';
+          if(savedPremium) {
+            const t = document.getElementById('ri5Title');
+            if(t) t.classList.add('premium');
+          }
+          
+          const users = Storage.getUsers(); 
+          const user = users[s];
+          if(!user) { 
+            localStorage.removeItem('ri5_current_user'); 
+            localStorage.removeItem('ri5_premium'); 
+            return false; 
+          }
+          
+          const now = new Date(), expiry = new Date(user.expires);
+          if(now > expiry && !user.premium) { 
+            localStorage.removeItem('ri5_current_user'); 
+            localStorage.removeItem('ri5_premium'); 
+            return false; 
+          }
+          
+          const ahora = new Date();
+          const mesActual = `${ahora.getFullYear()}-${ahora.getMonth()+1}`;
+          let calculosMes = user.calculosMes || 0;
+          let mesActualUsuario = user.mesActual || '';
+          
+          if(mesActualUsuario !== mesActual) {
+            calculosMes = 0;
+            mesActualUsuario = mesActual;
+            users[s].calculosMes = 0;
+            users[s].mesActual = mesActual;
+            Storage.saveUsers(users);
+          }
+          
+          AppState.currentUser = s; 
+          AppState.isPremium = user.premium||false;
+          AppState.premiumExpiryDate = user.expires;
+          AppState.calculosMes = calculosMes;
+          AppState.mesActual = mesActualUsuario;
+          
+          document.getElementById("loginPage").style.display="none";
+          document.getElementById("mainContent").style.display="flex";
+          document.getElementById("userWelcome").innerText = `> BIENVENIDO, ${s.toUpperCase()} (${user.email}) · ${user.premium?'PREMIUM':'ACCESO'} HASTA ${expiry.toLocaleDateString()}`;
+          
+          const nameField = document.getElementById('name');
+          if(nameField) nameField.value = s;
+          
+          UI.changeDailyTip(); 
+          UI.startConsejoAutoChange();
+          
+          const calc = Storage.getUltimoCalculo(s); 
+          if(calc) { 
+            AppState.setLastCalc(calc); 
+            UI.mostrarResultadosGuardados(calc); 
+          }
+          
+          return true;
+        },
+        showPremiumBenefits() { 
+          document.getElementById('premiumOverlay').classList.add('active');
+          document.getElementById('premiumModal').classList.add('active');
+        }
+      };
+
+      // ==================== MÓDULO ADMIN ====================
+      const Admin = {
+        actualizarAdminPanel() {
+          const users = Storage.getUsers();
+          const ahora = new Date(), total = Object.keys(users).length;
+          const activos = Object.values(users).filter(u=>new Date(u.expires)>ahora).length, expirados = total-activos;
+          
+          document.getElementById("adminStats").innerHTML = `
+            <span class="stat-badge">📊 TOTAL <span class="number">${total}</span></span>
+            <span class="stat-badge">✅ ACTIVOS <span class="number">${activos}</span></span>
+            <span class="stat-badge">⏳ EXPIRADOS <span class="number">${expirados}</span></span>
+          `;
+          document.getElementById("adminWelcome").innerText = `> ADMIN · ${ahora.toLocaleString()}`;
+          this.cargarSelectorUsuarios();
+          this.cargarMensajesAdmin();
+        },
+        cargarMensajesAdmin() {
+          const recibidos = Storage.getMensajesRecibidosAdmin();
+          let htmlRec='';
+          recibidos.forEach(item=>{
+            htmlRec+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📨 ${item.mensaje.fecha} · ${item.usuario}</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido">${item.mensaje.texto}</div></div>`;
+          });
+          document.getElementById('listaMensajesRecibidosAdmin').innerHTML = htmlRec || '<p>📭 NO HAY MENSAJES</p>';
+          
+          const enviados = Storage.getMensajesEnviadosAdmin();
+          let htmlEnv='';
+          enviados.forEach(item=>{
+            htmlEnv+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${item.mensaje.fecha} · <strong style="color:var(--accent-green);">👤 ${item.usuario}</strong></span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeAdmin('${item.key}',${item.idx})">🗑️</button></div><div class="mensaje-contenido"><div style="margin-bottom:8px;color:var(--accent-green);"><strong>Para: ${item.usuario}</strong></div>${item.mensaje.texto}</div></div>`;
+          });
+          document.getElementById('listaMensajesEnviadosAdmin').innerHTML = htmlEnv || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
+        },
+        cargarSelectorUsuarios() {
+          const users = Storage.getUsers();
+          const select = document.getElementById('adminSelectorUsuarios');
+          let options = '<option value="todos">📢 TODOS LOS USUARIOS</option>';
+          Object.keys(users).sort().forEach(u => {
+            options += `<option value="${u}">${u}</option>`;
+          });
+          select.innerHTML = options;
+        },
+        enviarMensajeAdmin() {
+          const select = document.getElementById('adminSelectorUsuarios');
+          const destino = select.value;
+          const texto = document.getElementById('adminMensaje').value.trim();
+          if(!texto) return Utils.showToast('> ESCRIBE UN MENSAJE', 'error');
+          
+          if(destino === 'todos') {
+            const users = Storage.getUsers();
+            for(let usuario of Object.keys(users)) {
+              Storage.enviarMensajeAdminAUsuario(usuario, texto);
+            }
+            Utils.showToast('✅ MENSAJE ENVIADO A TODOS LOS USUARIOS', 'success');
+          } else {
+            Storage.enviarMensajeAdminAUsuario(destino, texto);
+            Utils.showToast(`✅ MENSAJE ENVIADO A ${destino}`, 'success');
+          }
+          document.getElementById('adminMensaje').value = '';
+          this.cargarMensajesAdmin();
+        },
+        renovarExpirados() {
+          Utils.confirm('RENOVAR EXPIRADOS', "> ¿RENOVAR TODOS LOS EXPIRADOS POR 1 MES?").then(confirmed => {
+            if(!confirmed) return;
+            const users = Storage.getUsers(), ahora=new Date();
+            Object.entries(users).forEach(([u,d])=>{ if(new Date(d.expires)<=ahora){ const e=new Date(d.expires); e.setMonth(e.getMonth()+1); users[u].expires=e.toISOString(); } });
+            Storage.saveUsers(users); this.actualizarAdminPanel(); Utils.showToast("✅ EXPIRADOS RENOVADOS", 'success');
+          });
+        },
+        exportarUsuariosCSV() { 
+          const u = Storage.getUsers(); 
+          let csv="Usuario,Creado,Expira,Premium,Estado,Cálculos Mes,Email\n"; 
+          Object.entries(u).forEach(([u,d])=>csv+=`${u},${new Date(d.created).toLocaleDateString()},${new Date(d.expires).toLocaleDateString()},${d.premium?'SI':'NO'},${new Date()<=new Date(d.expires)?'ACTIVO':'EXPIRADO'},${d.calculosMes||0},${d.email||''}\n`); 
+          const b=new Blob([csv],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`usuarios_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(a.href); 
+        },
+        cambiarSoporteTab(tab) { 
+          document.querySelectorAll('#admin-tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); 
+          document.querySelectorAll('#admin-tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); 
+          if(tab==='recibidos'){ 
+            document.querySelectorAll('#admin-tab-soporte .soporte-tab')[0].classList.add('active'); 
+            document.getElementById('admin-soporte-recibidos').classList.add('active'); 
+          }else{ 
+            document.querySelectorAll('#admin-tab-soporte .soporte-tab')[1].classList.add('active'); 
+            document.getElementById('admin-soporte-enviados').classList.add('active'); 
+          } 
+        }
+      };
+
+      window.switchAdminTab = function(tab) {
+        document.querySelectorAll('#adminPage .tab-button').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('#adminPage .tab-content').forEach(c=>c.classList.remove('active'));
+        if(tab==='usuarios'){ 
+          document.querySelectorAll('#adminPage .tab-button')[0].classList.add('active'); 
+          document.getElementById('admin-tab-usuarios').classList.add('active'); 
+        } else { 
+          document.querySelectorAll('#adminPage .tab-button')[1].classList.add('active'); 
+          document.getElementById('admin-tab-soporte').classList.add('active'); 
+          Admin.cargarSelectorUsuarios(); 
+          Admin.cargarMensajesAdmin(); 
+        }
+      };
+      window.cambiarAdminSoporteTab = (tab)=>Admin.cambiarSoporteTab(tab);
+      window.borrarMensajeAdmin = (k,i)=>Storage.borrarMensaje(k,i).then(()=>Admin.cargarMensajesAdmin());
+
+      // ==================== MÓDULO ENTRENAMIENTO ====================
+      const Training = {
+        startCalc() { 
+          UI.validarTodo(); 
+          if(document.getElementById("calcBtn").disabled) return; 
+          
+          const n=AppState.currentUser;
+          const a=parseInt(document.getElementById("age").value), t=Utils.parseTime(document.getElementById("time").value);
+          if(!n||!a||isNaN(t)) { Utils.showToast("> COMPLETA TODOS LOS CAMPOS CORRECTAMENTE_", 'error'); return; }
+          const r=t/6, fc=220-a, ul=Math.round(fc*0.92*1.03);
+          const pred=[{dist:2,color:"var(--accent-blue)",ritmo:r*0.98},{dist:6,color:"var(--accent-green)",ritmo:r},{dist:10,color:"var(--accent-yellow)",ritmo:r*1.05},{dist:21,color:"var(--accent-red)",ritmo:r*1.12},{dist:42,color:"var(--accent-purple)",ritmo:r*1.20}];
+          const zones=[
+            ["Z1","RECUPERACIÓN",0.75,0.80,1.35,"z1","RITMO: "+Utils.formatR(r*1.35)+"<br><br>🔹 Promueve recuperación activa, regeneración muscular."],
+            ["Z2","BASE",0.80,0.90,1.25,"z2","RITMO: "+Utils.formatR(r*1.25)+"<br><br>🔹 Mejora eficiencia metabólica, capilarización."],
+            ["Z3","TEMPO",0.90,0.95,1.15,"z3","RITMO: "+Utils.formatR(r*1.15)+"<br><br>🔹 Aumenta tolerancia al lactato."],
+            ["Z4","UMBRAL",0.95,1.02,1.05,"z4","RITMO: "+Utils.formatR(r*1.05)+"<br><br>🔹 Entrena sistema de limpieza de lactato."],
+            ["Z5","VO₂MÁX",1.02,1.06,0.95,"z5","RITMO: "+Utils.formatR(r*0.95)+"<br><br>🔹 Mejora potencia aeróbica máxima."],
+            ["Z6","VELOCIDAD",1.06,1.12,0.85,"z6","RITMO: "+Utils.formatR(r*0.85)+"<br><br>🔹 Desarrolla potencia neuromuscular."]
+          ];
+          const calc = {name:n, age:a, fcMax:fc, ul:ul, zones, pred, ritmoBase:r};
+          AppState.setLastCalc(calc); UI.mostrarResultados(calc); document.getElementById("footer").innerText=`${n} · ${new Date().toLocaleDateString('es-ES')} · RI5`;
+          this.guardarCalculoAutomatico(calc);
+        },
+        guardarCalculoAutomatico(calc) {
+          if(!AppState.currentUser) return;
+          const ahora=new Date();
+          let zonasResumen = calc.zones.map(z=>{ const min=Math.round(calc.ul*z[2]), max=Math.round(calc.ul*z[3]); return {zona:z[0],min,max}; });
+          const data = { date: ahora.toLocaleDateString('es-ES'), hora: ahora.toLocaleTimeString('es-ES'), nombre:calc.name, edad:calc.age, fcMax:calc.fcMax, umbral:calc.ul, ritmo6k:Utils.formatR(calc.ritmoBase), predicciones:calc.pred.map(p=>`${p.dist}km:${Utils.formatR(p.ritmo)}`).join(' '), resumen:`${calc.name} · ${calc.age} años · 6km: ${Utils.formatR(calc.ritmoBase)}`, zonasResumen };
+          let hist = Storage.getHistorial(AppState.currentUser);
+          hist.unshift(data); const lim = AppState.isPremium?25:10; if(hist.length>lim) hist.pop();
+          Storage.saveHistorial(AppState.currentUser, hist);
+          Storage.setUltimoCalculo(AppState.currentUser, calc);
+          if(document.getElementById('tab-historial').classList.contains('active')) UI.cargarHistorial();
+        },
+        copyResults() {
+          if(!AppState.lastName) return Utils.showToast("> CALCULA ZONAS PRIMERO_", 'error');
+          let txt = "🔹 RI5 - ZONAS DE ENTRENO 🔹\n\n";
+          txt += `👤 ${AppState.lastName} · ${AppState.lastAge} años\n❤️ FC MÁX: ${AppState.lastFC} lpm · UMBRAL: ${AppState.lastUL} lpm\n⏱️ RITMO 6km: ${Utils.formatR(AppState.lastRitmoBase)} min/km\n\n📊 PREDICCIONES:\n`;
+          AppState.lastPred.forEach(p=>txt+=`   ${p.dist} km → ${Utils.formatR(p.ritmo)} min/km\n`);
+          txt+=`\n🎯 ZONAS:\n`;
+          AppState.lastZones.forEach(z=>{ const min=Math.round(AppState.lastUL*z[2]), max=Math.round(AppState.lastUL*z[3]); txt+=`   ${z[0]} ${z[1]}: ${min}-${max} lpm · ${z[6]}\n`; });
+          navigator.clipboard.writeText(txt).then(()=>{ Utils.showToast("✅ COPIADO", 'success'); }).catch(()=>Utils.showToast("> NO SE PUDO COPIAR.", 'error'));
+        }
+      };
+
+      // ==================== MÓDULO UI ====================
+      const UI = {
+        consejos: [
+          "La constancia es la clave.", 
+          "El descanso es entrenamiento.", 
+          "Confía en el proceso.", 
+          "La Z2 es tu mejor amiga.", 
+          "Hidratación antes de sed.", 
+          "El sueño construye resistencia.", 
+          "Escucha a tu cuerpo.", 
+          "La nutrición es el combustible.",
+          "El umbral láctico es el mejor predictor de rendimiento.",
+          "Incluye fuerza 2 veces por semana.",
+          "Una zancada eficiente ahorra energía en larga distancia.",
+          "La progresión antes de la competición es clave."
+        ],
+        consejoIndex:0,
+        dailyInterval: null,
+        consejoInterval: null,
+        changeDailyTip() { 
+          const e=document.getElementById("dailyTip"); 
+          if(e) { 
+            e.innerHTML='<span>> '+this.consejos[this.consejoIndex]+'</span><small>// pulsa para otro</small>'; 
+            this.consejoIndex=(this.consejoIndex+1)%this.consejos.length;
+          }
+        },
+        changeConsejo() { 
+          const e=document.getElementById("curiosity"); 
+          if(e) { 
+            e.innerHTML='<span>'+this.consejos[this.consejoIndex]+'</span><small>// pulsa para otro</small>'; 
+            this.consejoIndex=(this.consejoIndex+1)%this.consejos.length;
+          }
+        },
+        startConsejoAutoChange() { 
+          if(this.dailyInterval) clearInterval(this.dailyInterval);
+          if(this.consejoInterval) clearInterval(this.consejoInterval);
+          this.dailyInterval = setInterval(()=>{ if(document.getElementById("loginPage").style.display!=="none") this.changeDailyTip(); },8000);
+          this.consejoInterval = setInterval(()=>{ if(document.getElementById("mainContent").style.display!=="none") this.changeConsejo(); },8000);
+        },
+        marcarCampoTocado(c) { AppState.camposTocados[c]=true; this.validarCampo(c); this.validarTodo(); },
+        validarCampo(c) {
+          const el=document.getElementById(c), err=document.getElementById(c+'Error');
+          if(c==='name') return true;
+          if(!AppState.camposTocados[c]){ err.classList.remove('visible'); el.classList.remove('error'); return true; }
+          let ok=true;
+          if(c==='age'){ const a=parseInt(el.value); ok=!isNaN(a)&&a>=14&&a<=85; }
+          else if(c==='time'){ const t=Utils.parseTime(el.value); ok=!isNaN(t)&&t>=12&&t<=90; }
+          if(!ok){ err.innerText=c==='age'?'> EDAD 14-85_':'> FORMATO MM:SS (12-90 MIN)_'; err.classList.add('visible'); el.classList.add('error'); }
+          else{ err.classList.remove('visible'); el.classList.remove('error'); }
+          return ok;
+        },
+        validarTodo() { const a=this.validarCampo('age'), t=this.validarCampo('time'); document.getElementById("calcBtn").disabled = !(a&&t); },
+        mostrarResultados(d) { 
+          let html=`<h2>> MÉTRICAS_</h2><div style="text-align:center; margin:20px 0;">${d.name} · ${d.age} años<br>FC MÁX: ${d.fcMax} lpm · UMBRAL: ${d.ul} lpm<br>RITMO 6km: ${Utils.formatR(d.ritmoBase)} min/km</div><h2>> PREDICCIONES_</h2>`; 
+          d.pred.forEach(p=>html+=`<div class="pred-bar" style="border-color:${p.color}; color:${p.color};">${p.dist} km → ${Utils.formatR(p.ritmo)} min/km</div>`); 
+          html+=`<h2>> ZONAS_</h2>`; 
+          d.zones.forEach(z=>{ 
+            const min=Math.round(d.ul*z[2]), max=Math.round(d.ul*z[3]); 
+            html+=`<div class="zone-card ${z[5]}" onclick="this.classList.toggle('active')"><strong>${z[0]} – ${z[1]}</strong><br>FC: ${min}-${max} lpm<div class="long">${z[6]}</div></div>`; 
+          }); 
+          html+=`<button class="action-button btn-copy" onclick="window.copyResults()">📋 COPIAR</button>`;
+          document.getElementById("results").innerHTML=html; 
+        },
+        mostrarResultadosGuardados(d) { this.mostrarResultados(d); },
+        switchTab(tab) {
+          document.querySelectorAll('.tab-button').forEach(b=>b.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+          const btns = document.querySelectorAll('.tab-button');
+          for(let b of btns) {
+            if(b.textContent.includes(tab==='entreno'?'ENTRENO':tab==='plan'?'PLAN':tab==='historial'?'HISTORIAL':'SOPORTE')){ 
+              b.classList.add('active'); 
+              break; 
+            }
+          }
+          document.getElementById(`tab-${tab}`).classList.add('active');
+          if(tab==='historial') this.cargarHistorial();
+          if(tab==='soporte'){ 
+            this.cargarMensajesRecibidos(); 
+            this.cargarMensajesEnviados(); 
+          }
+        },
+        cargarHistorial() {
+          const cont=document.getElementById("historialContainer");
+          if(!AppState.currentUser){ cont.innerHTML='<p style="text-align:center; padding:20px; color: var(--text-secondary);">📭 SIN USUARIO</p>'; return; }
+          let hist = Storage.getHistorial(AppState.currentUser);
+          const lim = parseInt(document.getElementById('historialLimit').value); if(hist.length>lim) hist = hist.slice(0,lim);
+          if(!hist.length){ cont.innerHTML='<p style="text-align:center; padding:20px; color: var(--text-secondary);">📭 SIN HISTORIAL</p>'; return; }
+          let html='<div class="historial-list">';
+          hist.forEach((it,i)=>{
+            html+=`<div class="historial-item" onclick="window.toggleHistorialDetalle(this)">
+              <div class="fecha">📅 ${it.date}</div>
+              <div class="resumen">${it.resumen||it.nombre+' · '+it.edad+' años'}</div>
+              <button class="delete-icon" onclick="event.stopPropagation(); window.borrarEntradaHistorial(${i})" title="Eliminar">🗑️</button>
+            </div>`;
+          });
+          html+='</div>'; cont.innerHTML=html;
+        },
+        borrarEntradaHistorial(i){
+          if(!AppState.currentUser) return;
+          Utils.confirm('ELIMINAR ENTRADA', "> ¿ELIMINAR ESTA ENTRADA?_").then(confirmed => {
+            if(!confirmed) return;
+            let hist=Storage.getHistorial(AppState.currentUser); hist.splice(i,1); Storage.saveHistorial(AppState.currentUser,hist); this.cargarHistorial(); Utils.showToast("✅ ELIMINADA", 'success');
+          });
+        },
+        borrarHistorial(){
+          if(!AppState.currentUser) return;
+          Utils.confirm('LIMPIAR HISTORIAL', "> ¿ELIMINAR TODO EL HISTORIAL?_").then(confirmed => {
+            if(!confirmed) return;
+            Storage.saveHistorial(AppState.currentUser,[]); this.cargarHistorial(); Utils.showToast("✅ HISTORIAL LIMPIO", 'success');
+          });
+        },
+        cargarMensajesRecibidos() {
+          if (!AppState.currentUser) return;
+          const msgs = Storage.getMensajesUsuario(AppState.currentUser);
+          let html = ''; 
+          msgs.forEach((m,i)=>{
+            const nuevo=!m.leido?'nuevo':'';
+            html+=`<div class="mensaje-item ${nuevo}" data-indice="${i}"><div class="mensaje-header" onclick="window.toggleMensajeRecibido(this,${i})"><span>📨 ${m.fecha} · Admin</span><span class="flecha">▼</span><button class="delete-mensaje" onclick="event.stopPropagation(); window.borrarMensajeUsuario(${i})">🗑️</button></div><div class="mensaje-contenido">${m.texto}</div></div>`;
+          });
+          document.getElementById('listaMensajesRecibidos').innerHTML = html || '<p>📭 NO HAY MENSAJES</p>';
+          this.actualizarBadgeMensajes();
+        },
+        cargarMensajesEnviados() {
+          if (!AppState.currentUser) return;
+          const msgs = Storage.getMensajesEnviadosUsuario(AppState.currentUser);
+          let html=''; 
+          msgs.forEach(m=>{ 
+            html+=`<div class="mensaje-item"><div class="mensaje-header" onclick="this.parentNode.classList.toggle('abierto')"><span>📤 ${m.fecha} · Tú</span><span class="flecha">▼</span></div><div class="mensaje-contenido">${m.texto}</div></div>`; 
+          });
+          document.getElementById('listaMensajesEnviados').innerHTML = html || '<p>📭 NO HAS ENVIADO MENSAJES</p>';
+        },
+        borrarMensajeUsuario(i){ 
+          if(!AppState.currentUser) return;
+          Utils.confirm('ELIMINAR MENSAJE', "> ¿ELIMINAR?").then(confirmed => {
+            if(!confirmed) return; 
+            Storage.borrarMensajeUsuario(AppState.currentUser,i); 
+            Utils.showToast("✅ ELIMINADO", 'success'); 
+            this.cargarMensajesRecibidos();
+          });
+        },
+        enviarMensajeUsuario(){ 
+          if(!AppState.currentUser) return; 
+          const t=document.getElementById('mensajeUsuario').value.trim(); 
+          if(!t) return Utils.showToast('> ESCRIBE UN MENSAJE_', 'error'); 
+          Storage.enviarMensajeUsuario(AppState.currentUser,t); 
+          document.getElementById('mensajeUsuario').value=''; 
+          Utils.showToast('✅ ENVIADO', 'success'); 
+          this.cargarMensajesEnviados();
+        },
+        toggleMensajeRecibido(h,i){ 
+          const it=h.closest('.mensaje-item'); 
+          it.classList.toggle('abierto'); 
+          if(it.classList.contains('nuevo')&&it.classList.contains('abierto')){ 
+            it.classList.remove('nuevo'); 
+            if(AppState.currentUser){ 
+              Storage.marcarLeido(AppState.currentUser,i); 
+              const msgs=Storage.getMensajesUsuario(AppState.currentUser); 
+              AppState.mensajesNoLeidos=msgs.filter(m=>!m.leido).length; 
+              this.actualizarBadgeMensajes(); 
+            } 
+          } 
+        },
+        cambiarSoporteTab(tab){ 
+          document.querySelectorAll('#tab-soporte .soporte-tab').forEach(t=>t.classList.remove('active')); 
+          document.querySelectorAll('#tab-soporte .soporte-panel').forEach(p=>p.classList.remove('active')); 
+          if(tab==='recibidos'){ 
+            document.querySelectorAll('#tab-soporte .soporte-tab')[0].classList.add('active'); 
+            document.getElementById('soporte-recibidos').classList.add('active'); 
+          }else{ 
+            document.querySelectorAll('#tab-soporte .soporte-tab')[1].classList.add('active'); 
+            document.getElementById('soporte-enviados').classList.add('active'); 
+          } 
+        },
+        actualizarBadgeMensajes(){ 
+          const t=document.getElementById('soporteTabButton'); 
+          if(AppState.mensajesNoLeidos>0) t.classList.add('soporte-unread'); 
+          else t.classList.remove('soporte-unread'); 
+        },
+        cerrarModalSesion(){ 
+          const m=document.getElementById("detalleSesion"), o=document.getElementById("modalOverlay"); 
+          m.classList.remove("visible"); o.classList.remove("visible"); 
+        },
+        cerrarPlan(){ 
+          document.getElementById("calendarioEntreno").style.display="none"; 
+          document.getElementById("cuestionarioEntreno").style.display="block";
+        },
+        initDiasCheckboxes(){ 
+          const c=document.getElementById('diasSemanaContainer'); 
+          const dias=['L','M','X','J','V','S','D']; 
+          let h=''; 
+          for(let i=0;i<7;i++){ 
+            const n=i+1; 
+            h+=`<div class="dia-checkbox"><input type="checkbox" id="dia${n}" value="${n}" ${n===4||n===6?'checked':''}><label for="dia${n}">${dias[i]}</label></div>`; 
+          } 
+          c.innerHTML=h; 
+        },
+        setFechaActual() {
+          const fechaInput = document.getElementById('fechaInicio');
+          if (fechaInput) {
+            const hoy = new Date();
+            const año = hoy.getFullYear();
+            const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoy.getDate()).padStart(2, '0');
+            fechaInput.value = `${año}-${mes}-${dia}`;
+          }
+        }
+      };
+
+      window.toggleHistorialDetalle = (el)=>el.classList.toggle('abierto');
+      window.borrarMensajeUsuario = UI.borrarMensajeUsuario.bind(UI);
+      window.toggleMensajeRecibido = UI.toggleMensajeRecibido.bind(UI);
+      window.enviarMensajeUsuario = UI.enviarMensajeUsuario.bind(UI);
+      window.cambiarSoporteTab = UI.cambiarSoporteTab.bind(UI);
+      window.cargarHistorial = UI.cargarHistorial.bind(UI);
+      window.borrarEntradaHistorial = UI.borrarEntradaHistorial.bind(UI);
+      window.borrarHistorial = UI.borrarHistorial.bind(UI);
+      window.cerrarModalSesion = UI.cerrarModalSesion.bind(UI);
+      window.cerrarPlan = UI.cerrarPlan.bind(UI);
+      window.shareResults = Training.shareResults;
+
+      // ==================== MÓDULO PLAN GENERATOR (simplificado) ====================
+      const PlanGenerator = {
+        toggleCuestionario() { 
+          if(!AppState.zonasCalculadas) { Utils.showToast("> CALCULA ZONAS PRIMERO_", 'error'); return; }
+          if(!AppState.isPremium) {
+            Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN CREAR PLANES_", 'error');
+            return;
+          }
+          const q=document.getElementById("cuestionarioEntreno"); 
+          q.style.display=q.style.display==="block"?"none":"block"; 
+        },
+        guardarPlanActual() { 
+          if(!AppState.currentUser||!AppState.planGeneradoActual) return; 
+          localStorage.setItem(`ultimoPlan_${AppState.currentUser}`, JSON.stringify(AppState.planGeneradoActual)); 
+          Utils.showToast("✅ PLAN GUARDADO", 'success');
+        },
+        mostrarUltimoPlanGuardado() { 
+          if(!AppState.currentUser) { Utils.showToast("> NO HAY USUARIO_", 'error'); return; }
+          if(!AppState.isPremium) {
+            Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN VER PLANES_", 'error');
+            return;
+          }
+          const stored = localStorage.getItem(`ultimoPlan_${AppState.currentUser}`);
+          if(!stored) { Utils.showToast("> NO HAY PLAN GUARDADO_", 'error'); return; }
+          AppState.ultimoPlanParams = JSON.parse(stored); 
+          Utils.showToast("✅ PLAN CARGADO", 'success');
+        },
+        borrarPlanGuardado() { 
+          if(!AppState.currentUser) return;
+          Utils.confirm('ELIMINAR PLAN', "> ¿ELIMINAR PLAN GUARDADO?_").then(confirmed => {
+            if(!confirmed) return;
+            localStorage.removeItem(`ultimoPlan_${AppState.currentUser}`);
+            Utils.showToast("✅ PLAN ELIMINADO", 'success');
+          });
+        },
+        generarCalendarioEntreno() {
+          if(!AppState.zonasCalculadas) { Utils.showToast("> PRIMERO CALCULA TUS ZONAS_", 'error'); return; }
+          if(!AppState.isPremium) {
+            Utils.showToast("> SOLO USUARIOS PREMIUM PUEDEN GENERAR PLANES_", 'error');
+            return;
+          }
+          
+          const modalidad = document.getElementById("modalidad").value;
+          const distancia = document.getElementById("distObjetivo").value;
+          const meses = parseInt(document.getElementById("duracionPlan").value);
+          const nivel = document.getElementById("nivel").value;
+          const exp = document.getElementById("experienciaDistancia").value;
+          const obj = document.getElementById("objetivoPrincipal").value;
+          const diaLargo = parseInt(document.getElementById("diaLargo").value);
+          const fechaInicio = document.getElementById("fechaInicio").value;
+          
+          if(!fechaInicio) { Utils.showToast("> SELECCIONA UNA FECHA DE INICIO_", 'error'); return; }
+          
+          const diasEntreno = [];
+          for(let i=1;i<=7;i++){ const cb=document.getElementById(`dia${i}`); if(cb&&cb.checked) diasEntreno.push(i); }
+          if(diasEntreno.length===0) { Utils.showToast("> SELECCIONA AL MENOS UN DÍA DE ENTRENO_", 'error'); return; }
+          if(!diasEntreno.includes(diaLargo)){
+            diasEntreno.push(diaLargo); 
+            document.getElementById(`dia${diaLargo}`).checked = true;
+          }
+          diasEntreno.sort((a,b)=>a-b);
+          
+          const mapa = { "2k":"2 km","5k":"5 km","10k":"10 km","medio":"MEDIA","maraton":"MARATÓN" };
+          const diaNombre = ["","LUN","MAR","MIÉ","JUE","VIE","SÁB","DOM"][diaLargo];
+          document.getElementById("resumenObjetivo").innerText = `${mapa[distancia]} · ${diasEntreno.length} DÍAS/SEM · ${nivel.toUpperCase()} · LARGO: ${diaNombre} · ${modalidad==='runner'?'ASFALTO':'MONTAÑA'} · ${meses} MES(ES) · INICIO: ${new Date(fechaInicio).toLocaleDateString()}`;
+
+          const totalDias = meses * 4 * 7;
+          const grid = document.getElementById("calendarioGrid");
+          grid.innerHTML = "";
+          
+          const fragment = document.createDocumentFragment();
+          for(let dia=1; dia<=Math.min(totalDias, 28); dia++){
+            const semana = Math.floor((dia-1)/7)+1;
+            const diaSem = (dia-1)%7+1;
+            let color = "sesion-descanso", breve = "D";
+
+            if(diasEntreno.includes(diaSem)){
+              if (diaSem === diaLargo) {
+                color = "sesion-largo"; breve = "L";
+              } else if (diaSem === 3 || diaSem === 4) {
+                color = "sesion-series"; breve = "S";
+              } else if (diaSem === 5) {
+                color = "sesion-tempo"; breve = "T";
+              } else {
+                color = "sesion-rodaje"; breve = "R";
+              }
+            }
+
+            const div = document.createElement("div");
+            div.className = `calendario-dia ${color}`;
+            div.innerHTML = `<div style="font-size:10px;">S${semana}</div><strong>${breve}</strong>`;
+            div.dataset.letra = breve;
+            div.dataset.semana = semana;
+            div.onclick = function() {
+              const modal = document.getElementById("detalleSesion"), overlay = document.getElementById("modalOverlay"), wrapper = document.getElementById("modalColorWrapper");
+              wrapper.className = "modal-content"; wrapper.classList.add(color);
+              let tit = "", cont = "";
+              if (this.dataset.letra === "D") {
+                tit = "DÍA DE DESCANSO";
+                cont = "<strong>OBJETIVO:</strong> Recuperación completa<br><br>• No correr<br>• Estiramientos suaves<br>• Buena nutrición";
+              } else {
+                tit = `Sesión ${this.dataset.letra} · Semana ${this.dataset.semana}`;
+                cont = "Sesión de entrenamiento. Consulta el plan detallado para más información.";
+              }
+              document.getElementById("tituloSesion").innerText = tit;
+              document.getElementById("descripcionSesion").innerHTML = cont;
+              modal.classList.add("visible"); overlay.classList.add("visible");
+            };
+            fragment.appendChild(div);
+          }
+          grid.appendChild(fragment);
+          
+          AppState.planGeneradoActual = { modalidad, distancia, macrociclo: meses*4, diasPorSemana: diasEntreno.length, nivel, experiencia: exp, objetivo: obj, diaLargo, fechaInicio, diasEntreno };
+          document.getElementById("calendarioEntreno").style.display = "block";
+          document.getElementById("cuestionarioEntreno").style.display = "none";
+          Utils.showToast('✅ Plan generado', 'success');
+        }
+      };
+
+      // ==================== MÓDULO PWA ====================
+      const PWA = {
+        init() {
+          window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            AppState.deferredPrompt = e;
+            if(localStorage.getItem('pwa_installed')!=='true') document.getElementById('pwa-banner').style.display='flex';
+          });
+          window.addEventListener('appinstalled', ()=>{
+            document.getElementById('pwa-banner').style.display='none';
+            AppState.deferredPrompt=null;
+            localStorage.setItem('pwa_installed','true');
+          });
+        },
+        instalarPWA() {
+          if(!AppState.deferredPrompt){ Utils.showToast('Para instalar: menú del navegador → "Añadir a pantalla de inicio"', 'info'); return; }
+          AppState.deferredPrompt.prompt();
+          AppState.deferredPrompt.userChoice.then(c=>{ if(c.outcome==='accepted') localStorage.setItem('pwa_installed','true'); AppState.deferredPrompt=null; document.getElementById('pwa-banner').style.display='none'; });
+        },
+        cerrarBannerPWA() { document.getElementById('pwa-banner').style.display='none'; }
+      };
+
+      // ==================== MÓDULO DE TEMA ====================
+      const ThemeManager = {
+        init() {
+          const savedTheme = localStorage.getItem('ri5_theme');
+          if (savedTheme === 'light' || savedTheme === 'dark') {
+            document.body.classList.add(`manual-${savedTheme}`);
+          }
+          this.updateButton();
+        },
+        toggle() {
+          if (document.body.classList.contains('manual-light')) {
+            document.body.classList.remove('manual-light');
+            document.body.classList.add('manual-dark');
+            localStorage.setItem('ri5_theme', 'dark');
+          } else if (document.body.classList.contains('manual-dark')) {
+            document.body.classList.remove('manual-dark');
+            localStorage.setItem('ri5_theme', 'light');
+          } else {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (isDark) {
+              document.body.classList.add('manual-light');
+              localStorage.setItem('ri5_theme', 'light');
+            } else {
+              document.body.classList.add('manual-dark');
+              localStorage.setItem('ri5_theme', 'dark');
+            }
+          }
+          this.updateButton();
+        },
+        updateButton() {
+          const btns = document.querySelectorAll('.theme-toggle');
+          btns.forEach(btn => {
+            if (document.body.classList.contains('manual-light')) {
+              btn.innerText = '🌙';
+            } else if (document.body.classList.contains('manual-dark')) {
+              btn.innerText = '☀️';
+            } else {
+              btn.innerText = '🌓';
+            }
+          });
+        }
+      };
+
+      // ==================== EXPORTAR FUNCIONES A WINDOW ====================
+      window.switchAuthTab = Auth.switchAuthTab.bind(Auth);
+      window.registerUser = Auth.registerUser.bind(Auth);
+      window.loginUser = Auth.loginUser.bind(Auth);
+      window.logoutUser = Auth.logoutUser.bind(Auth);
+      window.logoutAdmin = Auth.logoutAdmin.bind(Auth);
+      window.startCalc = Training.startCalc.bind(Training);
+      window.copyResults = Training.copyResults.bind(Training);
+      window.switchTab = UI.switchTab.bind(UI);
+      window.changeDailyTip = UI.changeDailyTip.bind(UI);
+      window.changeConsejo = UI.changeConsejo.bind(UI);
+      window.toggleCuestionario = PlanGenerator.toggleCuestionario.bind(PlanGenerator);
+      window.mostrarUltimoPlanGuardado = PlanGenerator.mostrarUltimoPlanGuardado.bind(PlanGenerator);
+      window.borrarPlanGuardado = PlanGenerator.borrarPlanGuardado.bind(PlanGenerator);
+      window.generarCalendarioEntreno = PlanGenerator.generarCalendarioEntreno.bind(PlanGenerator);
+      window.instalarPWA = PWA.instalarPWA.bind(PWA);
+      window.cerrarBannerPWA = PWA.cerrarBannerPWA.bind(PWA);
+      window.showPremiumBenefits = Auth.showPremiumBenefits;
+      window.cerrarPremiumModal = function() {
+        document.getElementById('premiumOverlay').classList.remove('active');
+        document.getElementById('premiumModal').classList.remove('active');
+      };
+      window.contactarAdmin = function() {
+        window.open('https://www.instagram.com/navegacionpro?igsh=Y2ZzMHpwOWUwOTRx&utm_source=qr', '_blank');
+      };
+      window.cerrarWelcomeModal = function() {
+        document.getElementById('welcomeOverlay').classList.remove('active');
+        document.getElementById('welcomeModal').classList.remove('active');
+      };
+      window.abrirResetModal = function() {
+        document.getElementById('resetOverlay').classList.add('active');
+        document.getElementById('resetModal').classList.add('active');
+      };
+      window.cerrarResetModal = function() {
+        document.getElementById('resetOverlay').classList.remove('active');
+        document.getElementById('resetModal').classList.remove('active');
+      };
+      window.enviarResetPassword = function() {
+        Utils.showToast('Función de recuperación deshabilitada en modo offline', 'info');
+        window.cerrarResetModal();
+      };
+      window.guardarEmailActualizacion = function() {
+        Utils.showToast('Función de email deshabilitada en modo offline', 'info');
+        window.cerrarEmailUpdateModal();
+      };
+      window.cerrarEmailUpdateModal = function() {
+        document.getElementById('emailUpdateOverlay').classList.remove('active');
+        document.getElementById('emailUpdateModal').classList.remove('active');
+      };
+      window.eliminarMiCuenta = function() {
+        Utils.showToast('Función deshabilitada en modo offline', 'info');
+      };
+      window.exportarUsuariosCSV = Admin.exportarUsuariosCSV.bind(Admin);
+      window.renovarExpirados = Admin.renovarExpirados.bind(Admin);
+      window.cambiarAdminSoporteTab = Admin.cambiarSoporteTab.bind(Admin);
+      window.enviarMensajeAdmin = Admin.enviarMensajeAdmin.bind(Admin);
+      window.toggleTheme = () => ThemeManager.toggle();
+
+      // ==================== INICIALIZACIÓN ====================
+      document.addEventListener("DOMContentLoaded", () => {
+        if(!Auth.checkSavedSession()) document.getElementById("loginPage").style.display="flex";
+        document.getElementById("age").addEventListener("blur", ()=>UI.marcarCampoTocado('age'));
+        document.getElementById("time").addEventListener("blur", ()=>UI.marcarCampoTocado('time'));
+        document.getElementById("age").addEventListener("input", ()=>{ if(AppState.camposTocados.age) UI.validarCampo('age'); UI.validarTodo(); });
+        document.getElementById("time").addEventListener("input", ()=>{ if(AppState.camposTocados.time) UI.validarCampo('time'); UI.validarTodo(); });
+        UI.validarTodo();
+        UI.initDiasCheckboxes();
+        UI.setFechaActual();
+
+        if(localStorage.getItem('pwa_installed')==='true') document.getElementById('pwa-banner').style.display='none';
+        PWA.init();
+        setTimeout(()=>{ if(AppState.deferredPrompt && localStorage.getItem('pwa_installed')!=='true') document.getElementById('pwa-banner').style.display='flex'; },3000);
+        
+        ThemeManager.init();
+      });
+    })();
+  </script>
+</body>
+</html>
