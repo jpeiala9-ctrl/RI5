@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RI5 · Dosier de Colaboración</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+–black: #0a0a0a;
+–white: #f5f2eb;
+–gold: #d4a843;
+–gold-light: #e8c060;
+–grey: #1a1a1a;
+–grey-mid: #2a2a2a;
+–grey-light: #555;
+–text-muted: #b8b8b8;
+–z1: #8AA0B0;
+–z2: #9BB5A0;
+–z3: #C9A78B;
+–z4: #C99BA5;
+–z5: #9AA5A5;
+–z6: #aaaaaa;
+}
+
+html { scroll-behavior: smooth; }
+
+/* ══ PRINT / PDF — fondo oscuro + paginación perfecta ══ */
+@media print {
+@page {
+margin: 0;
+size: A4 portrait;
+}
+
+```
+* {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  color-adjust: exact !important;
+}
+
+/* ── Fondos oscuros forzados ── */
+html, body        { background: #0a0a0a !important; color: #f5f2eb !important; }
+.hero             { background: #0a0a0a !important; min-height: 100vh !important; }
+.section-full     { background: #1a1a1a !important; }
+section           { background: #0a0a0a !important; }
+.quote-section    { background: #0a0a0a !important; }
+.contact-section  { background: #0a0a0a !important; }
+.footer-bar       { background: #0a0a0a !important; }
+.feature-card     { background: #0a0a0a !important; border-color: #2a2a2a !important; }
+.number-block     { background: #0a0a0a !important; }
+.collab-option    { background: #111111 !important; border-color: #333 !important; }
+.collab-option.featured { background: rgba(212,168,67,0.1) !important; }
+.features-grid    { border-color: #2a2a2a !important; }
+.numbers-row      { border-color: #2a2a2a !important; }
+
+/* ── Quitar grain y animaciones ── */
+body::after { display: none !important; }
+.reveal, .zona-card {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* ── Saltos de página por sección ── */
+.hero {
+  page-break-after: always;
+  break-after: page;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 56px 56px 48px !important;
+  box-sizing: border-box !important;
+}
+
+/* Zonas — página propia */
+.section-full:first-of-type {
+  page-break-before: always;
+  break-before: page;
+  page-break-after: always;
+  break-after: page;
+  padding: 56px !important;
+}
+
+/* Features — página propia */
+#app {
+  page-break-before: always;
+  break-before: page;
+  page-break-after: always;
+  break-after: page;
+  padding: 48px 56px !important;
+  max-width: 100% !important;
+}
+
+/* Cita + Números juntos en una página */
+.quote-section {
+  page-break-before: always;
+  break-before: page;
+  padding: 60px 56px !important;
+}
+section:last-of-type {
+  page-break-after: always;
+  break-after: page;
+  padding: 48px 56px !important;
+  max-width: 100% !important;
+}
+
+/* Colaboración — página propia */
+.section-full:last-of-type {
+  page-break-before: always;
+  break-before: page;
+  page-break-after: always;
+  break-after: page;
+  padding: 56px !important;
+}
+
+/* Contacto + Footer — última página */
+.contact-section {
+  page-break-before: always;
+  break-before: page;
+  padding: 56px !important;
+  max-width: 100% !important;
+  grid-template-columns: 1fr 1fr !important;
+}
+.footer-bar {
+  page-break-before: avoid;
+  break-before: avoid;
+  padding: 24px 56px !important;
+}
+
+/* ── No cortar dentro de bloques ── */
+.feature-card,
+.collab-option,
+.number-block,
+.zona-card,
+.contact-item,
+.hero-stat,
+.hero-body,
+.hero-footer { break-inside: avoid !important; }
+
+/* ── Features en 2 columnas en A4 ── */
+.features-grid {
+  grid-template-columns: 1fr 1fr !important;
+  gap: 1px !important;
+}
+.feature-card { padding: 28px 24px !important; }
+
+/* ── Zonas en 3 columnas en A4 ── */
+.zonas-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 10px !important;
+}
+
+/* ── Números en 4 columnas ── */
+.numbers-row {
+  grid-template-columns: repeat(4, 1fr) !important;
+}
+.number-block { padding: 32px 16px !important; }
+.number-val   { font-size: 48px !important; }
+
+/* ── Colaboración en 2 columnas ── */
+.collab-grid {
+  grid-template-columns: 1fr 1fr !important;
+  gap: 40px !important;
+}
+
+/* ── Hero stats en fila en A4 ── */
+.hero-footer {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 48px !important;
+}
+
+/* ── Tamaños de fuente ajustados a A4 ── */
+.hero-title     { font-size: 96px !important; }
+.section-title  { font-size: 64px !important; }
+.hero-desc      { font-size: 16px !important; }
+
+/* ── Botones ── */
+.btn-primary  { background: #d4a843 !important; color: #0a0a0a !important; }
+.btn-secondary { border-color: #555 !important; color: #f5f2eb !important; }
+```
+
+}
+
+body {
+background: var(–black);
+color: var(–white);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 300;
+line-height: 1.6;
+overflow-x: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::after {
+content: ‘’;
+position: fixed; inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+pointer-events: none;
+z-index: 9999;
+opacity: 0.4;
+}
+
+/* ── HERO ── */
+.hero {
+min-height: 100vh;
+display: grid;
+grid-template-rows: auto 1fr auto;
+padding: 48px;
+position: relative;
+overflow: hidden;
+border-bottom: 1px solid var(–grey-light);
+background: var(–black);
+}
+
+.hero::before {
+content: ‘RI5’;
+position: absolute;
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(240px, 40vw, 520px);
+color: transparent;
+-webkit-text-stroke: 1px rgba(212,168,67,0.15);
+right: -40px;
+top: 50%;
+transform: translateY(-50%);
+pointer-events: none;
+letter-spacing: -10px;
+line-height: 1;
+}
+
+.hero-nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+animation: fadeUp 0.8s ease both;
+}
+
+.logo {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 32px;
+color: var(–gold);
+letter-spacing: 4px;
+}
+
+.hero-tag {
+font-size: 11px;
+letter-spacing: 3px;
+color: #c0bdb8;
+text-transform: uppercase;
+border: 1px solid var(–grey-light);
+padding: 6px 14px;
+border-radius: 20px;
+}
+
+.hero-body {
+display: flex;
+flex-direction: column;
+justify-content: center;
+max-width: 680px;
+animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-eyebrow {
+font-size: 11px;
+letter-spacing: 4px;
+color: var(–gold);
+text-transform: uppercase;
+margin-bottom: 24px;
+}
+
+.hero-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(56px, 9vw, 120px);
+line-height: 0.92;
+letter-spacing: -1px;
+margin-bottom: 32px;
+}
+
+.hero-title em {
+font-style: normal;
+color: var(–gold);
+}
+
+.hero-desc {
+font-size: 18px;
+color: #ccc8c0;
+max-width: 480px;
+line-height: 1.7;
+margin-bottom: 48px;
+}
+
+.hero-cta {
+display: flex;
+gap: 16px;
+flex-wrap: wrap;
+}
+
+.btn-primary {
+background: var(–gold);
+color: var(–black);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 700;
+font-size: 13px;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 14px 32px;
+border: none;
+border-radius: 2px;
+cursor: pointer;
+text-decoration: none;
+display: inline-block;
+transition: background 0.2s;
+}
+.btn-primary:hover { background: var(–gold-light); }
+
+.btn-secondary {
+background: transparent;
+color: var(–white);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 400;
+font-size: 13px;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 14px 32px;
+border: 1px solid var(–grey-light);
+border-radius: 2px;
+cursor: pointer;
+text-decoration: none;
+display: inline-block;
+transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary:hover { border-color: var(–gold); color: var(–gold); }
+
+.hero-footer {
+display: flex;
+gap: 48px;
+flex-wrap: wrap;
+animation: fadeUp 0.8s 0.4s ease both;
+padding-top: 56px;
+margin-top: 24px;
+border-top: 1px solid var(–grey-mid);
+}
+
+.hero-stat { }
+.hero-stat-num {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 42px;
+color: var(–gold);
+letter-spacing: 2px;
+line-height: 1;
+}
+.hero-stat-label {
+font-size: 11px;
+letter-spacing: 2px;
+color: #b8b8b8;
+text-transform: uppercase;
+margin-top: 4px;
+}
+
+/* ── SECTIONS ── */
+section {
+padding: 100px 48px;
+border-bottom: 1px solid var(–grey-mid);
+max-width: 1200px;
+margin: 0 auto;
+background: var(–black);
+}
+
+.section-full {
+max-width: 100%;
+padding: 100px 48px;
+border-bottom: 1px solid var(–grey-mid);
+background: var(–grey);
+}
+
+.section-eyebrow {
+font-size: 10px;
+letter-spacing: 4px;
+color: var(–gold);
+text-transform: uppercase;
+margin-bottom: 16px;
+}
+
+.section-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(40px, 6vw, 80px);
+line-height: 0.95;
+letter-spacing: -0.5px;
+margin-bottom: 48px;
+}
+
+/* ── ZONA PILLS ── */
+.zonas-grid {
+display: grid;
+grid-template-columns: repeat(6, 1fr);
+gap: 12px;
+margin: 48px 0;
+}
+
+/* ══ RESPONSIVE COMPLETO ══ */
+
+/* Tablet landscape y pantallas medianas */
+@media (max-width: 1024px) {
+.hero { padding: 40px 36px; }
+section { padding: 80px 36px; }
+.section-full { padding: 80px 36px; }
+.collab-grid { gap: 32px; }
+.contact-section { padding: 80px 36px; gap: 48px; }
+}
+
+/* Tablet portrait y móvil landscape */
+@media (max-width: 900px) {
+.zonas-grid { grid-template-columns: repeat(3, 1fr); }
+.hero-title { font-size: clamp(48px, 10vw, 80px); }
+.collab-grid { grid-template-columns: 1fr; }
+.numbers-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Móvil portrait */
+@media (max-width: 600px) {
+.hero {
+padding: 28px 20px;
+min-height: 100svh;
+}
+.hero-nav { margin-bottom: 8px; }
+.hero-tag { display: none; }
+.hero-body { max-width: 100%; }
+.hero-title { font-size: clamp(44px, 13vw, 72px); margin-bottom: 20px; }
+.hero-desc { font-size: 15px; margin-bottom: 32px; }
+.hero-cta { flex-direction: column; }
+.btn-primary, .btn-secondary { text-align: center; width: 100%; }
+.hero-footer {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 20px 16px;
+padding-top: 36px;
+}
+.hero-stat { text-align: center; }
+.hero-stat-num { font-size: 32px; }
+
+```
+section { padding: 56px 20px; }
+.section-full { padding: 56px 20px; }
+.section-title { font-size: clamp(36px, 10vw, 60px); }
+
+.zonas-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.zona-card { padding: 16px 12px; }
+.zona-label { font-size: 22px; }
+
+.features-grid { grid-template-columns: 1fr; }
+.feature-card { padding: 28px 20px; }
+
+.numbers-row { grid-template-columns: repeat(2, 1fr); }
+.number-block { padding: 32px 16px; }
+.number-val { font-size: 48px; }
+
+.quote-section { padding: 72px 20px; }
+.quote-mark { font-size: 80px; }
+
+.contact-section {
+  grid-template-columns: 1fr;
+  gap: 32px;
+  padding: 56px 20px;
+}
+.contact-title { font-size: clamp(40px, 12vw, 72px); }
+
+.footer-bar { padding: 24px 20px; flex-direction: column; text-align: center; }
+```
+
+}
+
+/* Móvil landscape (ancho > alto) */
+@media (max-height: 500px) and (orientation: landscape) {
+.hero {
+min-height: auto;
+padding: 24px 40px;
+grid-template-rows: auto auto auto;
+gap: 24px;
+}
+.hero-title { font-size: clamp(36px, 7vw, 64px); margin-bottom: 16px; }
+.hero-desc { font-size: 14px; margin-bottom: 24px; }
+.hero-footer { padding-top: 24px; gap: 32px; }
+.hero-stat-num { font-size: 28px; }
+}
+
+.zona-card {
+padding: 20px 16px;
+border-radius: 4px;
+display: flex;
+flex-direction: column;
+gap: 6px;
+opacity: 0;
+transform: translateY(20px);
+transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.zona-card.visible { opacity: 1; transform: translateY(0); }
+
+.zona-label {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 28px;
+letter-spacing: 2px;
+line-height: 1;
+}
+.zona-name { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #d0cdc8; }
+.zona-fc { font-size: 12px; color: #b0b0b0; margin-top: 4px; }
+
+/* ── FEATURES GRID ── */
+.features-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+gap: 2px;
+margin-top: 48px;
+border: 1px solid var(–grey-mid);
+}
+
+.feature-card {
+padding: 40px 32px;
+border-right: 1px solid var(–grey-mid);
+border-bottom: 1px solid var(–grey-mid);
+position: relative;
+overflow: hidden;
+transition: background 0.3s;
+background: var(–black);
+}
+.feature-card:hover { background: var(–grey-mid); }
+.feature-card::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0;
+width: 3px; height: 0;
+background: var(–gold);
+transition: height 0.4s ease;
+}
+.feature-card:hover::before { height: 100%; }
+
+.feature-icon { font-size: 32px; margin-bottom: 16px; }
+.feature-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 22px;
+letter-spacing: 1px;
+color: var(–gold);
+margin-bottom: 10px;
+}
+.feature-desc { font-size: 14px; color: #c0bdb8; line-height: 1.65; }
+
+/* ── COLLAB SECTION ── */
+.collab-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 48px;
+margin-top: 48px;
+align-items: start;
+}
+@media (max-width: 768px) {
+.collab-grid { grid-template-columns: 1fr; }
+}
+
+.collab-options {
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.collab-option {
+padding: 28px;
+border: 1px solid var(–grey-mid);
+border-radius: 4px;
+cursor: pointer;
+transition: border-color 0.2s, background 0.2s;
+position: relative;
+background: #111;
+}
+.collab-option:hover { border-color: var(–gold); background: rgba(192,160,96,0.06); }
+.collab-option.featured { border-color: var(–gold); background: rgba(192,160,96,0.08); }
+
+.collab-option-badge {
+position: absolute;
+top: -1px; right: 20px;
+background: var(–gold);
+color: var(–black);
+font-size: 9px;
+font-weight: 700;
+letter-spacing: 2px;
+text-transform: uppercase;
+padding: 4px 10px;
+border-radius: 0 0 4px 4px;
+}
+
+.collab-option-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 22px;
+letter-spacing: 1px;
+margin-bottom: 8px;
+}
+.collab-option-desc { font-size: 13px; color: #c0bdb8; line-height: 1.6; }
+
+/* ── NUMBERS ── */
+.numbers-row {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 2px;
+margin-top: 48px;
+border: 1px solid var(–grey-mid);
+}
+@media (max-width: 700px) {
+.numbers-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+.number-block {
+padding: 48px 32px;
+border-right: 1px solid var(–grey-mid);
+text-align: center;
+background: var(–black);
+}
+
+.number-val {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 64px;
+color: var(–gold);
+letter-spacing: 2px;
+line-height: 1;
+display: block;
+}
+.number-label {
+font-size: 11px;
+letter-spacing: 2px;
+color: #b8b8b8;
+text-transform: uppercase;
+margin-top: 8px;
+display: block;
+}
+
+/* ── QUOTE ── */
+.quote-section {
+padding: 120px 48px;
+text-align: center;
+border-bottom: 1px solid var(–grey-mid);
+background: linear-gradient(180deg, var(–black) 0%, #111108 50%, var(–black) 100%);
+}
+
+.quote-mark {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 120px;
+color: var(–gold);
+opacity: 0.25;
+line-height: 0.5;
+display: block;
+margin-bottom: 32px;
+}
+
+.quote-text {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(32px, 5vw, 64px);
+line-height: 1.1;
+max-width: 900px;
+margin: 0 auto 24px;
+letter-spacing: 0.5px;
+color: var(–white);
+}
+.quote-sub { font-size: 14px; color: #c8c8c8; letter-spacing: 2px; }
+
+/* ── CONTACT ── */
+.contact-section {
+padding: 100px 48px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+align-items: center;
+max-width: 1200px;
+margin: 0 auto;
+background: var(–black);
+}
+@media (max-width: 768px) {
+.contact-section { grid-template-columns: 1fr; gap: 40px; }
+}
+
+.contact-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: clamp(48px, 7vw, 96px);
+line-height: 0.92;
+letter-spacing: -1px;
+}
+.contact-title em { font-style: normal; color: var(–gold); }
+
+.contact-info { display: flex; flex-direction: column; gap: 24px; }
+
+.contact-item {
+padding: 20px 24px;
+border: 1px solid var(–grey-mid);
+border-radius: 4px;
+display: flex;
+align-items: center;
+gap: 16px;
+transition: border-color 0.2s;
+}
+.contact-item:hover { border-color: var(–gold); }
+.contact-item-icon { font-size: 20px; }
+.contact-item-text { font-size: 14px; }
+.contact-item-label { font-size: 10px; letter-spacing: 2px; color: #b8b8b8; text-transform: uppercase; margin-bottom: 2px; }
+
+/* ── FOOTER ── */
+.footer-bar {
+padding: 32px 48px;
+border-top: 1px solid var(–grey-mid);
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 16px;
+background: var(–black);
+}
+.footer-logo { font-family: ‘Bebas Neue’, sans-serif; font-size: 20px; color: var(–gold); letter-spacing: 4px; }
+.footer-copy { font-size: 12px; color: #b0b0b0; letter-spacing: 1px; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(24px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+opacity: 0;
+transform: translateY(30px);
+transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── DIVIDER LINE ── */
+.gold-line {
+width: 48px;
+height: 2px;
+background: var(–gold);
+margin-bottom: 32px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+
+<div class="hero">
+  <nav class="hero-nav">
+    <div class="logo">RI5</div>
+    <div class="hero-tag">Dosier de Colaboración · 2025</div>
+  </nav>
+
+  <div class="hero-body">
+    <p class="hero-eyebrow">Plataforma de entrenamiento inteligente</p>
+    <h1 class="hero-title">
+      Entrena<br>
+      con <em>ciencia.</em><br>
+      Compite<br>
+      con datos.
+    </h1>
+    <p class="hero-desc">
+      RI5 es la app española de referencia para corredores que quieren entrenar por zonas de frecuencia cardíaca, con planes personalizados, comunidad activa y análisis en tiempo real.
+    </p>
+    <div class="hero-cta">
+      <a href="#colaboracion" class="btn-primary">Ver opciones de colaboración</a>
+      <a href="#app" class="btn-secondary">Conocer la app</a>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <div class="hero-stat">
+      <div class="hero-stat-num">6</div>
+      <div class="hero-stat-label">Zonas de FC</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">1.344</div>
+      <div class="hero-stat-label">Entrenamientos</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Fases de periodización</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">App española</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ZONAS ══════════ -->
+
+<div class="section-full">
+  <div style="max-width:1200px; margin:0 auto;">
+    <p class="section-eyebrow reveal">El corazón de RI5</p>
+    <h2 class="section-title reveal">6 zonas.<br>Un sistema.</h2>
+    <p class="reveal" style="color:#c8c5c0; max-width:560px; margin-bottom:0; font-size:16px; line-height:1.7;">
+      RI5 calcula al instante las 6 zonas de frecuencia cardíaca de cada corredor basándose en su umbral de lactato real, no en fórmulas genéricas. Cada zona tiene su ritmo objetivo, su propósito y su lugar en el plan.
+    </p>
+
+```
+<div class="zonas-grid">
+  <div class="zona-card" style="background: rgba(138,160,176,0.12); border-left: 3px solid var(--z1);">
+    <div class="zona-label" style="color:var(--z1);">Z1</div>
+    <div class="zona-name">Recuperación</div>
+    <div class="zona-fc">≤75% FC máx</div>
+  </div>
+  <div class="zona-card" style="background: rgba(155,181,160,0.12); border-left: 3px solid var(--z2);">
+    <div class="zona-label" style="color:var(--z2);">Z2</div>
+    <div class="zona-name">Base aeróbica</div>
+    <div class="zona-fc">75–85% FC máx</div>
+  </div>
+  <div class="zona-card" style="background: rgba(201,167,139,0.12); border-left: 3px solid var(--z3);">
+    <div class="zona-label" style="color:var(--z3);">Z3</div>
+    <div class="zona-name">Tempo</div>
+    <div class="zona-fc">85–92% FC máx</div>
+  </div>
+  <div class="zona-card" style="background: rgba(201,155,165,0.12); border-left: 3px solid var(--z4);">
+    <div class="zona-label" style="color:var(--z4);">Z4</div>
+    <div class="zona-name">Umbral</div>
+    <div class="zona-fc">92–98% FC máx</div>
+  </div>
+  <div class="zona-card" style="background: rgba(154,165,165,0.12); border-left: 3px solid var(--z5);">
+    <div class="zona-label" style="color:var(--z5);">Z5</div>
+    <div class="zona-name">VO₂ Máx</div>
+    <div class="zona-fc">98–102% FC máx</div>
+  </div>
+  <div class="zona-card" style="background: rgba(138,138,138,0.12); border-left: 3px solid var(--z6);">
+    <div class="zona-label" style="color:var(--z6);">Z6</div>
+    <div class="zona-name">Velocidad</div>
+    <div class="zona-fc">>102% FC máx</div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════════ APP FEATURES ══════════ -->
+
+<section id="app">
+  <p class="section-eyebrow reveal">Funcionalidades</p>
+  <h2 class="section-title reveal">Más que<br>una calculadora.</h2>
+
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Zonas personalizadas</div>
+      <div class="feature-desc">Calcula las 6 zonas de FC de cada corredor en segundos. Ritmos objetivo para 2km, 5km, 10km, medio maratón y maratón incluidos.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">📅</div>
+      <div class="feature-title">Planes inteligentes</div>
+      <div class="feature-desc">Genera planes de 1 a 12 meses con periodización real: Base, Construcción, Específica, Pico y Taper. Trail y asfalto. 3 niveles de experiencia.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🧠</div>
+      <div class="feature-title">Feedback adaptativo</div>
+      <div class="feature-desc">El plan ajusta volumen e intensidad automáticamente según cómo el corredor vive cada sesión. Más duro si va bien, más suave si se fuerza.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">👥</div>
+      <div class="feature-title">Comunidad activa</div>
+      <div class="feature-desc">Muro de entrenamientos en tiempo real, sistema de amigos, chat privado y likes. Los corredores se motivan entre sí dentro de la propia app.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">📱</div>
+      <div class="feature-title">PWA instalable</div>
+      <div class="feature-desc">Funciona como app nativa en iOS y Android sin necesidad de App Store. Se instala en el móvil y funciona sin conexión.</div>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">🏔️</div>
+      <div class="feature-title">Trail running</div>
+      <div class="feature-desc">Base de datos específica para trail: rodaje en sendero, series de cuestas, tempos de desnivel y largos de montaña. Sin mezclar con asfalto.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ QUOTE ══════════ -->
+
+<div class="quote-section">
+  <span class="quote-mark">"</span>
+  <p class="quote-text reveal">
+    El corredor popular merece la misma ciencia del entrenamiento que el élite.
+  </p>
+  <p class="quote-sub reveal">— La filosofía detrás de RI5</p>
+</div>
+
+<!-- ══════════ NÚMEROS ══════════ -->
+
+<section>
+  <p class="section-eyebrow reveal">En números</p>
+  <h2 class="section-title reveal">Una base<br>sólida.</h2>
+
+  <div class="numbers-row reveal">
+    <div class="number-block">
+      <span class="number-val">1.344</span>
+      <span class="number-label">Sesiones en la biblioteca</span>
+    </div>
+    <div class="number-block">
+      <span class="number-val">5</span>
+      <span class="number-label">Fases de periodización</span>
+    </div>
+    <div class="number-block">
+      <span class="number-val">10+</span>
+      <span class="number-label">Distancias objetivo</span>
+    </div>
+    <div class="number-block">
+      <span class="number-val">6</span>
+      <span class="number-label">Módulos integrados</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ COLABORACIÓN ══════════ -->
+
+<div class="section-full" id="colaboracion">
+  <div style="max-width:1200px; margin:0 auto;">
+    <p class="section-eyebrow reveal">Para marcas</p>
+    <h2 class="section-title reveal">Tu marca donde<br>el corredor<br>entrena.</h2>
+
+```
+<div class="collab-grid">
+  <div>
+    <div class="gold-line reveal"></div>
+    <p class="reveal" style="font-size:16px; color:#ccc8c0; line-height:1.8; margin-bottom:32px;">
+      RI5 no es una red social genérica. Es el espacio donde el corredor toma decisiones: qué entrenar hoy, cuánto esfuerzo dar, cómo progresar. Una marca presente aquí conecta con el corredor en el momento de máxima motivación e intención.
+    </p>
+    <p class="reveal" style="font-size:14px; color:#b8b5b0; line-height:1.8;">
+      Buscamos marcas que compartan la filosofía de entrenar con cabeza: zapatillas, relojes deportivos, nutrición, ropa técnica, fisioterapia, suplementación. Si tu producto mejora el rendimiento del corredor, hay un lugar para ti en RI5.
+    </p>
+  </div>
+
+  <div class="collab-options">
+    <div class="collab-option featured reveal">
+      <div class="collab-option-badge">Recomendado</div>
+      <div class="collab-option-title">Patrocinador oficial</div>
+      <div class="collab-option-desc">Logo y mención en la app, contenido co-creado para Instagram de RI5, acceso premium gratuito para comunidad de la marca y presencia en comunicaciones a usuarios.</div>
+    </div>
+    <div class="collab-option reveal">
+      <div class="collab-option-title">Colaboración de contenido</div>
+      <div class="collab-option-desc">Artículos, consejos o retos de entrenamiento con la marca como fuente experta. Integración natural en el feed de consejos diarios de la app.</div>
+    </div>
+    <div class="collab-option reveal">
+      <div class="collab-option-title">Acceso para tu comunidad</div>
+      <div class="collab-option-desc">Licencias premium para los corredores de tu club, marca o comunidad. Ideal para marcas con base de usuarios deportistas activos.</div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════════ CONTACTO ══════════ -->
+
+<div style="border-bottom: 1px solid var(--grey-mid); background: var(--black);">
+  <div class="contact-section">
+    <div>
+      <p class="section-eyebrow reveal">Hablemos</p>
+      <h2 class="contact-title reveal">
+        ¿Tu marca<br>en RI5?<br>
+        <em>Escribenos.</em>
+      </h2>
+    </div>
+    <div class="contact-info reveal">
+      <div class="contact-item">
+        <div class="contact-item-icon">📸</div>
+        <div class="contact-item-text">
+          <div class="contact-item-label">Instagram</div>
+          @navegacionpro
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🌐</div>
+        <div class="contact-item-text">
+          <div class="contact-item-label">App</div>
+          Disponible como PWA instalable
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text">
+          <div class="contact-item-label">Origen</div>
+          España · Comunidad hispanohablante
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+
+<div class="footer-bar">
+  <div class="footer-logo">RI5</div>
+  <div class="footer-copy">© 2025 · Entrenamiento inteligente para corredores</div>
+</div>
+
+<script>
+  // Intersection Observer para animaciones al hacer scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Para las zona-cards, añadir delay escalonado
+        if (entry.target.classList.contains('zona-card')) {
+          const cards = document.querySelectorAll('.zona-card');
+          cards.forEach((card, i) => {
+            setTimeout(() => card.classList.add('visible'), i * 80);
+          });
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal, .zona-card').forEach(el => observer.observe(el));
+
+  // Smooth scroll para CTAs
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>
